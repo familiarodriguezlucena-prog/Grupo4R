@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuatro R · Tienda Oficial</title>
+    <!-- Tailwind CSS para Diseño Móvil de Alta Gama -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Iconos Phosphor -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { background-color: #0d1117; color: #e6edf3; font-family: system-ui, -apple-system, sans-serif; }
+        .premium-card { background: #161b22; border: 1px solid #30363d; }
+        .gradient-btn { background: linear-gradient(90deg, #ff4b4b, #ff7676); }
+        .fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="pb-32">
+
+    <!-- 1. IDENTIDAD DE MARCA EXCLUSIVA -->
+    <div class="max-w-md mx-auto pt-6 px-4 flex justify-center">
+        <img src="https://r-rod.github.io/cuatror/logo.png" alt="Cuatro R" class="w-48 h-auto object-contain drop-shadow-lg">
+    </div>
+    <div class="text-center mb-6">
+        <p class="text-xs tracking-widest text-gray-400 uppercase font-semibold">Plataforma de Pedidos Automatizada</p>
+    </div>
+
+    <!-- FORMULARIO PRINCIPAL (Envía todo el pedido unificado) -->
+    <!-- Puedes registrarte gratis en formspree.io para obtener tu enlace y recibir los pedidos en tu email -->
+    <form action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" id="tienda-form">
+        
+        <!-- 2. CATÁLOGO DE PRODUCTOS -->
+        <main class="max-w-md mx-auto px-4 space-y-4">
+            
+            <!-- Producto 1: Chilenas -->
+            <div class="premium-card rounded-2xl overflow-hidden shadow-xl fade-in-up">
+                <div class="relative h-48 w-full">
+                    <img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=600" alt="Chilenas" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold">Chilenas Especiales</h3>
+                    <p class="text-gray-400 text-xs mt-1">Receta artesanal full relleno.</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="text-xl font-black text-[#2eb67d]">$1.50</span>
+                        
+                        <!-- Control de Cantidad -->
+                        <div class="flex items-center bg-[#0d1117] border border-[#30363d] rounded-xl px-2 py-1">
+                            <button type="button" onclick="cambiarCantidad('chilenas', -1)" class="w-8 h-8 flex items-center justify-center text-gray-400 font-bold">-</button>
+                            <span id="label-chilenas" class="w-8 text-center font-bold">0</span>
+                            <button type="button" onclick="cambiarCantidad('chilenas', 1)" class="w-8 h-8 flex items-center justify-center text-red-400 font-bold">+</button>
+                            <!-- Inputs ocultos que se envían al correo -->
+                            <input type="hidden" name="Cant_Chilenas" id="input-chilenas" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producto 2: Tequeños -->
+            <div class="premium-card rounded-2xl overflow-hidden shadow-xl fade-in-up" style="animation-delay: 0.1s;">
+                <div class="relative h-48 w-full">
+                    <img src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=600" alt="Tequeños" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold">Tequeños Full Relleno</h3>
+                    <p class="text-gray-400 text-xs mt-1">Masa premium con abundante queso fundido.</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="text-xl font-black text-[#2eb67d]">$3.00</span>
+                        
+                        <!-- Control de Cantidad -->
+                        <div class="flex items-center bg-[#0d1117] border border-[#30363d] rounded-xl px-2 py-1">
+                            <button type="button" onclick="cambiarCantidad('tequenos', -1)" class="w-8 h-8 flex items-center justify-center text-gray-400 font-bold">-</button>
+                            <span id="label-tequenos" class="w-8 text-center font-bold">0</span>
+                            <button type="button" onclick="cambiarCantidad('tequenos', 1)" class="w-8 h-8 flex items-center justify-center text-red-400 font-bold">+</button>
+                            <input type="hidden" name="Cant_Tequenos" id="input-tequenos" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. CAJA DE PASARELA DE PAGO MÓVIL INTEGRADA -->
+            <div class="premium-card rounded-2xl p-4 shadow-xl space-y-3 fade-in-up" style="animation-delay: 0.2s;">
+                <h4 class="text-sm font-bold uppercase text-gray-300 flex items-center gap-2">
+                    <i class="ph ph-credit-card text-emerald-400 text-lg"></i> Pasarela de Pago Móvil
+                </h4>
+                <div class="bg-[#0d1117] border border-[#30363d] rounded-xl p-3 text-xs space-y-1 text-gray-300">
+                    <p><strong>Banco:</strong> Bancamiga (0172)</p>
+                    <p><strong>RIF:</strong> J-123456789</p>
+                    <p><strong>Teléfono:</strong> 0412-3856184</p>
+                </div>
+                
+                <!-- Adjuntar Comprobante Obligatorio -->
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Adjuntar Captura de Pago (Requerido)</label>
+                    <input type="file" name="Comprobante_Pago" accept="image/*" required class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#30363d] file:text-white hover:file:bg-gray-600 cursor-pointer">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Número de Referencia (Últimos 4 dígitos)</label>
+                    <input type="text" name="Referencia_Pago" maxlength="4" placeholder="Ej. 4829" required class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-red-400">
+                </div>
+            </div>
+
+            <!-- 4. DATOS DE ENVÍO -->
+            <div class="premium-card rounded-2xl p-4 shadow-xl space-y-3 fade-in-up" style="animation-delay: 0.3s;">
+                <h4 class="text-sm font-bold uppercase text-gray-300 flex items-center gap-2">
+                    <i class="ph ph-map-pin text-red-400 text-lg"></i> Datos del Delivery
+                </h4>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Nombre de quien recibe</label>
+                    <input type="text" name="Nombre_Cliente" required placeholder="Ej. Richard Rodríguez" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-red-400">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Teléfono de Contacto</label>
+                    <input type="tel" name="Telefono_Cliente" required placeholder="Ej. 04125555555" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-red-400">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">Dirección de Despacho (Barquisimeto)</label>
+                    <input type="text" name="Direccion_Entrega" required placeholder="Ej. Urb. Este, Calle 2 con Av. 3" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-red-400">
+                </div>
+            </div>
+
+        </main>
+
+        <!-- 5. CHECKOUT FIJO INFERIOR -->
+        <div id="barra-checkout" class="fixed bottom-0 left-0 right-0 p-4 bg-[#161b22]/95 backdrop-blur-md border-t border-[#30363d] hidden z-50">
+            <div class="max-w-md mx-auto flex items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs text-gray-400 block">Total a Transferir</span>
+                    <span id="total-precio" class="text-xl font-black text-[#2eb67d]">$0.00</span>
+                    <input type="hidden" name="Monto_Total_USD" id="input-total" value="0.00">
+                </div>
+                <button type="submit" class="gradient-btn text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-red-500/20 text-xs uppercase tracking-wider active:scale-95 transition">
+                    Pagar y Enviar Pedido
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- 6. CONTROLADORES EN JAVASCRIPT -->
+    <script>
+        const precios = { chilenas: 1.50, tequenos: 3.00 };
+        const carrito = { chilenas: 0, tequenos: 0 };
+
+        function cambiarCantidad(producto, cambio) {
+            const nuevaCantidad = carrito[producto] + cambio;
+            if (nuevaCantidad >= 0) {
+                carrito[producto] = nuevaCantidad;
+                
+                // Actualizar lo que ve el usuario en pantalla
+                document.getElementById(`label-${producto}`).innerText = nuevaCantidad;
+                // Actualizar los datos ocultos que van al formulario
+                document.getElementById(`input-${producto}`).value = nuevaCantidad;
+                
+                calcularMonto();
+            }
+        }
+
+        function calcularMonto() {
+            let total = 0;
+            let cantidadArticulos = 0;
+            
+            for (const item in carrito) {
+                total += carrito[item] * precios[item];
+                cantidadArticulos += carrito[item];
+            }
+
+            document.getElementById('total-precio').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('input-total').value = `$${total.toFixed(2)}`;
+
+            const barra = document.getElementById('barra-checkout');
+            if (cantidadArticulos > 0) {
+                barra.classList.remove('hidden');
+            } else {
+                barra.classList.add('hidden');
+            }
+        }
+
+        // Validación extra antes de enviar
+        document.getElementById('tienda-form').addEventListener('submit', function(e) {
+            let totalProductos = carrito.chilenas + carrito.tequenos;
+            if (totalProductos === 0) {
+                e.preventDefault();
+                alert("Debes agregar al menos un producto a tu carrito antes de procesar el pago móviles.");
+            }
+        </script>
+</body>
+</html>
