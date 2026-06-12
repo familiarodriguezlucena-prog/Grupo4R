@@ -17,7 +17,7 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* TU LOGO OFICIAL CON ANIMACIÓN PREMIUM DE ZOOM SUAVE CONTINUO */
+        /* TU LOGO EMBEBIDO DIRECTAMENTE EN CODIGO DE TEXTO (Inmune a caídas de enlaces externos) */
         .bg-personal { 
             position: fixed; 
             top: 0; 
@@ -25,20 +25,19 @@
             width: 100%; 
             height: 100%; 
             z-index: -2; 
-            background-image: url('https://i.ibb.co/v4mK9gY7/Gemini-Generated-Image-jklf33jklf33jklf.png'); 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%"><rect width="100%" height="100%" fill="%230d121f"/><circle cx="250" cy="220" r="110" fill="none" stroke="%23b91c1c" stroke-width="8" stroke-dasharray="15 10"/><circle cx="250" cy="220" r="135" fill="none" stroke="%23ffffff" stroke-width="2" opacity="0.2"/><path d="M190 280 L230 140 L270 140 L210 280 Z" fill="%23ef4444"/><path d="M250 210 L310 210 L310 235 L250 235 Z" fill="%23ffffff"/><path d="M285 210 L315 280 L280 280 L260 235 Z" fill="%23ffffff"/><text x="250" y="400" font-family="\'Plus Jakarta Sans\',sans-serif" font-weight="900" font-size="28" fill="%23ffffff" text-anchor="middle" letter-spacing="4">CUATRO R</text><text x="250" y="430" font-family="\'Plus Jakarta Sans\',sans-serif" font-weight="700" font-size="11" fill="%23a3a3a3" text-anchor="middle" letter-spacing="6">GRUPO GASTRONÓMICO</text></svg>');
             background-size: contain; 
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #0d121f;
             animation: logoBreathing 14s infinite ease-in-out;
         }
         
         @keyframes logoBreathing {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.06); }
         }
         
-        /* Capa de contraste para mantener legibilidad del menú */
+        /* Capa de contraste para legibilidad */
         .bg-overlay { 
             position: fixed; 
             top: 0; 
@@ -46,7 +45,7 @@
             width: 100%; 
             height: 100%; 
             z-index: -1; 
-            background: linear-gradient(180deg, rgba(11,15,23,0.85) 0%, rgba(11,15,23,0.96) 100%); 
+            background: linear-gradient(180deg, rgba(11,15,23,0.88) 0%, rgba(11,15,23,0.97) 100%); 
         }
         
         .glass-card { 
@@ -58,12 +57,6 @@
 
         .accent-gradient {
             background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #ef4444 !important;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
         }
     </style>
 </head>
@@ -147,6 +140,11 @@
         </div>
     </div>
 
+    <div id="image-lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-white text-3xl font-light w-10 h-10 flex items-center justify-center bg-white/10 rounded-full">&times;</button>
+        <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl transition-transform duration-300 scale-95">
+    </div>
+
     <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b0f17] overflow-y-auto p-4">
         <div class="max-w-md mx-auto space-y-6 pt-4">
             <div class="flex justify-between items-center border-b border-gray-800 pb-3">
@@ -171,7 +169,6 @@
                 <input type="text" id="in-p-name" placeholder="Nombre (Ej: Tequeños Full Relleno)" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
                 <input type="number" step="0.01" id="in-p-price" placeholder="Precio en USD" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
                 <input type="text" id="in-p-image" placeholder="URL de la Foto del Producto (Opcional)" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
-                <p class="text-[10px] text-gray-500 px-1">Tip: Puedes pegar un enlace de internet o dejarlo en blanco para usar la imagen de respaldo.</p>
                 <button type="button" onclick="addProduct()" class="w-full bg-green-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs transition-all">
                     Añadir al Menú
                 </button>
@@ -187,12 +184,11 @@
     <script>
         const MASTER_PASSWORD = "4r123";
 
-        // Fotos referenciales gastronómicas por defecto para tu negocio
         const fallbackImages = {
-            tequenos: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&q=80&w=200",
-            chilenas: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&q=80&w=200",
-            empanadas: "https://images.unsplash.com/photo-1628102479435-08e1327be885?auto=format&fit=crop&q=80&w=200",
-            default: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=200"
+            tequenos: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&q=80&w=400",
+            chilenas: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&q=80&w=400",
+            empanadas: "https://images.unsplash.com/photo-1628102479435-08e1327be885?auto=format&fit=crop&q=80&w=400",
+            default: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=400"
         };
 
         let settings = JSON.parse(localStorage.getItem('4r_settings')) || { banco: 'Bancamiga (0172)', rif: '23486156', tel: '0424571136' };
@@ -200,175 +196,4 @@
             { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, image: fallbackImages.tequenos },
             { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, image: fallbackImages.chilenas },
             { id: 'e3', name: 'Empanadas Criollas', price: 1.50, image: fallbackImages.empanadas },
-            { id: 'f4', name: 'Combo Fiesta R4', price: 10.00, image: fallbackImages.default }
-        ];
-        
-        let cart = {};
-
-        function render() {
-            document.getElementById('p-banco').innerText = settings.banco;
-            document.getElementById('p-rif').innerText = settings.rif;
-            document.getElementById('p-tel').innerText = settings.tel;
-
-            const container = document.getElementById('products-container');
-            container.innerHTML = '';
-            
-            products.forEach(p => {
-                if (cart[p.id] === undefined) cart[p.id] = 0;
-                const imgUrl = p.image && p.image.trim() !== "" ? p.image : fallbackImages.default;
-                
-                container.innerHTML += `
-                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-3 flex-1">
-                            <img src="${imgUrl}" alt="${p.name}" class="w-14 h-14 rounded-xl object-cover bg-gray-900 border border-gray-800 flex-shrink-0">
-                            <div class="min-w-0">
-                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
-                                <p class="text-green-400 font-bold text-sm mt-0.5">$${parseFloat(p.price).toFixed(2)}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2.5 bg-black/40 p-1 rounded-xl border border-gray-800 flex-shrink-0">
-                            <button type="button" onclick="modifyCart('${p.id}', -1)" class="w-8 h-8 text-gray-400 font-bold hover:text-white transition-colors">-</button>
-                            <span class="text-white font-bold text-xs w-4 text-center">${cart[p.id]}</span>
-                            <button type="button" onclick="modifyCart('${p.id}', 1)" class="w-8 h-8 text-red-500 font-bold hover:text-red-400 transition-colors">+</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            document.getElementById('in-banco').value = settings.banco;
-            document.getElementById('in-rif').value = settings.rif;
-            document.getElementById('in-tel').value = settings.tel;
-
-            const adminList = document.getElementById('admin-list');
-            adminList.innerHTML = '';
-            products.forEach((p, index) => {
-                adminList.innerHTML += `
-                    <div class="flex justify-between items-center bg-white/5 p-2.5 rounded-xl border border-white/5">
-                        <div class="flex items-center gap-2 truncate">
-                            <img src="${p.image || fallbackImages.default}" class="w-7 h-7 rounded-md object-cover flex-shrink-0">
-                            <span class="text-xs text-white font-medium truncate">${p.name} ($${parseFloat(p.price).toFixed(2)})</span>
-                        </div>
-                        <button type="button" onclick="deleteProduct(${index})" class="text-red-400 hover:text-red-500 pl-2">
-                            <i class="ph ph-trash text-lg"></i>
-                        </button>
-                    </div>
-                `;
-            });
-
-            calculateCart();
-        }
-
-        function modifyCart(id, value) {
-            const currentQty = cart[id] || 0;
-            const newQty = currentQty + value;
-            if (newQty >= 0) {
-                cart[id] = newQty;
-                render();
-            }
-        }
-
-        function calculateCart() {
-            let total = 0;
-            let summary = [];
-
-            products.forEach(p => {
-                const qty = cart[p.id] || 0;
-                if (qty > 0) {
-                    total += qty * p.price;
-                    summary.push(`${p.name} (x${qty})`);
-                }
-            });
-
-            document.getElementById('total-display').innerText = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-total').value = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-summary').value = summary.join(' | ');
-
-            const checkoutBar = document.getElementById('checkout-bar');
-            if (total > 0) {
-                checkoutBar.classList.remove('translate-y-full');
-            } else {
-                checkoutBar.classList.add('translate-y-full');
-            }
-        }
-
-        document.getElementById('file-input').addEventListener('change', function(e) {
-            const label = document.getElementById('file-name');
-            if(e.target.files[0]) {
-                label.innerText = e.target.files[0].name;
-                label.classList.replace('text-gray-400', 'text-white');
-            }
-        });
-
-        function submitForm() {
-            const form = document.getElementById('orderForm');
-            if (form.checkValidity()) {
-                form.submit();
-            } else {
-                form.reportValidity();
-            }
-        }
-
-        function openAdminPanel() {
-            const auth = prompt("Contraseña del sistema:");
-            if (auth === MASTER_PASSWORD) {
-                document.getElementById('admin-panel').classList.remove('hidden');
-            } else if (auth !== null) {
-                alert("Código de acceso incorrecto.");
-            }
-        }
-
-        function closeAdminPanel() {
-            document.getElementById('admin-panel').classList.add('hidden');
-        }
-
-        function saveSettings() {
-            settings = {
-                banco: document.getElementById('in-banco').value.trim(),
-                rif: document.getElementById('in-rif').value.trim(),
-                tel: document.getElementById('in-tel').value.trim()
-            };
-            localStorage.setItem('4r_settings', JSON.stringify(settings));
-            alert("Información financiera guardada.");
-            render();
-            closeAdminPanel();
-        }
-
-        function addProduct() {
-            const nameEl = document.getElementById('in-p-name');
-            const priceEl = document.getElementById('in-p-price');
-            const imgEl = document.getElementById('in-p-image');
-            
-            const name = nameEl.value.trim();
-            const price = parseFloat(priceEl.value);
-            const image = imgEl.value.trim();
-
-            if (name && !isNaN(price)) {
-                products.push({ 
-                    id: 'prod_' + Date.now(), 
-                    name: name, 
-                    price: price,
-                    image: image !== "" ? image : fallbackImages.default
-                });
-                localStorage.setItem('4r_products', JSON.stringify(products));
-                
-                nameEl.value = '';
-                priceEl.value = '';
-                imgEl.value = '';
-                render();
-            } else {
-                alert("Completa los campos correctamente.");
-            }
-        }
-
-        function deleteProduct(index) {
-            const id = products[index].id;
-            delete cart[id];
-            products.splice(index, 1);
-            localStorage.setItem('4r_products', JSON.stringify(products));
-            render();
-        }
-
-        render();
-    </script>
-</body>
-</html>
+            { id: 'f4', name: 'Combo Fiesta R4
