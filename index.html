@@ -9,168 +9,128 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b111e; color: #f1f5f9; }
         
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #0b111e; 
-            color: #f1f5f9; 
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* FONDO ANIMADO CON EFECTO RESPIRACIÓN */
+        /* FONDO ANIMADO CON LOGO INTEGRADO (Efecto Respiración Sutil) */
         .animated-bg { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -2; 
-            /* Estructura geométrica del logotipo oficial de Cuatro R */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%"><rect width="100%" height="100%" fill="%230b111e"/><g transform="translate(0, 120)"><circle cx="250" cy="220" r="120" fill="none" stroke="%23d4af37" stroke-width="4"/><circle cx="250" cy="220" r="140" fill="none" stroke="%23ffffff" stroke-width="1" stroke-dasharray="6 6"/><path d="M195 270 L235 150 L265 150 L215 270 Z" fill="%23d4af37"/><path d="M250 210 L300 210 L300 230 L250 230 Z" fill="%23ffffff"/><path d="M280 210 L305 270 L275 270 L255 230 Z" fill="%23ffffff"/><text x="250" y="410" font-family="sans-serif" font-weight="900" font-size="28" fill="%23d4af37" text-anchor="middle" letter-spacing="4">CUATRO R</text><text x="250" y="440" font-family="sans-serif" font-weight="700" font-size="12" fill="%23ffffff" text-anchor="middle" letter-spacing="5">GRUPO GASTRONÓMICO</text></g></svg>');
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat;
-            animation: breathe 10s infinite ease-in-out;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%"><rect width="100%" height="100%" fill="%230b111e"/><g transform="translate(0, 120)"><circle cx="250" cy="220" r="120" fill="none" stroke="%23d4af37" stroke-width="3"/><circle cx="250" cy="220" r="140" fill="none" stroke="%23ffffff" stroke-width="0.5" stroke-dasharray="6 6"/><path d="M195 270 L235 150 L265 150 L215 270 Z" fill="%23d4af37"/><path d="M250 210 L300 210 L300 230 L250 230 Z" fill="%23ffffff"/><path d="M280 210 L305 270 L275 270 L255 230 Z" fill="%23ffffff"/><text x="250" y="410" font-family="sans-serif" font-weight="900" font-size="28" fill="%23d4af37" text-anchor="middle" letter-spacing="4">CUATRO R</text><text x="250" y="440" font-family="sans-serif" font-weight="700" font-size="11" fill="%23ffffff" text-anchor="middle" letter-spacing="5">GRUPO GASTRONÓMICO</text></g></svg>');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            animation: breathe 12s infinite ease-in-out;
         }
-        
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.25; }
-            50% { transform: scale(1.06); opacity: 0.4; }
-        }
-        
-        .bg-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
-            background: linear-gradient(180deg, rgba(11,17,30,0.85) 0%, rgba(7,11,20,0.95) 100%); 
-        }
-        
-        .glass-card { 
-            background: rgba(22, 31, 49, 0.75); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-        }
-
-        .accent-gradient {
-            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
-        }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.04); opacity: 0.45; } }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(180deg, rgba(11,17,30,0.85) 0%, rgba(7,11,20,0.95) 100%); }
+        .glass-card { background: rgba(22, 31, 49, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .accent-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
     </style>
 </head>
 <body class="pb-36 min-h-screen relative">
-
     <div class="animated-bg"></div>
     <div class="bg-overlay"></div>
 
+    <!-- BOTÓN CONFIGURACIÓN -->
     <button type="button" onclick="openAdmin()" class="fixed top-4 right-4 z-40 w-11 h-11 glass-card rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
         <i class="ph ph-gear-six text-xl"></i>
     </button>
 
-    <div id="client-view">
-        <header class="pt-12 pb-6 text-center">
-            <div class="inline-block bg-amber-500 text-neutral-950 font-black text-[10px] px-3 py-1 rounded-full shadow-md mb-2 tracking-widest uppercase">
-                4R Premium
-            </div>
-            <h1 class="text-2xl font-black uppercase tracking-tight text-white px-4">Grupo Gastronómico Cuatro R</h1>
-            <p class="text-[10px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma Automatizada de Pedidos</p>
-        </header>
+    <header class="pt-12 pb-6 text-center">
+        <div class="inline-block bg-amber-500 text-neutral-950 font-black text-[10px] px-3 py-1 rounded-full shadow-md mb-2 tracking-widest uppercase">4R Premium</div>
+        <h1 class="text-2xl font-black uppercase tracking-tight text-white px-4">Grupo Gastronómico Cuatro R</h1>
+        <p class="text-[10px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma Automatizada de Pedidos</p>
+    </header>
 
-        <main class="max-w-md mx-auto px-4 space-y-6">
-            <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <main class="max-w-md mx-auto px-4 space-y-6">
+        <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" class="space-y-6">
+            
+            <!-- MENÚ DE PRODUCTOS (SOLDADO EN HTML) -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-bowl-food text-base"></i> Catálogo de Ventas</h2>
+                <div id="products-container" class="space-y-3">
+                    <!-- Los productos se inyectan aquí garantizando que si no hay memoria, se usen los de respaldo instantáneamente -->
+                </div>
+            </div>
+
+            <!-- DATOS DE ENVÍO -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-map-pin text-base"></i> Datos de Entrega</h2>
+                <div class="glass-card rounded-2xl p-4 space-y-3">
+                    <input type="text" name="Nombre" placeholder="¿Quién recibe el pedido?" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="tel" name="Telefono" placeholder="Teléfono de contacto" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <textarea name="Direccion" placeholder="Dirección exacta de despacho en Barquisimeto" required rows="2" class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- PASARELA DE PAGO (DATOS FIJOS REALES) -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-credit-card text-base"></i> Información de Pago Móvil</h2>
+                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-1.5">
+                    <p class="text-sm text-gray-300">Banco: <span id="lbl-banco" class="font-bold text-white">Bancamiga (0172)</span></p>
+                    <p class="text-sm text-gray-300">RIF / CI: <span id="lbl-rif" class="font-bold text-white">V-23486156</span></p>
+                    <p class="text-sm text-gray-300">Teléfono: <span id="lbl-tel" class="font-bold text-white">0424571136</span></p>
+                </div>
                 
                 <div class="space-y-3">
-                    <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
-                        <i class="ph ph-bowl-food text-base"></i> Catálogo de Ventas
-                    </h2>
-                    <div id="products-container" class="space-y-3">
-                        </div>
-                </div>
-
-                <div class="space-y-3">
-                    <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
-                        <i class="ph ph-map-pin text-base"></i> Datos de Entrega
-                    </h2>
-                    <div class="glass-card rounded-2xl p-4 space-y-3">
-                        <input type="text" name="Nombre" placeholder="¿Quién recibe el pedido?" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        <input type="tel" name="Telefono" placeholder="Teléfono de contacto" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        <textarea name="Direccion" placeholder="Dirección exacta de despacho en Barquisimeto" required rows="2" class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 resize-none"></textarea>
+                    <div class="relative">
+                        <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="hidden">
+                        <label for="file-input" class="flex items-center justify-center gap-3 w-full border border-dashed border-gray-700 rounded-xl p-5 cursor-pointer bg-white/5 hover:bg-white/10 transition-colors">
+                            <i class="ph ph-upload-simple text-xl text-amber-500"></i>
+                            <span id="file-name" class="text-xs text-gray-400">Adjuntar captura del pago</span>
+                        </label>
                     </div>
+                    <input type="text" name="Referencia" placeholder="Últimos 4 números de referencia" maxlength="4" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
-
-                <div class="space-y-3">
-                    <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
-                        <i class="ph ph-credit-card text-base"></i> Información de Pago Móvil
-                    </h2>
-                    <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-1.5">
-                        <p class="text-sm text-gray-300">Banco: <span id="lbl-banco" class="font-bold text-white">---</span></p>
-                        <p class="text-sm text-gray-300">RIF / CI: <span id="lbl-rif" class="font-bold text-white">---</span></p>
-                        <p class="text-sm text-gray-300">Teléfono: <span id="lbl-tel" class="font-bold text-white">---</span></p>
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <div class="relative">
-                            <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="hidden">
-                            <label for="file-input" class="flex items-center justify-center gap-3 w-full border border-dashed border-gray-700 rounded-xl p-5 cursor-pointer bg-white/5 hover:bg-white/10 transition-colors">
-                                <i class="ph ph-upload-simple text-xl text-amber-500"></i>
-                                <span id="file-name" class="text-xs text-gray-400">Adjuntar captura del pago</span>
-                            </label>
-                        </div>
-                        <input type="text" name="Referencia" placeholder="Últimos 4 números de referencia" maxlength="4" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                    </div>
-                </div>
-
-                <input type="hidden" name="Monto_Total" id="hidden-total">
-                <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
-            </form>
-        </main>
-
-        <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0b111e] via-[#0b111e]/95 to-transparent translate-y-full transition-transform duration-300 z-30">
-            <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border border-amber-500/30 shadow-2xl">
-                <div>
-                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total del Pedido</p>
-                    <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
-                </div>
-                <button type="button" onclick="submitOrder()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider shadow-md active:scale-95 transition-transform">
-                    Enviar Pedido
-                </button>
             </div>
+
+            <input type="hidden" name="Monto_Total" id="hidden-total">
+            <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
+        </form>
+    </main>
+
+    <!-- CARRO COMPRAS FLOTANTE -->
+    <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0b111e] via-[#0b111e]/95 to-transparent translate-y-full transition-transform duration-300 z-30">
+        <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border border-amber-500/30 shadow-2xl">
+            <div>
+                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total del Pedido</p>
+                <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
+            </div>
+            <button type="button" onclick="submitOrder()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider shadow-md active:scale-95 transition-transform">Enviar Pedido</button>
         </div>
     </div>
 
+    <!-- MODAL DE IMAGEN COMPLETA -->
+    <div id="image-lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-white text-3xl font-light w-11 h-11 flex items-center justify-center bg-white/10 rounded-full">&times;</button>
+        <img id="lightbox-img" src="" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl transition-transform duration-200 scale-95">
+    </div>
+
+    <!-- PANEL ADMINISTRATIVO HÍBRIDO -->
     <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b111e] overflow-y-auto p-6">
         <div class="max-w-md mx-auto space-y-6">
             <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                <h2 class="text-base font-bold text-white flex items-center gap-2">
-                    <i class="ph ph-sliders text-amber-500"></i> Consola Administración 4R
-                </h2>
+                <h2 class="text-base font-bold text-white flex items-center gap-2"><i class="ph ph-sliders text-amber-500"></i> Consola Administración 4R</h2>
                 <button type="button" onclick="closeAdmin()" class="w-8 h-8 rounded-lg bg-gray-800 text-white flex items-center justify-center font-bold">&times;</button>
             </div>
 
+            <!-- Cambiar Datos Finanzas -->
             <div class="glass-card p-4 rounded-2xl space-y-3">
                 <p class="text-xs font-bold text-amber-500 uppercase tracking-wider">Modificar Datos de Recaudación</p>
                 <input type="text" id="cfg-banco" placeholder="Banco" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
                 <input type="text" id="cfg-rif" placeholder="RIF / Cédula" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
                 <input type="text" id="cfg-tel" placeholder="Teléfono" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
-                <button type="button" onclick="saveConfig()" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider transition-opacity hover:opacity-90">
-                    Actualizar Datos
-                </button>
+                <button type="button" onclick="saveConfig()" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Actualizar Datos</button>
             </div>
 
+            <!-- Añadir Producto -->
             <div class="glass-card p-4 rounded-2xl space-y-3">
                 <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Añadir Nuevo Ítem al Menú</p>
                 <input type="text" id="new-name" placeholder="Nombre del Producto" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
                 <input type="number" step="0.01" id="new-price" placeholder="Precio en USD ($)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
                 <input type="text" id="new-img" placeholder="Enlace URL de Imagen (Opcional)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
-                <button type="button" onclick="addItem()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider transition-opacity hover:opacity-90">
-                    Insertar Producto
-                </button>
+                <button type="button" onclick="addItem()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Insertar Producto</button>
             </div>
 
             <div class="space-y-2">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Ítems Activos en Plataforma</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Ítems Activos en Menú</p>
                 <div id="admin-items-list" class="space-y-2"></div>
             </div>
         </div>
@@ -179,41 +139,27 @@
     <script>
         const ADMIN_PASS = "4r123";
 
-        // Imágenes de respaldo preestablecidas para evitar enlaces caídos
-        const IMAGENES_POR_DEFECTO = {
-            t1: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400",
-            c2: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400",
-            e3: "https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400"
-        };
-
-        // DATOS INMUTABLES DEL CÓDIGO DURO (HARDCODED) - RESPALDO ABSOLUTO
-        const DEFAULT_PAGO_MOVIL = { banco: 'Bancamiga (0172)', rif: 'V-23486156', tel: '0424571136' };
-        const DEFAULT_PRODUCTOS = [
-            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, image: IMAGENES_POR_DEFECTO.t1 },
-            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, image: IMAGENES_POR_DEFECTO.c2 },
-            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, image: IMAGENES_POR_DEFECTO.e3 }
+        // DATOS MAESTROS HARDCODED (Tu red de seguridad total)
+        const BACKUP_FINANZAS = { banco: 'Bancamiga (0172)', rif: 'V-23486156', tel: '0424571136' };
+        const BACKUP_PRODUCTOS = [
+            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
+            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
+            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, image: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
         ];
 
-        // Inicialización combinada (Busca memoria, si no existe o está corrupta, monta los datos duros)
-        let currentSettings = JSON.parse(localStorage.getItem('4r_settings')) || DEFAULT_PAGO_MOVIL;
-        let currentProducts = JSON.parse(localStorage.getItem('4r_products')) || DEFAULT_PRODUCTOS;
+        let currentSettings = JSON.parse(localStorage.getItem('4r_settings')) || BACKUP_FINANZAS;
+        let currentProducts = JSON.parse(localStorage.getItem('4r_products')) || BACKUP_PRODUCTOS;
         let currentCart = {};
 
-        // Forzar consistencia de datos estructurales básicos si faltan campos
-        if (!currentSettings.banco || !currentSettings.rif || !currentSettings.tel) {
-            currentSettings = DEFAULT_PAGO_MOVIL;
-        }
-        if (!Array.isArray(currentProducts) || currentProducts.length === 0) {
-            currentProducts = DEFAULT_PRODUCTOS;
-        }
+        // Validar que la memoria no venga corrupta ni incompleta antes de pintar la pantalla
+        if (!currentSettings.banco || !currentSettings.rif || !currentSettings.tel) currentSettings = BACKUP_FINANZAS;
+        if (!Array.isArray(currentProducts) || currentProducts.length === 0) currentProducts = BACKUP_PRODUCTOS;
 
-        function syncPlatfom() {
-            // Sincronizar UI de pago móvil de inmediato
+        function syncPlatform() {
             document.getElementById('lbl-banco').innerText = currentSettings.banco;
             document.getElementById('lbl-rif').innerText = currentSettings.rif;
             document.getElementById('lbl-tel').innerText = currentSettings.tel;
 
-            // Renderizar el catálogo de ventas de forma segura
             const container = document.getElementById('products-container');
             container.innerHTML = '';
             
@@ -223,7 +169,7 @@
                 container.innerHTML += `
                     <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0 flex-1">
-                            <img src="${p.image}" alt="${p.name}" class="w-16 h-16 rounded-xl object-cover bg-neutral-900 border border-gray-700 flex-shrink-0">
+                            <img src="${p.image}" alt="${p.name}" onclick="openLightbox('${p.image}')" class="w-16 h-16 rounded-xl object-cover bg-neutral-900 border border-gray-700 flex-shrink-0 cursor-pointer">
                             <div class="min-w-0">
                                 <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
                                 <p class="text-emerald-400 font-bold text-sm mt-0.5">$${parseFloat(p.price).toFixed(2)}</p>
@@ -238,12 +184,10 @@
                 `;
             });
 
-            // Sincronizar inputs del panel administrativo
             document.getElementById('cfg-banco').value = currentSettings.banco;
             document.getElementById('cfg-rif').value = currentSettings.rif;
             document.getElementById('cfg-tel').value = currentSettings.tel;
 
-            // Renderizar lista interna de administración
             const adminList = document.getElementById('admin-items-list');
             adminList.innerHTML = '';
             currentProducts.forEach((p, idx) => {
@@ -254,7 +198,6 @@
                     </div>
                 `;
             });
-
             calcTotals();
         }
 
@@ -263,14 +206,13 @@
             const newVal = currentVal + delta;
             if (newVal >= 0) {
                 currentCart[id] = newVal;
-                syncPlatfom();
+                syncPlatform();
             }
         }
 
         function calcTotals() {
             let totalGeneral = 0;
             let orderSummary = [];
-
             currentProducts.forEach(p => {
                 const amount = currentCart[p.id] || 0;
                 if (amount > 0) {
@@ -284,14 +226,25 @@
             document.getElementById('hidden-summary').value = orderSummary.join(' | ');
 
             const bar = document.getElementById('checkout-bar');
-            if (totalGeneral > 0) {
-                bar.classList.remove('translate-y-full');
-            } else {
-                bar.classList.add('translate-y-full');
-            }
+            if (totalGeneral > 0) { bar.classList.remove('translate-y-full'); } 
+            else { bar.classList.add('translate-y-full'); }
         }
 
-        // Evento nativo para actualización visual del archivo cargado
+        function openLightbox(url) {
+            const lightbox = document.getElementById('image-lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = url;
+            lightbox.classList.remove('hidden');
+            setTimeout(() => img.classList.remove('scale-95'), 10);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('image-lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.classList.add('scale-95');
+            setTimeout(() => lightbox.classList.add('hidden'), 150);
+        }
+
         document.getElementById('file-input').addEventListener('change', function(e) {
             const indicator = document.getElementById('file-name');
             if(e.target.files[0]) {
@@ -302,36 +255,27 @@
 
         function submitOrder() {
             const form = document.getElementById('orderForm');
-            if (form.checkValidity()) {
-                form.submit();
-            } else {
-                form.reportValidity();
-            }
+            if (form.checkValidity()) { form.submit(); } 
+            else { form.reportValidity(); }
         }
 
-        // CONTROL APERTURA Y CIERRE DEL PANEL DE FORMA OPERATIVA
         function openAdmin() {
-            const pass = prompt("Introduzca clave maestra del sistema:");
-            if (pass === ADMIN_PASS) {
-                document.getElementById('admin-panel').classList.remove('hidden');
-            } else if (pass !== null) {
-                alert("Contraseña inválida.");
-            }
+            const pass = prompt("Introduzca clave maestra:");
+            if (pass === ADMIN_PASS) { document.getElementById('admin-panel').classList.remove('hidden'); }
+            else if (pass !== null) { alert("Clave incorrecta."); }
         }
 
-        function closeAdmin() {
-            document.getElementById('admin-panel').classList.add('hidden');
-        }
+        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
 
         function saveConfig() {
             currentSettings = {
-                banco: document.getElementById('cfg-banco').value.trim() || DEFAULT_PAGO_MOVIL.banco,
-                rif: document.getElementById('cfg-rif').value.trim() || DEFAULT_PAGO_MOVIL.rif,
-                tel: document.getElementById('cfg-tel').value.trim() || DEFAULT_PAGO_MOVIL.tel
+                banco: document.getElementById('cfg-banco').value.trim() || BACKUP_FINANZAS.banco,
+                rif: document.getElementById('cfg-rif').value.trim() || BACKUP_FINANZAS.rif,
+                tel: document.getElementById('cfg-tel').value.trim() || BACKUP_FINANZAS.tel
             };
             localStorage.setItem('4r_settings', JSON.stringify(currentSettings));
-            alert("Información financiera guardada en el navegador.");
-            syncPlatfom();
+            alert("Ajustes guardados.");
+            syncPlatform();
             closeAdmin();
         }
 
@@ -339,20 +283,27 @@
             const inputName = document.getElementById('new-name');
             const inputPrice = document.getElementById('new-price');
             const inputImg = document.getElementById('new-img');
-
             const name = inputName.value.trim();
             const price = parseFloat(inputPrice.value);
-            let image = inputImg.value.trim();
+            let image = inputImg.value.trim() || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400";
 
             if (name && !isNaN(price)) {
-                if (image === "") {
-                    image = "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400";
-                }
-                currentProducts.push({
-                    id: 'it_' + Date.now(),
-                    name: name,
-                    price: price,
-                    image: image
-                });
+                currentProducts.push({ id: 'it_' + Date.now(), name: name, price: price, image: image });
                 localStorage.setItem('4r_products', JSON.stringify(currentProducts));
-        
+                inputName.value = ''; inputPrice.value = ''; inputImg.value = '';
+                syncPlatform();
+            } else { alert("Verifica los datos obligatorios."); }
+        }
+
+        function removeItem(idx) {
+            const targetId = currentProducts[idx].id;
+            delete currentCart[targetId];
+            currentProducts.splice(idx, 1);
+            localStorage.setItem('4r_products', JSON.stringify(currentProducts));
+            syncPlatform();
+        }
+
+        window.onload = function() { syncPlatform(); };
+    </script>
+</body>
+</html>
