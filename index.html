@@ -4,140 +4,232 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Gastronómico Cuatro R</title>
+    <!-- Tailwind CSS para Estilos Estables -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b111e; color: #f1f5f9; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(180deg, rgba(11,17,30,0.95) 0%, rgba(7,11,20,1) 100%); }
-        .glass-card { background: rgba(22, 31, 49, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
-        .accent-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0b111e; 
+            color: #f1f5f9; 
+        }
+        .glass-card { 
+            background: rgba(22, 31, 49, 0.9); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+        .accent-gradient {
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
+        }
     </style>
 </head>
 <body class="pb-36 min-h-screen relative">
-    <div class="bg-overlay"></div>
 
+    <!-- ENCABEZADO -->
     <header class="pt-12 pb-6 text-center">
-        <div class="inline-block bg-amber-500 text-black font-black text-xs px-3 py-1 rounded-full mb-2 tracking-widest uppercase">4R PREMIUM</div>
+        <div class="inline-block bg-amber-500 text-black font-black text-xs px-3 py-1 rounded-full mb-2 tracking-widest uppercase">
+            4R PREMIUM
+        </div>
         <h1 class="text-2xl font-black uppercase text-white px-4">Grupo Gastronómico Cuatro R</h1>
         <p class="text-[10px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma de Pedidos Barquisimeto</p>
     </header>
 
+    <!-- FORMULARIO PRINCIPAL -->
     <main class="max-w-md mx-auto px-4 space-y-6">
-        <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data">
+        <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" onsubmit="return verificarEnvio(event)">
             
-            <!-- Menú -->
+            <!-- SECCIÓN: MENÚ DE PRODUCTOS -->
             <div class="space-y-3 mb-6">
-                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-bowl-food"></i> Menú Disponible</h2>
-                <div id="products-container" class="space-y-3"></div>
-            </div>
-
-            <!-- Envío -->
-            <div class="space-y-3 mb-6">
-                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-map-pin"></i> Datos de Envío</h2>
-                <div class="glass-card rounded-2xl p-4 space-y-3">
-                    <input type="text" name="Nombre" placeholder="¿Quién recibe?" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white">
-                    <input type="tel" name="Telefono" placeholder="Teléfono" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white">
-                    <textarea name="Direccion" placeholder="Dirección en Barquisimeto" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white resize-none"></textarea>
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
+                    <span>🛒</span> Menú Disponible
+                </h2>
+                <div id="products-container" class="space-y-3">
+                    <!-- Los productos se generan mediante JavaScript estable abajo -->
                 </div>
             </div>
 
-            <!-- Pago Móvil (DATOS FIJOS PARA QUE NUNCA SALGAN VACÍOS) -->
+            <!-- SECCIÓN: DATOS DE ENVÍO -->
             <div class="space-y-3 mb-6">
-                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-wallet"></i> Pago Móvil</h2>
-                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
+                    <span>📍</span> Datos de Envío (Delivery)
+                </h2>
+                <div class="glass-card rounded-2xl p-4 space-y-3">
+                    <input type="text" name="Nombre_Cliente" placeholder="¿Quién recibe?" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                    <input type="tel" name="Telefono_Cliente" placeholder="Teléfono de contacto" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                    <textarea name="Direccion_Entrega" placeholder="Dirección exacta de despacho en Barquisimeto" required rows="2" class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- SECCIÓN: PAGO MÓVIL BLINDADO -->
+            <div class="space-y-3 mb-6">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
+                    <span>💳</span> Pasarela de Pago Móvil
+                </h2>
+                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-1">
                     <p class="text-sm text-gray-300">Banco: <span class="font-bold text-white">Bancamiga (0172)</span></p>
                     <p class="text-sm text-gray-300">RIF / CI: <span class="font-bold text-white">V-23486156</span></p>
                     <p class="text-sm text-gray-300">Teléfono: <span class="font-bold text-white">0424571136</span></p>
                 </div>
-                <div class="relative mt-3">
-                    <input type="file" name="Comprobante" id="file-input" required class="hidden">
-                    <label for="file-input" class="flex items-center justify-center gap-3 w-full border border-dashed border-gray-700 rounded-xl p-5 bg-white/5 cursor-pointer">
-                        <i class="ph ph-cloud-arrow-up text-amber-500"></i>
-                        <span id="file-name" class="text-xs text-gray-400">Adjuntar captura de pago</span>
-                    </label>
+                
+                <!-- Adjuntar comprobante -->
+                <div class="mt-3">
+                    <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400 cursor-pointer bg-white/5 p-3 rounded-xl border border-gray-700">
                 </div>
-                <input type="text" name="Referencia" placeholder="Últimos 4 de referencia" maxlength="4" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white mt-2">
+                <input type="text" name="Referencia" placeholder="Últimos 4 números de referencia" maxlength="4" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 mt-2">
             </div>
 
-            <input type="hidden" name="Total" id="hidden-total">
-            <input type="hidden" name="Detalle" id="hidden-summary">
+            <!-- CAMPOS OCULTOS PARA FORMSPREE -->
+            <input type="hidden" name="Monto_Total" id="hidden-total">
+            <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
         </form>
     </main>
 
-    <!-- Barra de Pago -->
-    <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-black/80 backdrop-blur-md border-t border-white/10 hidden">
+    <!-- BARRA FLOTANTE DE TOTAL Y COMPRA -->
+    <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-black/90 backdrop-blur-md border-t border-white/10 hidden z-40">
         <div class="max-w-md mx-auto flex items-center justify-between">
             <div>
-                <p class="text-[10px] text-gray-400 uppercase font-bold">Total</p>
-                <p class="text-xl font-black text-emerald-400" id="total-display">$0.00</p>
+                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total a Pagar</p>
+                <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
             </div>
-            <button type="button" onclick="document.getElementById('orderForm').submit()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase">Enviar Pedido</button>
+            <button type="button" onclick="enviarFormulario()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wide shadow-lg active:scale-95 transition-transform">
+                Enviar Pedido
+            </button>
         </div>
     </div>
 
-    <!-- Visor de Imagen -->
-    <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
-        <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl">
+    <!-- MODAL INTEGRAL: VISOR DE IMÁGENES AMPLIADAS -->
+    <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm" onclick="cerrarImagen()">
+        <button class="absolute top-6 right-6 text-white text-3xl font-light w-10 h-10 flex items-center justify-center bg-white/10 rounded-full">&times;</button>
+        <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] rounded-xl object-contain shadow-2xl transition-transform duration-200">
     </div>
 
+    <!-- SCRIPTS DE CONTROL TOTALMENTE AISLADOS -->
     <script>
-        // DATOS MAESTROS - MODIFICA ESTO PARA CAMBIAR PRODUCTOS
-        const PRODUCTS = [
-            { id: 1, name: 'Tequeños Tradicionales', price: 3.50, img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
-            { id: 2, name: 'Chilenas Artesanales', price: 2.00, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
-            { id: 3, name: 'Empanadas Criollas', price: 1.50, img: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
+        // LISTADO MAESTRO DE PRODUCTOS (Escribe aquí los que uses)
+        const PRODUCTOS_MENU = [
+            { id: 'p1', name: 'Tequeños Tradicionales', price: 3.50, img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
+            { id: 'p2', name: 'Chilenas Artesanales', price: 2.00, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
+            { id: 'p3', name: 'Empanadas Criollas', price: 1.50, img: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
         ];
 
-        let cart = {};
+        // Carrito en memoria limpia
+        let carrito = {};
 
-        function init() {
-            const container = document.getElementById('products-container');
-            container.innerHTML = PRODUCTS.map(p => `
-                <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <img src="${p.img}" onclick="event.stopPropagation(); openImg('${p.img}')" class="w-16 h-16 rounded-xl object-cover border border-gray-700 cursor-pointer">
-                        <div>
-                            <h3 class="font-bold text-white text-sm">${p.name}</h3>
-                            <p class="text-emerald-400 font-bold text-sm">$${p.price.toFixed(2)}</p>
+        // Inicializar el menú de forma estricta y segura
+        function cargarMenu() {
+            const contenedor = document.getElementById('products-container');
+            if (!contenedor) return;
+
+            let html = '';
+            PRODUCTOS_MENU.forEach(p => {
+                const cantidad = carrito[p.id] || 0;
+                html += `
+                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0 flex-1">
+                            <img src="${p.img}" alt="${p.name}" onclick="ampliarImagen('${p.img}')" class="w-16 h-16 rounded-xl object-cover bg-gray-900 border border-gray-700 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                            <div class="min-w-0">
+                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
+                                <p class="text-emerald-400 font-bold text-sm mt-0.5">$${p.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5 bg-black/40 p-1.5 rounded-xl border border-gray-700 flex-shrink-0">
+                            <button type="button" onclick="cambiarCantidad('${p.id}', -1)" class="w-8 h-8 text-gray-400 font-bold text-lg select-none">-</button>
+                            <span class="text-white font-bold text-sm w-4 text-center select-none">${cantidad}</span>
+                            <button type="button" onclick="cambiarCantidad('${p.id}', 1)" class="w-8 h-8 text-rose-500 font-bold text-lg select-none">+</button>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 bg-black/40 p-1.5 rounded-xl border border-gray-700">
-                        <button onclick="updateCart(${p.id}, -1)" class="w-8 h-8 text-gray-400">-</button>
-                        <span class="text-white font-bold text-sm w-4 text-center">${cart[p.id] || 0}</span>
-                        <button onclick="updateCart(${p.id}, 1)" class="w-8 h-8 text-rose-500 font-bold">+</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            });
+            contenedor.innerHTML = html;
+            actualizarBarraPago();
         }
 
-        function updateCart(id, val) {
-            cart[id] = Math.max(0, (cart[id] || 0) + val);
-            let total = 0, items = [];
-            PRODUCTS.forEach(p => {
-                if(cart[p.id]) {
-                    total += p.price * cart[p.id];
-                    items.push(`${p.name} (x${cart[p.id]})`);
+        // Modificar cantidades de forma segura
+        function cambiarCantidad(id, cambio) {
+            const actual = carrito[id] || 0;
+            const nuevaCantidad = actual + cambio;
+            
+            if (nuevaCantidad >= 0) {
+                carrito[id] = nuevaCantidad;
+                cargarMenu();
+            }
+        }
+
+        // Calcular cuentas e interactuar con la interfaz del carrito flotante
+        function actualizarBarraPago() {
+            let total = 0;
+            let resumen = [];
+
+            PRODUCTOS_MENU.forEach(p => {
+                const cant = carrito[p.id] || 0;
+                if (cant > 0) {
+                    total += cant * p.price;
+                    resumen.push(`${p.name} (x${cant})`);
                 }
             });
-            document.getElementById('total-display').innerText = `$${total.toFixed(2)}`;
+
+            const barra = document.getElementById('checkout-bar');
+            const displayTotal = document.getElementById('total-display');
+            
+            if (displayTotal) displayTotal.innerText = `$${total.toFixed(2)}`;
+            
+            // Inyectar datos en inputs ocultos para Formspree
             document.getElementById('hidden-total').value = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-summary').value = items.join(', ');
-            document.getElementById('checkout-bar').classList.toggle('hidden', total === 0);
-            init();
+            document.getElementById('hidden-summary').value = resumen.join(' | ');
+
+            if (barra) {
+                if (total > 0) {
+                    barra.classList.remove('hidden');
+                } else {
+                    barra.classList.add('hidden');
+                }
+            }
         }
 
-        function openImg(url) {
-            document.getElementById('lightbox-img').src = url;
-            document.getElementById('lightbox').classList.remove('hidden');
+        // Funciones nativas para ampliar las imágenes de los productos
+        function ampliarImagen(url) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            if (lightbox && img) {
+                img.src = url;
+                lightbox.classList.remove('hidden');
+            }
         }
 
-        document.getElementById('file-input').onchange = e => {
-            document.getElementById('file-name').innerText = e.target.files[0].name;
+        function cerrarImagen() {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox) lightbox.classList.add('hidden');
+        }
+
+        // Despachador seguro del formulario
+        function enviarFormulario() {
+            const formulario = document.getElementById('orderForm');
+            if (formulario) {
+                if (formulario.checkValidity()) {
+                    formulario.submit();
+                } else {
+                    formulario.reportValidity();
+                }
+            }
+        }
+
+        function verificarEnvio(e) {
+            // Previene envíos accidentales vacíos
+            let total = 0;
+            PRODUCTOS_MENU.forEach(p => { total += (carrito[p.id] || 0); });
+            if (total === 0) {
+                alert("Por favor, añade al menos un producto al menú antes de enviar.");
+                e.preventDefault();
+                return false;
+            }
+            return true;
+        }
+
+        // Arrancar la aplicación limpiamente
+        window.onload = function() {
+            cargarMenu();
         };
-
-        init();
     </script>
 </body>
 </html>
