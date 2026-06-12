@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo Gastronómico Cuatro R</title>
+    <title>Grupo Gastronómico Cuatro R - Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b111e; color: #f1f5f9; }
+        * { transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* FONDO ANIMADO CON LOGO CUATRO R */
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0b111e; 
+            color: #f1f5f9;
+        }
+
+        body.light-mode {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        /* FONDO ANIMADO MEJORADO */
         .animated-bg { 
             position: fixed; 
             top: 0; 
@@ -23,13 +34,16 @@
             overflow: hidden;
         }
 
-        /* Logo flotante animado - Efecto de flotación suave */
+        body.light-mode .animated-bg {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+        }
+
         .logo-float {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            opacity: 0.08;
+            opacity: 0.15;
             width: 600px;
             height: 600px;
             animation: float 8s ease-in-out infinite, pulse-glow 4s ease-in-out infinite;
@@ -46,7 +60,6 @@
             50% { filter: drop-shadow(0 0 50px rgba(218, 165, 32, 0.4)); }
         }
 
-        /* Logo rotativo en esquina */
         .logo-corner {
             position: fixed;
             bottom: 20px;
@@ -69,7 +82,6 @@
             50% { transform: rotate(360deg) translateY(-10px); }
         }
 
-        /* Partículas decorativas animadas */
         .particle {
             position: fixed;
             pointer-events: none;
@@ -109,6 +121,10 @@
             background: linear-gradient(180deg, rgba(11,17,30,0.92) 0%, rgba(7,11,20,0.97) 100%); 
         }
 
+        body.light-mode .bg-overlay {
+            background: linear-gradient(180deg, rgba(240, 249, 255, 0.95) 0%, rgba(226, 232, 240, 0.98) 100%);
+        }
+
         .glass-card { 
             background: rgba(22, 31, 49, 0.75); 
             backdrop-filter: blur(20px); 
@@ -116,11 +132,15 @@
             border: 1px solid rgba(255, 255, 255, 0.08); 
         }
 
+        body.light-mode .glass-card {
+            background: rgba(226, 232, 240, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
         .accent-gradient { 
             background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); 
         }
 
-        /* Efecto de brillo animado en el header */
         .header-glow {
             animation: glow-pulse 3s ease-in-out infinite;
         }
@@ -130,10 +150,9 @@
             50% { text-shadow: 0 0 30px rgba(218, 165, 32, 0.5); }
         }
 
-        /* Estilos para el marcador de stock */
         .stock-badge {
             position: absolute;
-            top: 2px;
+            bottom: 2px;
             right: 2px;
             z-index: 10;
         }
@@ -141,62 +160,170 @@
         .stock-in {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 8px;
             font-weight: 700;
             text-transform: uppercase;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 1px 4px rgba(16, 185, 129, 0.4);
             animation: stock-pulse-green 2s ease-in-out infinite;
         }
 
         .stock-low {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 8px;
             font-weight: 700;
             text-transform: uppercase;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 1px 4px rgba(245, 158, 11, 0.4);
             animation: stock-pulse-amber 2s ease-in-out infinite;
         }
 
         .stock-out {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 8px;
             font-weight: 700;
             text-transform: uppercase;
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 1px 4px rgba(239, 68, 68, 0.4);
             animation: stock-pulse-red 2s ease-in-out infinite;
         }
 
         @keyframes stock-pulse-green {
-            0%, 100% { box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4); }
-            50% { box-shadow: 0 2px 12px rgba(16, 185, 129, 0.8); }
+            0%, 100% { box-shadow: 0 1px 4px rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 1px 6px rgba(16, 185, 129, 0.8); }
         }
 
         @keyframes stock-pulse-amber {
-            0%, 100% { box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4); }
-            50% { box-shadow: 0 2px 12px rgba(245, 158, 11, 0.8); }
+            0%, 100% { box-shadow: 0 1px 4px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 1px 6px rgba(245, 158, 11, 0.8); }
         }
 
         @keyframes stock-pulse-red {
-            0%, 100% { box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4); }
-            50% { box-shadow: 0 2px 12px rgba(239, 68, 68, 0.8); }
+            0%, 100% { box-shadow: 0 1px 4px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 1px 6px rgba(239, 68, 68, 0.8); }
         }
 
         .product-image-wrapper {
             position: relative;
         }
+
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.2);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 4.7s forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            z-index: 200;
+            animation: progress 0.3s ease-out;
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+        }
+
+        /* Category Pills */
+        .category-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(218, 165, 32, 0.3);
+        }
+
+        .category-pill:hover {
+            background: rgba(218, 165, 32, 0.2);
+            border-color: rgba(218, 165, 32, 0.8);
+        }
+
+        .category-pill.active {
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
+            border-color: #e11d48;
+        }
+
+        /* Search Input */
+        .search-input {
+            background: rgba(22, 31, 49, 0.5);
+            border: 2px solid rgba(218, 165, 32, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: rgba(218, 165, 32, 0.8);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.2);
+        }
+
+        /* Analytics Dashboard */
+        .stat-card {
+            background: rgba(22, 31, 49, 0.5);
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Modo claro - Cards */
+        body.light-mode .stat-card {
+            background: rgba(226, 232, 240, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
     </style>
 </head>
-<body class="pb-36 min-h-screen relative">
+<body class="pb-40 min-h-screen relative">
     <div class="animated-bg">
-        <!-- Logo SVG flotante central -->
         <svg class="logo-float" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -205,32 +332,21 @@
                     <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
                 </linearGradient>
             </defs>
-            
-            <!-- Círculo exterior -->
             <circle cx="100" cy="100" r="95" fill="none" stroke="url(#goldGradient)" stroke-width="3" opacity="0.6"/>
-            
-            <!-- R central grande -->
             <text x="100" y="110" font-size="80" font-weight="bold" text-anchor="middle" fill="url(#goldGradient)" font-family="serif" opacity="0.7">R</text>
-            
-            <!-- Tenedores cruzados -->
             <g opacity="0.6">
                 <path d="M 70 60 Q 65 85 70 110 M 70 60 L 65 50 M 70 60 L 75 50" stroke="url(#goldGradient)" stroke-width="2" fill="none"/>
                 <path d="M 130 60 Q 135 85 130 110 M 130 60 L 135 50 M 130 60 L 125 50" stroke="url(#goldGradient)" stroke-width="2" fill="none"/>
             </g>
-            
-            <!-- Corona superior -->
             <path d="M 80 45 Q 100 20 120 45" stroke="url(#goldGradient)" stroke-width="3" fill="none" opacity="0.7"/>
             <circle cx="85" cy="42" r="3" fill="url(#goldGradient)" opacity="0.7"/>
             <circle cx="100" cy="25" r="4" fill="url(#goldGradient)" opacity="0.7"/>
             <circle cx="115" cy="42" r="3" fill="url(#goldGradient)" opacity="0.7"/>
-            
-            <!-- Rueda central -->
             <circle cx="100" cy="130" r="20" fill="none" stroke="url(#goldGradient)" stroke-width="2" opacity="0.6"/>
             <circle cx="100" cy="130" r="12" fill="url(#goldGradient)" opacity="0.4"/>
             <circle cx="100" cy="130" r="3" fill="url(#goldGradient)" opacity="0.8"/>
         </svg>
 
-        <!-- Logo en esquina rotativo -->
         <svg class="logo-corner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="goldGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -243,7 +359,6 @@
             <path d="M 70 70 L 130 130 M 130 70 L 70 130" stroke="url(#goldGradient2)" stroke-width="1" opacity="0.4"/>
         </svg>
 
-        <!-- Partículas decorativas -->
         <svg class="particle particle-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <circle cx="100" cy="100" r="80" fill="none" stroke="#DAA520" stroke-width="2"/>
             <path d="M 50 100 Q 100 50 150 100 Q 100 150 50 100" fill="none" stroke="#DAA520" stroke-width="1"/>
@@ -257,25 +372,68 @@
     
     <div class="bg-overlay"></div>
 
-    <!-- BOTÓN CONFIGURACIÓN -->
-    <button type="button" onclick="openAdmin()" class="fixed top-4 right-4 z-40 w-11 h-11 glass-card rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
-        <i class="ph ph-gear-six text-xl"></i>
-    </button>
+    <!-- TOP BAR CON CONTROLES -->
+    <div class="fixed top-0 left-0 right-0 z-40 glass-card border-b border-gray-700">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+            <button type="button" onclick="toggleTheme()" class="theme-toggle w-10 h-10 rounded-xl glass-card flex items-center justify-center text-amber-500 hover:text-amber-400">
+                <i id="theme-icon" class="ph ph-moon-stars text-lg"></i>
+            </button>
+            <h1 class="text-xs font-black uppercase tracking-wide text-amber-500">4R Premium</h1>
+            <button type="button" onclick="openAdmin()" class="w-10 h-10 glass-card rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
+                <i class="ph ph-gear-six text-lg"></i>
+            </button>
+        </div>
+    </div>
 
-    <header class="pt-12 pb-6 text-center">
-        <div class="inline-block bg-amber-500 text-neutral-950 font-black text-[10px] px-3 py-1 rounded-full shadow-md mb-2 tracking-widest uppercase header-glow">4R Premium</div>
-        <h1 class="text-2xl font-black uppercase tracking-tight text-white px-4 header-glow">Grupo Gastronómico Cuatro R</h1>
-        <p class="text-[10px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma Automatizada de Pedidos</p>
+    <!-- HEADER MEJORADO -->
+    <header class="pt-20 pb-4 text-center relative z-10">
+        <h1 class="text-xl font-black uppercase tracking-tight text-white px-4 header-glow">Grupo Gastronómico Cuatro R</h1>
+        <p class="text-[9px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma Automatizada Premium</p>
     </header>
 
-    <main class="max-w-md mx-auto px-4 space-y-6">
+    <!-- ANALYTICS DASHBOARD -->
+    <div class="max-w-md mx-auto px-4 mb-4 grid grid-cols-3 gap-2">
+        <div class="stat-card">
+            <p class="text-[10px] text-gray-400 uppercase font-bold">Pedidos</p>
+            <div class="stat-value" id="stat-orders">0</div>
+        </div>
+        <div class="stat-card">
+            <p class="text-[10px] text-gray-400 uppercase font-bold">Total</p>
+            <div class="stat-value" id="stat-total">$0</div>
+        </div>
+        <div class="stat-card">
+            <p class="text-[10px] text-gray-400 uppercase font-bold">Items</p>
+            <div class="stat-value" id="stat-items">0</div>
+        </div>
+    </div>
+
+    <!-- BÚSQUEDA Y FILTROS -->
+    <div class="max-w-md mx-auto px-4 mb-4 space-y-3">
+        <div class="relative">
+            <i class="ph ph-magnifying-glass absolute left-3 top-3 text-amber-500"></i>
+            <input type="text" id="search-input" placeholder="Buscar producto..." class="w-full search-input pl-10 p-2.5 rounded-xl text-sm text-white focus:outline-none">
+        </div>
+        
+        <div class="flex gap-2 overflow-x-auto pb-2">
+            <button type="button" onclick="filterCategory('todos')" class="category-pill active" id="cat-todos">Todos</button>
+            <button type="button" onclick="filterCategory('tequeños')" class="category-pill" id="cat-tequeños">Tequeños</button>
+            <button type="button" onclick="filterCategory('empanadas')" class="category-pill" id="cat-empanadas">Empanadas</button>
+            <button type="button" onclick="filterCategory('otros')" class="category-pill" id="cat-otros">Otros</button>
+        </div>
+    </div>
+
+    <main class="max-w-md mx-auto px-4 space-y-6 pb-32">
         <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" enctype="multipart/form-data" class="space-y-6">
             
             <!-- MENÚ DE PRODUCTOS -->
             <div class="space-y-3">
                 <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-bowl-food text-base"></i> Catálogo de Ventas</h2>
-                <div id="products-container" class="space-y-3">
-                    <!-- Los productos se inyectan aquí garantizando que si no hay memoria, se usen los de respaldo instantáneamente -->
+                <div id="products-container" class="space-y-2">
+                    <!-- Productos inyectados -->
+                </div>
+                <div id="no-results" class="text-center py-8 text-gray-400">
+                    <i class="ph ph-smiley-blank text-3xl mb-2"></i>
+                    <p class="text-sm">No hay productos que coincidan</p>
                 </div>
             </div>
 
@@ -289,13 +447,22 @@
                 </div>
             </div>
 
-            <!-- PASARELA DE PAGO (DATOS FIJOS REALES) -->
+            <!-- PASARELA DE PAGO -->
             <div class="space-y-3">
                 <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-credit-card text-base"></i> Información de Pago Móvil</h2>
-                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-1.5">
-                    <p class="text-sm text-gray-300">Banco: <span id="lbl-banco" class="font-bold text-white">Bancamiga (0172)</span></p>
-                    <p class="text-sm text-gray-300">RIF / CI: <span id="lbl-rif" class="font-bold text-white">V-23486156</span></p>
-                    <p class="text-sm text-gray-300">Teléfono: <span id="lbl-tel" class="font-bold text-white">0424571136</span></p>
+                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-2">
+                    <div class="flex justify-between items-center" onclick="copyToClipboard('Bancamiga (0172)')">
+                        <span class="text-xs text-gray-300">Banco: <span id="lbl-banco" class="font-bold text-white cursor-pointer hover:text-amber-400">Bancamiga (0172)</span></span>
+                        <i class="ph ph-copy text-amber-500 text-xs"></i>
+                    </div>
+                    <div class="flex justify-between items-center" onclick="copyToClipboard('V-23486156')">
+                        <span class="text-xs text-gray-300">RIF / CI: <span id="lbl-rif" class="font-bold text-white cursor-pointer hover:text-amber-400">V-23486156</span></span>
+                        <i class="ph ph-copy text-amber-500 text-xs"></i>
+                    </div>
+                    <div class="flex justify-between items-center" onclick="copyToClipboard('0424571136')">
+                        <span class="text-xs text-gray-300">Teléfono: <span id="lbl-tel" class="font-bold text-white cursor-pointer hover:text-amber-400">0424571136</span></span>
+                        <i class="ph ph-copy text-amber-500 text-xs"></i>
+                    </div>
                 </div>
                 
                 <div class="space-y-3">
@@ -315,14 +482,19 @@
         </form>
     </main>
 
-    <!-- CARRO COMPRAS FLOTANTE -->
+    <!-- CARRO COMPRAS FLOTANTE MEJORADO -->
     <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0b111e] via-[#0b111e]/95 to-transparent translate-y-full transition-transform duration-300 z-30">
-        <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border border-amber-500/30 shadow-2xl">
-            <div>
-                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total del Pedido</p>
-                <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
+        <div class="max-w-md mx-auto glass-card rounded-2xl p-4 border border-amber-500/30 shadow-2xl space-y-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total del Pedido</p>
+                    <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
+                </div>
+                <button type="button" onclick="submitOrder()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider shadow-md active:scale-95 transition-transform">Enviar Pedido</button>
             </div>
-            <button type="button" onclick="submitOrder()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider shadow-md active:scale-95 transition-transform">Enviar Pedido</button>
+            <div class="w-full bg-gray-800 rounded-full h-1 overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-emerald-400 to-amber-500 h-full w-0 transition-all duration-500"></div>
+            </div>
         </div>
     </div>
 
@@ -332,67 +504,83 @@
         <img id="lightbox-img" src="" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl transition-transform duration-200 scale-95" alt="Producto ampliado">
     </div>
 
-    <!-- PANEL ADMINISTRATIVO HÍBRIDO -->
-    <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b111e] overflow-y-auto p-6">
+    <!-- PANEL ADMINISTRATIVO ULTRA MODERNO -->
+    <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b111e]/95 overflow-y-auto p-6 backdrop-blur-sm">
         <div class="max-w-md mx-auto space-y-6">
             <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                <h2 class="text-base font-bold text-white flex items-center gap-2"><i class="ph ph-sliders text-amber-500"></i> Consola Administración 4R</h2>
+                <h2 class="text-base font-bold text-white flex items-center gap-2"><i class="ph ph-sliders text-amber-500"></i> Consola 4R Pro</h2>
                 <button type="button" onclick="closeAdmin()" class="w-8 h-8 rounded-lg bg-gray-800 text-white flex items-center justify-center font-bold">&times;</button>
             </div>
 
-            <!-- Cambiar Datos Finanzas -->
-            <div class="glass-card p-4 rounded-2xl space-y-3">
+            <!-- Tabs Admin -->
+            <div class="flex gap-2 border-b border-gray-800">
+                <button onclick="switchAdminTab('finanzas')" class="admin-tab active py-2 px-4 text-xs font-bold text-amber-500 border-b-2 border-amber-500">Finanzas</button>
+                <button onclick="switchAdminTab('productos')" class="admin-tab py-2 px-4 text-xs font-bold text-gray-500">Productos</button>
+                <button onclick="switchAdminTab('stock')" class="admin-tab py-2 px-4 text-xs font-bold text-gray-500">Stock</button>
+                <button onclick="switchAdminTab('historial')" class="admin-tab py-2 px-4 text-xs font-bold text-gray-500">Historial</button>
+            </div>
+
+            <!-- TAB: FINANZAS -->
+            <div id="tab-finanzas" class="admin-tab-content glass-card p-4 rounded-2xl space-y-3">
                 <p class="text-xs font-bold text-amber-500 uppercase tracking-wider">Modificar Datos de Recaudación</p>
                 <input type="text" id="cfg-banco" placeholder="Banco" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-amber-500">
                 <input type="text" id="cfg-rif" placeholder="RIF / Cédula" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-amber-500">
                 <input type="text" id="cfg-tel" placeholder="Teléfono" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-amber-500">
-                <button type="button" onclick="saveConfig()" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Actualizar Datos</button>
+                <button type="button" onclick="saveConfig()" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider hover:bg-amber-600">Actualizar Datos</button>
             </div>
 
-            <!-- Añadir Producto -->
-            <div class="glass-card p-4 rounded-2xl space-y-3">
+            <!-- TAB: PRODUCTOS -->
+            <div id="tab-productos" class="admin-tab-content glass-card p-4 rounded-2xl space-y-3 hidden">
                 <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Añadir Nuevo Ítem al Menú</p>
                 <input type="text" id="new-name" placeholder="Nombre del Producto" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <input type="number" step="0.01" id="new-price" placeholder="Precio en USD ($)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <input type="number" id="new-stock" placeholder="Stock Disponible" min="1" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <input type="text" id="new-img" placeholder="Enlace URL de Imagen (Opcional)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
-                <button type="button" onclick="addItem()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Insertar Producto</button>
+                <button type="button" onclick="addItem()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider hover:bg-emerald-700">Insertar Producto</button>
             </div>
 
-            <div class="space-y-2">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Ítems Activos en Menú</p>
+            <!-- TAB: STOCK -->
+            <div id="tab-stock" class="admin-tab-content space-y-2 hidden">
+                <p class="text-xs font-bold text-blue-400 uppercase tracking-wider">Gestionar Stock</p>
                 <div id="admin-items-list" class="space-y-2"></div>
+            </div>
+
+            <!-- TAB: HISTORIAL -->
+            <div id="tab-historial" class="admin-tab-content space-y-2 hidden">
+                <p class="text-xs font-bold text-purple-400 uppercase tracking-wider">Últimos Pedidos</p>
+                <div id="admin-historial" class="space-y-2 max-h-64 overflow-y-auto"></div>
             </div>
         </div>
     </div>
 
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container"></div>
+
     <script>
         const ADMIN_PASS = "4r123";
-
-        // DATOS MAESTROS HARDCODED (Tu red de seguridad total)
         const BACKUP_FINANZAS = { banco: 'Bancamiga (0172)', rif: 'V-23486156', tel: '0424571136' };
         const BACKUP_PRODUCTOS = [
-            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, stock: 25, image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
-            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, stock: 30, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
-            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, stock: 15, image: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
+            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, stock: 25, image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400', category: 'tequeños' },
+            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, stock: 30, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400', category: 'empanadas' },
+            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, stock: 15, image: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400', category: 'empanadas' }
         ];
 
         let currentSettings = JSON.parse(localStorage.getItem('4r_settings')) || BACKUP_FINANZAS;
         let currentProducts = JSON.parse(localStorage.getItem('4r_products')) || BACKUP_PRODUCTOS;
+        let orderHistory = JSON.parse(localStorage.getItem('4r_history')) || [];
         let currentCart = {};
+        let currentFilter = 'todos';
+        let isDarkMode = true;
 
-        // Validar que la memoria no venga corrupta ni incompleta antes de pintar la pantalla
         if (!currentSettings.banco || !currentSettings.rif || !currentSettings.tel) currentSettings = BACKUP_FINANZAS;
         if (!Array.isArray(currentProducts) || currentProducts.length === 0) currentProducts = BACKUP_PRODUCTOS;
 
-        // Función para escapar HTML y prevenir XSS
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Función para validar URL de imagen
         function isValidImageUrl(url) {
             try {
                 new URL(url);
@@ -402,56 +590,94 @@
             }
         }
 
-        // Función para obtener clase de stock
         function getStockBadgeClass(stock) {
             if (stock > 10) return 'stock-in';
             if (stock > 0) return 'stock-low';
             return 'stock-out';
         }
 
-        // Función para obtener texto de stock
         function getStockText(stock) {
-            if (stock > 10) return `✓ ${stock} Un.`;
-            if (stock > 0) return `⚠ ${stock} Un.`;
-            return '✗ Agotado';
+            if (stock > 10) return `✓ ${stock}`;
+            if (stock > 0) return `⚠ ${stock}`;
+            return '✗';
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-blue-600';
+            
+            toast.className = `toast ${bgColor} text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center gap-2`;
+            toast.innerHTML = `<i class="ph ${type === 'success' ? 'ph-check-circle' : 'ph-warning-circle'}"></i> ${message}`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast(`Copiado: ${text}`, 'info');
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('light-mode');
+            document.getElementById('theme-icon').className = isDarkMode ? 'ph ph-moon-stars text-lg' : 'ph ph-sun text-lg';
+            localStorage.setItem('4r_theme', isDarkMode ? 'dark' : 'light');
+            showToast(isDarkMode ? 'Modo Oscuro' : 'Modo Claro');
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+            document.getElementById(`cat-${cat}`).classList.add('active');
+            syncPlatform();
         }
 
         function syncPlatform() {
-            // Actualizar datos de pago
             document.getElementById('lbl-banco').textContent = currentSettings.banco;
             document.getElementById('lbl-rif').textContent = currentSettings.rif;
             document.getElementById('lbl-tel').textContent = currentSettings.tel;
 
-            // Renderizar productos de forma segura
             const container = document.getElementById('products-container');
+            const noResults = document.getElementById('no-results');
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            
             container.innerHTML = '';
             
-            currentProducts.forEach(p => {
+            let filtered = currentProducts.filter(p => {
+                const matchSearch = p.name.toLowerCase().includes(searchTerm);
+                const matchCategory = currentFilter === 'todos' || (p.category && p.category === currentFilter);
+                return matchSearch && matchCategory;
+            });
+
+            if (filtered.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            noResults.style.display = 'none';
+            
+            filtered.forEach(p => {
                 if (currentCart[p.id] === undefined) currentCart[p.id] = 0;
                 
                 const productDiv = document.createElement('div');
-                productDiv.className = 'glass-card p-3 rounded-2xl flex items-center justify-between gap-3';
+                productDiv.className = 'product-card glass-card p-3 rounded-2xl flex items-center justify-between gap-3';
                 
-                // Crear contenedor de imagen y texto
                 const leftDiv = document.createElement('div');
                 leftDiv.className = 'flex items-center gap-3 min-w-0 flex-1';
                 
-                // Wrapper de imagen con stock
                 const imgWrapper = document.createElement('div');
                 imgWrapper.className = 'product-image-wrapper';
                 
-                // Crear imagen de forma segura
                 const img = document.createElement('img');
                 img.src = isValidImageUrl(p.image) ? p.image : 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400';
                 img.alt = escapeHtml(p.name);
                 img.className = 'w-16 h-16 rounded-xl object-cover bg-neutral-900 border border-gray-700 flex-shrink-0 cursor-pointer';
-                img.style.cursor = 'pointer';
                 img.onclick = function(e) {
                     e.stopPropagation();
                     openLightbox(this.src);
                 };
 
-                // Crear badge de stock
                 const stockBadge = document.createElement('div');
                 stockBadge.className = 'stock-badge ' + getStockBadgeClass(p.stock || 0);
                 stockBadge.textContent = getStockText(p.stock || 0);
@@ -459,7 +685,6 @@
                 imgWrapper.appendChild(img);
                 imgWrapper.appendChild(stockBadge);
                 
-                // Crear información del producto
                 const infoDiv = document.createElement('div');
                 infoDiv.className = 'min-w-0';
                 
@@ -476,23 +701,22 @@
                 leftDiv.appendChild(imgWrapper);
                 leftDiv.appendChild(infoDiv);
                 
-                // Crear controles de cantidad
                 const rightDiv = document.createElement('div');
-                rightDiv.className = 'flex items-center gap-2.5 bg-black/40 p-1.5 rounded-xl border border-gray-700 flex-shrink-0';
+                rightDiv.className = 'flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-gray-700 flex-shrink-0';
                 
                 const minusBtn = document.createElement('button');
                 minusBtn.type = 'button';
-                minusBtn.className = 'w-8 h-8 text-gray-400 font-bold text-lg';
-                minusBtn.textContent = '-';
+                minusBtn.className = 'w-7 h-7 text-gray-400 font-bold text-sm hover:text-white';
+                minusBtn.textContent = '−';
                 minusBtn.onclick = function() { updateVolume(p.id, -1); };
                 
                 const quantitySpan = document.createElement('span');
-                quantitySpan.className = 'text-white font-bold text-sm w-4 text-center';
+                quantitySpan.className = 'text-white font-bold text-sm w-5 text-center';
                 quantitySpan.textContent = currentCart[p.id];
                 
                 const plusBtn = document.createElement('button');
                 plusBtn.type = 'button';
-                plusBtn.className = 'w-8 h-8 text-rose-500 font-bold text-lg';
+                plusBtn.className = 'w-7 h-7 text-rose-500 font-bold text-sm hover:text-rose-400';
                 plusBtn.textContent = '+';
                 plusBtn.disabled = (p.stock || 0) <= currentCart[p.id];
                 plusBtn.style.opacity = plusBtn.disabled ? '0.5' : '1';
@@ -510,33 +734,64 @@
                 container.appendChild(productDiv);
             });
 
-            // Actualizar inputs del admin
             document.getElementById('cfg-banco').value = currentSettings.banco;
             document.getElementById('cfg-rif').value = currentSettings.rif;
             document.getElementById('cfg-tel').value = currentSettings.tel;
 
-            // Renderizar lista de productos en admin
+            renderStockManagement();
+            calcTotals();
+        }
+
+        function renderStockManagement() {
             const adminList = document.getElementById('admin-items-list');
             adminList.innerHTML = '';
             currentProducts.forEach((p, idx) => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'flex justify-between items-center bg-white/5 p-2.5 rounded-xl border border-white/5';
+                itemDiv.className = 'glass-card p-3 rounded-xl flex items-center justify-between';
                 
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'text-xs text-white truncate font-medium flex-1 mr-2';
-                nameSpan.textContent = p.name + ' ($' + parseFloat(p.price).toFixed(2) + ') | Stock: ' + (p.stock || 0);
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'flex-1';
+                
+                const nameP = document.createElement('p');
+                nameP.className = 'text-xs font-bold text-white truncate';
+                nameP.textContent = p.name;
+                
+                const stockP = document.createElement('p');
+                stockP.className = 'text-xs text-gray-400 mt-1';
+                stockP.textContent = `Stock: ${p.stock || 0}`;
+                
+                infoDiv.appendChild(nameP);
+                infoDiv.appendChild(stockP);
+                
+                const controlsDiv = document.createElement('div');
+                controlsDiv.className = 'flex items-center gap-1';
+                
+                const minBtn = document.createElement('button');
+                minBtn.type = 'button';
+                minBtn.className = 'w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-bold';
+                minBtn.textContent = '−';
+                minBtn.onclick = () => { if (p.stock > 0) p.stock--; localStorage.setItem('4r_products', JSON.stringify(currentProducts)); renderStockManagement(); showToast('Stock actualizado'); };
+                
+                const plusBtn = document.createElement('button');
+                plusBtn.type = 'button';
+                plusBtn.className = 'w-6 h-6 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-bold';
+                plusBtn.textContent = '+';
+                plusBtn.onclick = () => { p.stock++; localStorage.setItem('4r_products', JSON.stringify(currentProducts)); renderStockManagement(); showToast('Stock actualizado'); };
                 
                 const delBtn = document.createElement('button');
                 delBtn.type = 'button';
-                delBtn.className = 'text-rose-400 hover:text-rose-500 font-bold text-xs bg-rose-500/10 px-2 py-1 rounded-md';
-                delBtn.textContent = 'Eliminar';
-                delBtn.onclick = function() { removeItem(idx); };
+                delBtn.className = 'w-6 h-6 bg-rose-600 hover:bg-rose-700 text-white rounded text-xs font-bold ml-2';
+                delBtn.textContent = '×';
+                delBtn.onclick = () => { removeItem(idx); };
                 
-                itemDiv.appendChild(nameSpan);
-                itemDiv.appendChild(delBtn);
+                controlsDiv.appendChild(minBtn);
+                controlsDiv.appendChild(plusBtn);
+                controlsDiv.appendChild(delBtn);
+                
+                itemDiv.appendChild(infoDiv);
+                itemDiv.appendChild(controlsDiv);
                 adminList.appendChild(itemDiv);
             });
-            calcTotals();
         }
 
         function updateVolume(id, delta) {
@@ -553,11 +808,14 @@
 
         function calcTotals() {
             let totalGeneral = 0;
+            let totalItems = 0;
             let orderSummary = [];
+            
             currentProducts.forEach(p => {
                 const amount = currentCart[p.id] || 0;
                 if (amount > 0) {
                     totalGeneral += amount * parseFloat(p.price);
+                    totalItems += amount;
                     orderSummary.push(p.name + ' (x' + amount + ')');
                 }
             });
@@ -565,6 +823,16 @@
             document.getElementById('total-display').textContent = '$' + totalGeneral.toFixed(2);
             document.getElementById('hidden-total').value = '$' + totalGeneral.toFixed(2);
             document.getElementById('hidden-summary').value = orderSummary.join(' | ');
+            
+            // Stats
+            document.getElementById('stat-orders').textContent = orderHistory.length;
+            document.getElementById('stat-total').textContent = '$' + orderHistory.reduce((sum, o) => sum + (o.amount || 0), 0).toFixed(0);
+            document.getElementById('stat-items').textContent = totalItems;
+
+            // Progress bar
+            const maxItems = 20;
+            const progress = Math.min((totalItems / maxItems) * 100, 100);
+            document.getElementById('progress-bar').style.width = progress + '%';
 
             const bar = document.getElementById('checkout-bar');
             if (totalGeneral > 0) { bar.classList.remove('translate-y-full'); } 
@@ -586,20 +854,17 @@
             setTimeout(() => lightbox.classList.add('hidden'), 150);
         }
 
-        // Validar archivo subido
         document.getElementById('file-input').addEventListener('change', function(e) {
             const indicator = document.getElementById('file-name');
             if(e.target.files[0]) {
                 const file = e.target.files[0];
-                const maxSize = 5 * 1024 * 1024; // 5MB
+                const maxSize = 5 * 1024 * 1024;
                 const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
                 
                 if (!validTypes.includes(file.type)) {
                     alert('Solo se permiten imágenes (JPEG, PNG, GIF, WebP)');
                     e.target.value = '';
                     indicator.textContent = 'Adjuntar captura del pago';
-                    indicator.classList.remove('text-amber-400');
-                    indicator.classList.add('text-gray-400');
                     return;
                 }
                 
@@ -607,37 +872,70 @@
                     alert('La imagen no debe superar 5MB');
                     e.target.value = '';
                     indicator.textContent = 'Adjuntar captura del pago';
-                    indicator.classList.remove('text-amber-400');
-                    indicator.classList.add('text-gray-400');
                     return;
                 }
                 
                 indicator.textContent = file.name;
-                indicator.classList.remove('text-gray-400');
                 indicator.classList.add('text-amber-400');
             }
         });
 
+        document.getElementById('search-input').addEventListener('input', syncPlatform);
+
         function submitOrder() {
             const form = document.getElementById('orderForm');
-            if (form.checkValidity()) { 
-                form.submit(); 
-            } else { 
-                form.reportValidity(); 
+            if (form.checkValidity()) {
+                const total = document.getElementById('hidden-total').value;
+                orderHistory.push({
+                    date: new Date().toLocaleString('es-ES'),
+                    items: document.getElementById('hidden-summary').value,
+                    amount: parseFloat(total.replace('$', ''))
+                });
+                localStorage.setItem('4r_history', JSON.stringify(orderHistory.slice(-10)));
+                showToast('¡Pedido enviado exitosamente!', 'success');
+                setTimeout(() => form.submit(), 1000);
+            } else {
+                form.reportValidity();
             }
         }
 
         function openAdmin() {
             const pass = prompt("Introduzca clave maestra:");
-            if (pass === ADMIN_PASS) { 
-                document.getElementById('admin-panel').classList.remove('hidden'); 
-            } else if (pass !== null) { 
-                alert("Clave incorrecta."); 
+            if (pass === ADMIN_PASS) {
+                document.getElementById('admin-panel').classList.remove('hidden');
+                renderStockManagement();
+                renderHistorial();
+            } else if (pass !== null) {
+                showToast("Clave incorrecta.", 'error');
             }
         }
 
-        function closeAdmin() { 
-            document.getElementById('admin-panel').classList.add('hidden'); 
+        function closeAdmin() {
+            document.getElementById('admin-panel').classList.add('hidden');
+        }
+
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.admin-tab-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        function renderHistorial() {
+            const historialDiv = document.getElementById('admin-historial');
+            historialDiv.innerHTML = '';
+            
+            orderHistory.slice().reverse().forEach(order => {
+                const item = document.createElement('div');
+                item.className = 'glass-card p-2 rounded-lg text-xs';
+                item.innerHTML = `
+                    <p class="text-gray-300 font-bold">${order.date}</p>
+                    <p class="text-amber-400 mt-1">$${order.amount.toFixed(2)}</p>
+                    <p class="text-gray-500 truncate mt-1">${order.items}</p>
+                `;
+                historialDiv.appendChild(item);
+            });
         }
 
         function saveConfig() {
@@ -647,9 +945,8 @@
                 tel: document.getElementById('cfg-tel').value.trim() || BACKUP_FINANZAS.tel
             };
             localStorage.setItem('4r_settings', JSON.stringify(currentSettings));
-            alert("Ajustes guardados.");
+            showToast("Ajustes guardados.");
             syncPlatform();
-            closeAdmin();
         }
 
         function addItem() {
@@ -663,33 +960,41 @@
             let image = inputImg.value.trim() || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400";
 
             if (!name) {
-                alert("El nombre del producto es obligatorio.");
+                showToast("El nombre del producto es obligatorio.", 'error');
                 return;
             }
 
             if (isNaN(price) || price <= 0) {
-                alert("Ingrese un precio válido mayor a 0.");
+                showToast("Ingrese un precio válido mayor a 0.", 'error');
                 return;
             }
 
             if (stock <= 0) {
-                alert("Ingrese un stock válido mayor a 0.");
+                showToast("Ingrese un stock válido mayor a 0.", 'error');
                 return;
             }
 
             if (inputImg.value.trim() && !isValidImageUrl(image)) {
-                alert("Ingrese una URL de imagen válida (JPG, PNG, GIF, WebP)");
+                showToast("URL de imagen inválida", 'error');
                 return;
             }
 
-            currentProducts.push({ id: 'it_' + Date.now(), name: name, price: price, stock: stock, image: image });
+            currentProducts.push({ 
+                id: 'it_' + Date.now(), 
+                name: name, 
+                price: price, 
+                stock: stock, 
+                image: image,
+                category: 'otros'
+            });
+            
             localStorage.setItem('4r_products', JSON.stringify(currentProducts));
             inputName.value = '';
             inputPrice.value = '';
             inputStock.value = '';
             inputImg.value = '';
             syncPlatform();
-            alert("Producto agregado exitosamente.");
+            showToast("Producto agregado exitosamente.", 'success');
         }
 
         function removeItem(idx) {
@@ -699,11 +1004,18 @@
                 currentProducts.splice(idx, 1);
                 localStorage.setItem('4r_products', JSON.stringify(currentProducts));
                 syncPlatform();
+                showToast("Producto eliminado", 'success');
             }
         }
 
-        window.onload = function() { 
-            syncPlatform(); 
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('4r_theme');
+            if (savedTheme === 'light') {
+                isDarkMode = false;
+                document.body.classList.add('light-mode');
+                document.getElementById('theme-icon').className = 'ph ph-sun text-lg';
+            }
+            syncPlatform();
         };
     </script>
 </body>
