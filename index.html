@@ -1,358 +1,278 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo Gastronómico Cuatro R | Tienda Oficial</title>
-    <!-- Frameworks & Icons -->
+    <title>Grupo Gastronómico Cuatro R</title>
+    <!-- Frameworks & Iconos -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117;
-            color: #e6edf3;
-            -webkit-tap-highlight-color: transparent;
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0b0f17; 
+            color: #e6edf3; 
+        }
+        
+        /* FONDO ANIMADO ULTRA-SUAVE */
+        .bg-slideshow { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+            background-size: cover; 
+            background-position: center; 
+            transition: background-image 2s ease-in-out; 
+        }
+        
+        .bg-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            background: linear-gradient(180deg, rgba(11,15,23,0.85) 0%, rgba(11,15,23,0.98) 100%); 
+        }
+        
+        .glass-card { 
+            background: rgba(22, 27, 34, 0.75); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06); 
         }
 
-        /* FONDO DINÁMICO DE IMÁGENES PROFESIONALES */
-        .bg-slideshow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: background-image 1.5s ease-in-out;
+        /* DISEÑO DE LOGO POR TEXTO ESTILIZADO (Evita errores de carga) */
+        .brand-logo {
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #ffffff 30%, #a3a3a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        /* CAPA OSCURA INTERMEDIA PARA PRESENTACIÓN DE ALTO NIVEL */
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(180deg, rgba(13, 17, 23, 0.85) 0%, rgba(13, 17, 23, 0.95) 100%);
-        }
-
-        /* TARJETAS CON EFECTO CRISTAL TRANSLÚCIDO PRESERVANDO LEGIBILIDAD */
-        .glass-card {
-            background: rgba(22, 27, 34, 0.75);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-        }
-
-        .premium-shadow {
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
-        }
-
-        .accent-gradient {
-            background: linear-gradient(135deg, #ff4d4d 0%, #ff7676 100%);
-        }
-
-        .logo-pulse {
-            animation: logoPulse 3s infinite ease-in-out;
-        }
-
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,77,77,0.2)); }
-            50% { transform: scale(1.03); filter: drop-shadow(0 0 20px rgba(255,77,77,0.5)); }
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #ff4d4d !important;
-            box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.25) !important;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="pb-32 min-h-screen relative">
 
-    <!-- CONTENEDORES DE FONDO ATMOSFÉRICO -->
+    <!-- CONTENEDORES DE FONDO -->
     <div id="dynamic-bg" class="bg-slideshow"></div>
     <div class="bg-overlay"></div>
 
-    <!-- BOTÓN DISCRETO DEL PANEL ADMINISTRATIVO (Esquina superior derecha) -->
-    <div class="absolute top-4 right-4 z-40">
-        <button onclick="loginAdmin()" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-95">
-            <i class="ph ph-gear text-xl"></i>
-        </button>
-    </div>
+    <!-- BOTÓN DE ENGRANAJE PARA CONFIGURACIÓN -->
+    <button type="button" onclick="openAdminPanel()" class="fixed top-4 right-4 z-40 w-11 h-11 glass-card rounded-xl flex items-center justify-center text-gray-400 hover:text-white active:scale-95 transition-all">
+        <i class="ph ph-gear-six text-xl"></i>
+    </button>
 
-    <!-- VISTA DE CLIENTE (TIENDA DE COMPRAS) -->
+    <!-- VISTA CLIENTE (TIENDA) -->
     <div id="store-view" class="block">
-        <!-- Header con Logotipo Oficial Animado -->
-        <header class="pt-8 pb-4 text-center animate__animated animate__fadeIn">
-            <div class="max-w-[170px] mx-auto mb-3">
-                <img src="https://r-rod.github.io/cuatror/logo.png" alt="Cuatro R Logo" class="w-full h-auto object-contain logo-pulse">
+        <header class="pt-12 pb-6 text-center">
+            <!-- Emblema Tipográfico de Alta Gama -->
+            <div class="inline-block bg-gradient-to-b from-red-500 to-red-700 text-white font-black text-xl px-4 py-2 rounded-2xl shadow-lg mb-2 tracking-tighter">
+                4R
             </div>
-            <p class="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold">Plataforma de Pedidos Automatizada</p>
-            <div class="h-[1px] w-12 bg-[#ff4d4d] mx-auto mt-3 opacity-50"></div>
+            <h1 class="text-xl brand-logo uppercase tracking-tight">Grupo Gastronómico Cuatro R</h1>
+            <p class="text-[9px] tracking-[0.25em] text-gray-400 uppercase font-bold mt-1">Plataforma de Pedidos</p>
         </header>
 
-        <main class="max-w-md mx-auto px-4 space-y-8">
-            <!-- Formulario Principal de Pedido -->
-            <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" class="space-y-8">
-                
-                <!-- Contenedor de Productos Inyectados por JS -->
-                <section class="space-y-4">
-                    <h2 class="text-sm font-semibold text-gray-300 uppercase tracking-wider flex items-center gap-2 drop-shadow-sm">
-                        <i class="ph ph-bowl-food text-[#ff4d4d] text-lg"></i> Productos Disponibles
-                    </h2>
-                    <div id="products-container" class="space-y-4">
-                        <!-- Carga dinámica -->
-                    </div>
-                </section>
-
-                <!-- Datos de Despacho Logístico -->
-                <section class="space-y-4 pt-2">
-                    <h2 class="text-sm font-semibold text-gray-300 uppercase tracking-wider flex items-center gap-2 drop-shadow-sm">
-                        <i class="ph ph-map-pin text-[#ff4d4d] text-lg"></i> Datos de Envío (Delivery)
-                    </h2>
-                    <div class="glass-card rounded-2xl p-4 space-y-3 premium-shadow">
-                        <input type="text" name="Nombre_Cliente" placeholder="Nombre de quien recibe" required class="w-full bg-[#0d1117]/80 border border-[#30363d] rounded-xl p-3 text-sm text-white">
-                        <input type="tel" name="Telefono_Cliente" placeholder="Teléfono de contacto" required class="w-full bg-[#0d1117]/80 border border-[#30363d] rounded-xl p-3 text-sm text-white">
-                        <textarea name="Direccion_Entrega" placeholder="Dirección exacta de despacho en Barquisimeto" required rows="2" class="w-full bg-[#0d1117]/80 border border-[#30363d] rounded-xl p-3 text-sm text-white resize-none"></textarea>
-                    </div>
-                </section>
-
-                <!-- Información Dinámica de Pago Móvil -->
-                <section class="space-y-4 pt-2">
-                    <h2 class="text-sm font-semibold text-gray-300 uppercase tracking-wider flex items-center gap-2 drop-shadow-sm">
-                        <i class="ph ph-credit-card text-[#ff4d4d] text-lg"></i> Pasarela de Pago Móvil
-                    </h2>
-                    <div class="glass-card rounded-2xl p-5 space-y-3 border-l-2 border-[#ff4d4d] premium-shadow">
-                        <p class="text-xs text-gray-400">Banco: <span id="display-banco" class="text-white font-semibold"></span></p>
-                        <p class="text-xs text-gray-400">RIF / CI: <span id="display-rif" class="text-white font-semibold"></span></p>
-                        <p class="text-xs text-gray-400">Teléfono: <span id="display-phone" class="text-white font-semibold"></span></p>
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <div class="relative">
-                            <input type="file" name="Comprobante_Pago" id="file-input" required accept="image/*" class="hidden">
-                            <label for="file-input" class="flex items-center justify-center gap-3 w-full border border-dashed border-[#30363d] rounded-xl p-6 cursor-pointer hover:border-[#ff4d4d]/50 bg-[#161b22]/90 backdrop-blur-sm transition-all">
-                                <i class="ph ph-upload-simple text-xl text-[#ff4d4d]"></i>
-                                <span id="file-name" class="text-xs text-gray-400 font-medium">Adjuntar captura del pago móvil</span>
-                            </label>
-                        </div>
-                        <input type="text" name="Referencia_Pago" placeholder="Últimos 4 dígitos de referencia" maxlength="4" required class="w-full bg-[#0d1117]/90 border border-[#30363d] rounded-xl p-3 text-sm text-white">
-                    </div>
-                </section>
-
-                <!-- Campos ocultos requeridos -->
-                <input type="hidden" name="Monto_Total_USD" id="hidden-total">
-                <input type="hidden" name="Resumen_Pedido" id="hidden-summary">
-            </form>
-        </main>
-
-        <!-- Checkout Flotante -->
-        <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0d1117] to-transparent translate-y-full transition-transform duration-500 z-30">
-            <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between premium-shadow border border-[#ff4d4d]/30">
-                <div>
-                    <p class="text-[9px] text-gray-400 uppercase tracking-widest font-bold">Total a confirmar</p>
-                    <p class="text-2xl font-black text-[#2eb67d]" id="total-display">$0.00</p>
+        <main class="max-w-md mx-auto px-4 space-y-6">
+            <!-- Contenedor de Productos -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                    <i class="ph ph-hash text-red-500"></i> Menú Disponible
+                </h2>
+                <div id="products-container" class="space-y-3">
+                    <!-- Inyección limpia mediante JS -->
                 </div>
-                <button onclick="submitOrder()" class="accent-gradient px-6 py-3.5 rounded-xl text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#ff4d4d]/20 active:scale-95 transition-all">
-                    Confirmar Pago y Enviar <i class="ph ph-paper-plane-tilt text-sm"></i>
+            </div>
+
+            <!-- Datos de Facturación / Pago Móvil -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                    <i class="ph ph-credit-card text-red-500"></i> Pasarela de Pago Móvil
+                </h2>
+                <div class="glass-card rounded-2xl p-5 border-l-4 border-red-500 space-y-2">
+                    <p class="text-xs text-gray-400">Banco: <span id="p-banco" class="font-bold text-white ml-1">Cargando...</span></p>
+                    <p class="text-xs text-gray-400">RIF / CI: <span id="p-rif" class="font-bold text-white ml-1">Cargando...</span></p>
+                    <p class="text-xs text-gray-400">Teléfono: <span id="p-tel" class="font-bold text-white ml-1">Cargando...</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PANEL ADMINISTRATIVO INDEPENDIENTE -->
+    <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b0f17] overflow-y-auto p-4">
+        <div class="max-w-md mx-auto space-y-6 pt-6">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="ph ph-sliders text-red-500"></i> Panel de Configuración
+                </h2>
+                <button type="button" onclick="closeAdminPanel()" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-400 flex items-center justify-center text-xl">&times;</button>
+            </div>
+
+            <!-- Configuración Base de Pago Móvil -->
+            <div class="glass-card p-4 rounded-2xl space-y-3">
+                <p class="text-xs font-bold text-red-400 uppercase tracking-wider">1. Datos de Cuenta</p>
+                <input type="text" id="in-banco" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-sm text-white focus:border-red-500 focus:outline-none">
+                <input type="text" id="in-rif" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-sm text-white focus:border-red-500 focus:outline-none">
+                <input type="text" id="in-tel" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-sm text-white focus:border-red-500 focus:outline-none">
+                <button type="button" onclick="saveSettings()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl uppercase text-xs tracking-wider transition-all">
+                    Guardar y Aplicar Cambios
                 </button>
+            </div>
+
+            <!-- Agregar Producto Manual -->
+            <div class="glass-card p-4 rounded-2xl space-y-3">
+                <p class="text-xs font-bold text-green-400 uppercase tracking-wider">2. Añadir Producto Al Menú</p>
+                <input type="text" id="in-p-name" placeholder="Nombre (Ej: Tequeños Full Relleno)" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-sm text-white focus:border-green-500 focus:outline-none">
+                <input type="number" step="0.01" id="in-p-price" placeholder="Precio en USD (Ej: 3.50)" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-sm text-white focus:border-green-500 focus:outline-none">
+                <button type="button" onclick="addProduct()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl uppercase text-xs tracking-wider transition-all">
+                    Insertar Producto
+                </button>
+            </div>
+
+            <!-- Inventario -->
+            <div class="space-y-2">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">3. Productos Registrados</p>
+                <div id="admin-list" class="space-y-2"></div>
             </div>
         </div>
     </div>
 
-    <!-- PANEL CONFIGURACIÓN ADMINISTRATIVO -->
-    <div id="admin-view" class="hidden animate__animated animate__fadeIn">
-        <header class="pt-8 pb-4 text-center border-b border-[#30363d] bg-[#161b22]/95 backdrop-blur-md">
-            <h1 class="text-lg font-bold text-white flex items-center justify-center gap-2">
-                <i class="ph ph-lock-keyhole text-[#ff4d4d]"></i> Panel de Control Cuatro R
-            </h1>
-            <p class="text-xs text-gray-400 mt-1">Gestión de Productos y Configuración General</p>
-            <button onclick="logoutAdmin()" class="mt-3 text-xs bg-[#30363d] text-gray-300 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white transition-all">
-                Cerrar Panel
-            </button>
-        </header>
-
-        <main class="max-w-md mx-auto p-4 space-y-6">
-            <!-- Sección 1: Datos de Facturación -->
-            <section class="glass-card rounded-2xl p-4 space-y-3 premium-shadow">
-                <h3 class="text-xs font-bold uppercase text-[#ff4d4d] tracking-wider mb-2">1. Configurar Datos de Pago Móvil</h3>
-                <input type="text" id="admin-banco" placeholder="Nombre del Banco" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl p-2.5 text-xs text-white">
-                <input type="text" id="admin-rif" placeholder="RIF o Cédula" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl p-2.5 text-xs text-white">
-                <input type="text" id="admin-phone" placeholder="Número de teléfono" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl p-2.5 text-xs text-white">
-                <button onclick="saveBankData()" class="w-full bg-[#2eb67d] text-black font-bold p-2 rounded-xl text-xs uppercase tracking-wider transition-all active:scale-95">
-                    Actualizar Datos de Pago
-                </button>
-            </section>
-
-            <!-- Sección 2: Añadir nuevo producto -->
-            <section class="glass-card rounded-2xl p-4 space-y-3 premium-shadow">
-                <h3 class="text-xs font-bold uppercase text-[#ff4d4d] tracking-wider mb-2">2. Agregar Nuevo Producto</h3>
-                <input type="text" id="new-p-name" placeholder="Nombre (Ej. Empanada Criolla Operada)" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl p-2.5 text-xs text-white">
-                <input type="number" step="0.01" id="new-p-price" placeholder="Precio en USD (Ej. 1.75)" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl p-2.5 text-xs text-white">
-                <textarea id="new-p-desc" placeholder="Descripción de los ingredientes y sazón artesanal..." rows="2" class="w-full bg-[#0d1117] border border-[#30363d] rounded-xl p-2.5 text-xs text-white resize-none"></textarea>
-                <button onclick="addNewProduct()" class="w-full accent-gradient text-white font-bold p-2 rounded-xl text-xs uppercase tracking-wider transition-all active:scale-95">
-                    Añadir al Menú
-                </button>
-            </section>
-
-            <!-- Sección 3: Lista de inventario y edición rápida -->
-            <section class="space-y-3">
-                <h3 class="text-xs font-bold uppercase text-gray-300 tracking-wider">3. Inventario del Menú Activo</h3>
-                <div id="admin-products-list" class="space-y-2">
-                    <!-- Productos cargados dinámicamente -->
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- ARQUITECTURA DE DATOS EN JAVASCRIPT NATIVO -->
+    <!-- CONTROLADORES JAVASCRIPT SIN COMPONENTES EXTERNOS BLOCANTES -->
     <script>
-        // Clave maestra para acceder al panel
-        const ADMIN_PASSWORD = "admin1234";
-
-        // BANCO DE IMÁGENES DE ALTA CALIDAD GASTRONÓMICA (Rotación automatizada)
+        // Imágenes Gastronómicas Reales para el Fondo Dinámico
         const backgroundImages = [
-            "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&q=80&w=1200", // Representación de Masa/Chilenas de alta factura
-            "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&q=80&w=1200", // Representación de Tequeños crujientes
-            "https://images.unsplash.com/photo-1628102479435-08e1327be885?auto=format&fit=crop&q=80&w=1200"  // Representación de Empanadas Criollas doradas
+            "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&q=80&w=1000", 
+            "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&q=80&w=1000", 
+            "https://images.unsplash.com/photo-1628102479435-08e1327be885?auto=format&fit=crop&q=80&w=1000"
         ];
         
-        let currentBgIndex = 0;
-
-        function rotateBackground() {
+        let bgIndex = 0;
+        function changeBackground() {
             const bgContainer = document.getElementById('dynamic-bg');
-            bgContainer.style.backgroundImage = `url('${backgroundImages[currentBgIndex]}')`;
-            currentBgIndex = (currentBgIndex + 1) % backgroundImages.length;
+            if(bgContainer) {
+                bgContainer.style.backgroundImage = `url('${backgroundImages[bgIndex]}')`;
+                bgIndex = (bgIndex + 1) % backgroundImages.length;
+            }
         }
+        // Iniciar rotación cada 6 segundos
+        changeBackground();
+        setInterval(changeBackground, 6000);
 
-        // Estructura por defecto en caso de que localStorage esté vacío
-        const defaultBankData = { banco: "Bancamiga (0172)", rif: "J-504728910", phone: "0412-3856184" };
-        const defaultProducts = [
-            { id: "chilenas", name: "Chilenas Especiales", price: 1.50, desc: "Receta artesanal con un relleno rico, generoso y abundante por dentro." },
-            { id: "tequenos", name: "Tequeños Full Relleno", price: 3.00, desc: "Masa artesanal premium con abundante queso fundido hecho con amor." },
-            { id: "empanadas", name: "Empanadas Criollas", price: 1.25, desc: "Sabor tradicional venezolano con masas finas y rellenos perfectos listos para disfrutar." }
+        // Clave del panel
+        const SECRET_KEY = "4r123";
+
+        // Inicialización de persistencia local robusta
+        let settings = JSON.parse(localStorage.getItem('4r_settings')) || { banco: 'Bancamiga (0172)', rif: 'J-504728910', tel: '0412-3856184' };
+        let products = JSON.parse(localStorage.getItem('4r_products')) || [
+            { id: 1, name: 'Tequeños Tradicionales', price: 3.50 },
+            { id: 2, name: 'Chilenas Artesanales', price: 2.00 },
+            { id: 3, name: 'Empanadas Criollas', price: 1.50 }
         ];
 
-        // Estado global de la aplicación
-        let bankData = JSON.parse(localStorage.getItem('cuatror_bank')) || defaultBankData;
-        let products = JSON.parse(localStorage.getItem('cuatror_products')) || defaultProducts;
-        let cart = {};
+        function renderApp() {
+            // Inyectar datos en la tienda de clientes
+            document.getElementById('p-banco').innerText = settings.banco;
+            document.getElementById('p-rif').innerText = settings.rif;
+            document.getElementById('p-tel').innerText = settings.tel;
 
-        // Inicializar la aplicación
-        function initStore() {
-            // Iniciar carrusel de fondos de comida
-            rotateBackground();
-            setInterval(rotateBackground, 7000); // Cambia sutilmente cada 7 segundos
-
-            // Renderizar datos bancarios
-            document.getElementById('display-banco').innerText = bankData.banco;
-            document.getElementById('display-rif').innerText = bankData.rif;
-            document.getElementById('display-phone').innerText = bankData.phone;
-
-            // Renderizar catálogo del cliente
             const container = document.getElementById('products-container');
             container.innerHTML = '';
             
             products.forEach(p => {
-                cart[p.id] = cart[p.id] || 0;
                 container.innerHTML += `
-                    <div class="glass-card rounded-2xl p-4 premium-shadow flex flex-col justify-between">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-base font-bold text-white tracking-tight drop-shadow-sm">${p.name}</h3>
-                            <span class="text-[#2eb67d] font-bold text-base drop-shadow-sm">$${parseFloat(p.price).toFixed(2)}</span>
+                    <div class="glass-card p-4 rounded-2xl flex justify-between items-center">
+                        <div>
+                            <h3 class="font-bold text-white text-sm tracking-tight">${p.name}</h3>
+                            <p class="text-green-400 font-bold text-sm mt-0.5">$${parseFloat(p.price).toFixed(2)}</p>
                         </div>
-                        <p class="text-xs text-gray-300 leading-normal mb-4">${p.desc}</p>
-                        <div class="flex items-center justify-between pt-2 border-t border-white/5">
-                            <span class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Cantidad</span>
-                            <div class="flex items-center gap-3 bg-[#0d1117]/90 border border-[#30363d] rounded-xl p-1">
-                                <button type="button" onclick="updateQty('${p.id}', -1)" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5 active:scale-95 transition-all text-gray-400 font-bold">-</button>
-                                <span id="view-qty-${p.id}" class="w-6 text-center font-bold text-xs text-white">${cart[p.id]}</span>
-                                <button type="button" onclick="updateQty('${p.id}', 1)" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#ff4d4d]/10 text-[#ff4d4d] font-bold active:scale-95 transition-all">+</button>
-                            </div>
+                        <div class="flex items-center gap-3 bg-black/40 p-1 rounded-xl border border-gray-800">
+                            <button type="button" class="w-8 h-8 text-gray-400 font-bold hover:text-white">-</button>
+                            <span class="text-white font-bold text-xs">0</span>
+                            <button type="button" class="w-8 h-8 text-red-500 font-bold hover:text-red-400">+</button>
                         </div>
                     </div>
                 `;
             });
-            updateTotal();
-        }
 
-        // Controladores del Carrito de compras
-        function updateQty(id, delta) {
-            if (!cart.hasOwnProperty(id)) cart[id] = 0;
-            const newValue = cart[id] + delta;
-            if (newValue >= 0) {
-                cart[id] = newValue;
-                document.getElementById(`view-qty-${id}`).innerText = newValue;
-                updateTotal();
-            }
-        }
+            // Preparar campos del panel de administración
+            document.getElementById('in-banco').value = settings.banco;
+            document.getElementById('in-rif').value = settings.rif;
+            document.getElementById('in-tel').value = settings.tel;
 
-        // Actualizar estados monetarios del flujo de caja virtual
-        function updateTotal() {
-            let total = 0;
-            let summaryParts = [];
-
-            products.forEach(p => {
-                const qty = cart[p.id] || 0;
-                if (qty > 0) {
-                    total += qty * p.price;
-                    summaryParts.push(`${p.name} (x${qty})`);
-                }
+            const adminList = document.getElementById('admin-list');
+            adminList.innerHTML = '';
+            products.forEach((p, index) => {
+                adminList.innerHTML += `
+                    <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5">
+                        <span class="text-xs text-white font-medium">${p.name} ($${parseFloat(p.price).toFixed(2)})</span>
+                        <button type="button" onclick="deleteProduct(${index})" class="text-red-400 hover:text-red-500 p-1">
+                            <i class="ph ph-trash text-lg"></i>
+                        </button>
+                    </div>
+                `;
             });
+        }
 
-            document.getElementById('total-display').innerText = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-total').value = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-summary').value = summaryParts.join(' | ');
+        // Acciones del Panel Administrativo
+        function openAdminPanel() {
+            const access = prompt("Por favor ingrese la contraseña de acceso:");
+            if (access === SECRET_KEY) {
+                document.getElementById('admin-panel').classList.remove('hidden');
+            } else if (access !== null) {
+                alert("Contraseña inválida.");
+            }
+        }
 
-            const bar = document.getElementById('checkout-bar');
-            if (total > 0) {
-                bar.classList.remove('translate-y-full');
+        function closeAdminPanel() {
+            document.getElementById('admin-panel').classList.add('hidden');
+        }
+
+        function saveSettings() {
+            settings = {
+                banco: document.getElementById('in-banco').value.trim(),
+                rif: document.getElementById('in-rif').value.trim(),
+                tel: document.getElementById('in-tel').value.trim()
+            };
+            localStorage.setItem('4r_settings', JSON.stringify(settings));
+            alert("¡Estructura de pago actualizada correctamente!");
+            renderApp();
+            closeAdminPanel();
+        }
+
+        function addProduct() {
+            const nameInput = document.getElementById('in-p-name');
+            const priceInput = document.getElementById('in-p-price');
+            
+            const name = nameInput.value.trim();
+            const price = parseFloat(priceInput.value);
+
+            if (name && !isNaN(price)) {
+                products.push({ id: Date.now(), name: name, price: price });
+                localStorage.setItem('4r_products', JSON.stringify(products));
+                
+                nameInput.value = '';
+                priceInput.value = '';
+                
+                renderApp();
             } else {
-                bar.classList.add('translate-y-full');
+                alert("Por favor introduce datos válidos.");
             }
         }
 
-        // Validación y manejo del comprobante visual
-        document.getElementById('file-input').addEventListener('change', function(e) {
-            const fileName = e.target.files[0] ? e.target.files[0].name : "Adjuntar captura del pago móvil";
-            document.getElementById('file-name').innerText = fileName;
-            document.getElementById('file-name').classList.remove('text-gray-400');
-            document.getElementById('file-name').classList.add('text-white');
-        });
-
-        function submitOrder() {
-            const form = document.getElementById('orderForm');
-            if (form.checkValidity()) {
-                form.submit();
-            } else {
-                form.reportValidity();
-            }
+        function deleteProduct(index) {
+            products.splice(index, 1);
+            localStorage.setItem('4r_products', JSON.stringify(products));
+            renderApp();
         }
 
-        // LÓGICA DEL PANEL ADMINISTRATIVO
-        function loginAdmin() {
-            const pass = prompt("Introduce la contraseña de administrador para modificar la app:");
-            if (pass === ADMIN_PASSWORD) {
-                document.getElementById('store-view').classList.replace('block', 'hidden');
-                document.getElementById('admin-view').classList.replace('hidden', 'block');
-                loadAdminPanel();
-            } else if (pass !== null) {
-                alert("Contraseña incorrecta. Acceso denegado.");
-            }
-        }
-
-        function logoutAdmin() {
-            document.getElementById('admin-view').classList.replace('block', 'hidden');
-            document.getElementById('store-view
+        // Arrancar la aplicación de inmediato
+        renderApp();
+    </script>
+</body>
+</html>
