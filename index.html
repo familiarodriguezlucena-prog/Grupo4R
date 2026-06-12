@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Gastronómico Cuatro R</title>
-    <!-- Frameworks e Iconos -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
@@ -18,7 +17,7 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* CONTENEDOR FIJO PARA EL LOGO DE FONDO */
+        /* TU LOGO OFICIAL CON ANIMACIÓN PREMIUM DE ZOOM SUAVE CONTINUO */
         .bg-personal { 
             position: fixed; 
             top: 0; 
@@ -26,21 +25,20 @@
             width: 100%; 
             height: 100%; 
             z-index: -2; 
-            background-image: url('logo.png'); /* Asegúrate de que el archivo se llame logo.png en tu GitHub */
-            background-size: cover; 
+            background-image: url('https://i.ibb.co/v4mK9gY7/Gemini-Generated-Image-jklf33jklf33jklf.png'); 
+            background-size: contain; 
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #0b0f17;
-            animation: softPulse 12s infinite ease-in-out; /* Animación sutil de fondo */
+            background-color: #0d121f;
+            animation: logoBreathing 14s infinite ease-in-out;
         }
         
-        /* ANIMACIÓN DE ZOOM ULTRA SUAVE PARA EL FONDO */
-        @keyframes softPulse {
+        @keyframes logoBreathing {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
+            50% { transform: scale(1.08); }
         }
         
-        /* Capa de contraste premium para legibilidad sobre el logo */
+        /* Capa de contraste para mantener legibilidad del menú */
         .bg-overlay { 
             position: fixed; 
             top: 0; 
@@ -71,16 +69,13 @@
 </head>
 <body class="pb-36 min-h-screen relative">
 
-    <!-- CAPAS DE FONDO (Con tu logo fijo animado por CSS) -->
     <div class="bg-personal"></div>
     <div class="bg-overlay"></div>
 
-    <!-- BOTÓN CONFIGURACIÓN -->
     <button type="button" onclick="openAdminPanel()" class="fixed top-4 right-4 z-40 w-11 h-11 glass-card rounded-xl flex items-center justify-center text-gray-400 hover:text-white active:scale-95 transition-all">
         <i class="ph ph-gear-six text-xl"></i>
     </button>
 
-    <!-- VISTA CLIENTE -->
     <div id="store-view" class="block">
         <header class="pt-12 pb-6 text-center">
             <div class="inline-block bg-red-600 text-white font-black text-xl px-4 py-1.5 rounded-2xl shadow-md mb-2 tracking-tighter">
@@ -91,20 +86,16 @@
         </header>
 
         <main class="max-w-md mx-auto px-4 space-y-6">
-            <!-- Formulario de Pedido hacia Formspree -->
             <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" class="space-y-6">
                 
-                <!-- Menú de Venta -->
                 <div class="space-y-3">
                     <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
                         <i class="ph ph-hash text-red-500"></i> Menú Disponible
                     </h2>
                     <div id="products-container" class="space-y-3">
-                        <!-- Inyección dinámica -->
-                    </div>
+                        </div>
                 </div>
 
-                <!-- Logística de Envío -->
                 <div class="space-y-3">
                     <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
                         <i class="ph ph-map-pin text-red-500"></i> Datos de Envío (Delivery)
@@ -116,7 +107,6 @@
                     </div>
                 </div>
 
-                <!-- Pasarela de Cierre de Pago -->
                 <div class="space-y-3">
                     <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
                         <i class="ph ph-credit-card text-red-500"></i> Pasarela de Pago Móvil
@@ -139,13 +129,11 @@
                     </div>
                 </div>
 
-                <!-- Inputs Ocultos Técnicos -->
                 <input type="hidden" name="Monto_Total" id="hidden-total">
                 <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
             </form>
         </main>
 
-        <!-- CARRITO FLOTANTE -->
         <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0b0f17] to-transparent translate-y-full transition-transform duration-300 z-30">
             <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border border-red-500/30 shadow-2xl">
                 <div>
@@ -159,7 +147,6 @@
         </div>
     </div>
 
-    <!-- PANEL ADMINISTRATIVO -->
     <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b0f17] overflow-y-auto p-4">
         <div class="max-w-md mx-auto space-y-6 pt-4">
             <div class="flex justify-between items-center border-b border-gray-800 pb-3">
@@ -169,22 +156,22 @@
                 <button type="button" onclick="closeAdminPanel()" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-400 flex items-center justify-center text-lg">&times;</button>
             </div>
 
-            <!-- Modificar Datos de Cuenta -->
             <div class="glass-card p-4 rounded-2xl space-y-3">
-                <p class="text-xs font-bold text-red-400 uppercase tracking-wider">1. Cuentas de Destino (Pago Móvil)</p>
+                <p class="text-xs font-bold text-red-400 uppercase tracking-wider">1. Datos de Cuenta Pago Móvil</p>
                 <input type="text" id="in-banco" placeholder="Banco" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
                 <input type="text" id="in-rif" placeholder="RIF o Cédula" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
                 <input type="text" id="in-tel" placeholder="Teléfono" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
                 <button type="button" onclick="saveSettings()" class="w-full bg-red-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs transition-all">
-                    Actualizar Datos
+                    Actualizar Cuentas
                 </button>
             </div>
 
-            <!-- Catálogo e Inventario -->
             <div class="glass-card p-4 rounded-2xl space-y-3">
-                <p class="text-xs font-bold text-green-400 uppercase tracking-wider">2. Catálogo de Productos</p>
-                <input type="text" id="in-p-name" placeholder="Nombre del Producto" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
+                <p class="text-xs font-bold text-green-400 uppercase tracking-wider">2. Agregar Nuevo Producto</p>
+                <input type="text" id="in-p-name" placeholder="Nombre (Ej: Tequeños Full Relleno)" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
                 <input type="number" step="0.01" id="in-p-price" placeholder="Precio en USD" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
+                <input type="text" id="in-p-image" placeholder="URL de la Foto del Producto (Opcional)" class="w-full bg-black/40 p-3 rounded-xl border border-gray-800 text-xs text-white">
+                <p class="text-[10px] text-gray-500 px-1">Tip: Puedes pegar un enlace de internet o dejarlo en blanco para usar la imagen de respaldo.</p>
                 <button type="button" onclick="addProduct()" class="w-full bg-green-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs transition-all">
                     Añadir al Menú
                 </button>
@@ -200,12 +187,20 @@
     <script>
         const MASTER_PASSWORD = "4r123";
 
+        // Fotos referenciales gastronómicas por defecto para tu negocio
+        const fallbackImages = {
+            tequenos: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&q=80&w=200",
+            chilenas: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&q=80&w=200",
+            empanadas: "https://images.unsplash.com/photo-1628102479435-08e1327be885?auto=format&fit=crop&q=80&w=200",
+            default: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=200"
+        };
+
         let settings = JSON.parse(localStorage.getItem('4r_settings')) || { banco: 'Bancamiga (0172)', rif: '23486156', tel: '0424571136' };
         let products = JSON.parse(localStorage.getItem('4r_products')) || [
-            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50 },
-            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00 },
-            { id: 'e3', name: 'Empanadas Criollas', price: 1.50 },
-            { id: 'f4', name: 'Combo fiesta', price: 10.00 }
+            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, image: fallbackImages.tequenos },
+            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, image: fallbackImages.chilenas },
+            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, image: fallbackImages.empanadas },
+            { id: 'f4', name: 'Combo Fiesta R4', price: 10.00, image: fallbackImages.default }
         ];
         
         let cart = {};
@@ -220,14 +215,18 @@
             
             products.forEach(p => {
                 if (cart[p.id] === undefined) cart[p.id] = 0;
+                const imgUrl = p.image && p.image.trim() !== "" ? p.image : fallbackImages.default;
                 
                 container.innerHTML += `
-                    <div class="glass-card p-4 rounded-2xl flex justify-between items-center">
-                        <div>
-                            <h3 class="font-bold text-white text-sm tracking-tight">${p.name}</h3>
-                            <p class="text-green-400 font-bold text-sm mt-0.5">$${parseFloat(p.price).toFixed(2)}</p>
+                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 flex-1">
+                            <img src="${imgUrl}" alt="${p.name}" class="w-14 h-14 rounded-xl object-cover bg-gray-900 border border-gray-800 flex-shrink-0">
+                            <div class="min-w-0">
+                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
+                                <p class="text-green-400 font-bold text-sm mt-0.5">$${parseFloat(p.price).toFixed(2)}</p>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-3 bg-black/40 p-1 rounded-xl border border-gray-800">
+                        <div class="flex items-center gap-2.5 bg-black/40 p-1 rounded-xl border border-gray-800 flex-shrink-0">
                             <button type="button" onclick="modifyCart('${p.id}', -1)" class="w-8 h-8 text-gray-400 font-bold hover:text-white transition-colors">-</button>
                             <span class="text-white font-bold text-xs w-4 text-center">${cart[p.id]}</span>
                             <button type="button" onclick="modifyCart('${p.id}', 1)" class="w-8 h-8 text-red-500 font-bold hover:text-red-400 transition-colors">+</button>
@@ -244,9 +243,12 @@
             adminList.innerHTML = '';
             products.forEach((p, index) => {
                 adminList.innerHTML += `
-                    <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5">
-                        <span class="text-xs text-white font-medium">${p.name} ($${parseFloat(p.price).toFixed(2)})</span>
-                        <button type="button" onclick="deleteProduct(${index})" class="text-red-400 hover:text-red-500">
+                    <div class="flex justify-between items-center bg-white/5 p-2.5 rounded-xl border border-white/5">
+                        <div class="flex items-center gap-2 truncate">
+                            <img src="${p.image || fallbackImages.default}" class="w-7 h-7 rounded-md object-cover flex-shrink-0">
+                            <span class="text-xs text-white font-medium truncate">${p.name} ($${parseFloat(p.price).toFixed(2)})</span>
+                        </div>
+                        <button type="button" onclick="deleteProduct(${index})" class="text-red-400 hover:text-red-500 pl-2">
                             <i class="ph ph-trash text-lg"></i>
                         </button>
                     </div>
@@ -334,14 +336,24 @@
         function addProduct() {
             const nameEl = document.getElementById('in-p-name');
             const priceEl = document.getElementById('in-p-price');
+            const imgEl = document.getElementById('in-p-image');
+            
             const name = nameEl.value.trim();
             const price = parseFloat(priceEl.value);
+            const image = imgEl.value.trim();
 
             if (name && !isNaN(price)) {
-                products.push({ id: 'prod_' + Date.now(), name: name, price: price });
+                products.push({ 
+                    id: 'prod_' + Date.now(), 
+                    name: name, 
+                    price: price,
+                    image: image !== "" ? image : fallbackImages.default
+                });
                 localStorage.setItem('4r_products', JSON.stringify(products));
+                
                 nameEl.value = '';
                 priceEl.value = '';
+                imgEl.value = '';
                 render();
             } else {
                 alert("Completa los campos correctamente.");
