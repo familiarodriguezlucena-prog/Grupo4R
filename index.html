@@ -1,503 +1,170 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuatro R - Grupo Gastronómico</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        * { transition: background-color 0.3s ease, color 0.3s ease; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0b111e; 
-            color: #f1f5f9;
-        }
-        body.light-mode {
-            background-color: #fafafa;
-            color: #1e293b;
-        }
-        .animated-bg { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -2; 
-            background: linear-gradient(135deg, #0b111e 0%, #1a2332 50%, #0f1624 100%);
-        }
-        body.light-mode .animated-bg {
-            background: linear-gradient(135deg, #fff8f0 0%, #fef3e2 50%, #fafaf0 100%);
-        }
-        .glass-card { 
-            background: rgba(22, 31, 49, 0.8); 
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(218, 165, 32, 0.15); 
-        }
-        body.light-mode .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(218, 165, 32, 0.2);
-        }
-        .accent-gradient { 
-            background: linear-gradient(135deg, #d4801e 0%, #f4a225 100%); 
-        }
-        .product-card {
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-        .product-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(218, 165, 32, 0.5);
-        }
-        .product-image-wrapper img {
-            transition: transform 0.2s ease;
-        }
-        .product-image-wrapper:hover img {
-            transform: scale(1.08);
-        }
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            z-index: 100;
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .category-pill {
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid rgba(218, 165, 32, 0.3);
-            background: transparent;
-            color: #f1f5f9;
-        }
-        .category-pill.active {
-            background: linear-gradient(135deg, #d4801e 0%, #f4a225 100%);
-            border-color: #d4801e;
-            color: #0b111e;
-        }
-        .stock-badge {
-            position: absolute;
-            bottom: 3px;
-            right: 3px;
-            z-index: 20;
-        }
-        .stock-badge span {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 9px;
-            font-weight: 800;
-        }
-        .stock-in span { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
-        .stock-low span { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
-        .stock-out span { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
-        .qty-selector {
-            background: rgba(22, 31, 49, 0.8);
-            border: 2px solid rgba(218, 165, 32, 0.3);
-            border-radius: 12px;
-            padding: 6px 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .qty-selector button {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .theme-toggle { cursor: pointer; transition: transform 0.2s ease; }
-        .theme-toggle:hover { transform: scale(1.1); }
-        .modal-backdrop {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-        }
-        .loader { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(218,165,32,0.2); border-top: 3px solid #f4a225; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .logo-img {
-            max-width: 70px;
-            height: auto;
-            filter: drop-shadow(0 4px 8px rgba(218, 165, 32, 0.3));
-            background: rgba(218, 165, 32, 0.1);
-            padding: 8px;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-<body class="pb-48 min-h-screen relative">
-    <div class="animated-bg"></div>
-
-    <!-- HEADER PREMIUM -->
-    <div class="fixed top-0 left-0 right-0 z-40 bg-gradient-to-b from-black/80 to-black/0 backdrop-blur-sm">
-        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-            <button type="button" onclick="toggleTheme()" class="theme-toggle w-10 h-10 rounded-lg glass-card flex items-center justify-center text-amber-500">
-                <i id="theme-icon" class="ph ph-moon-stars text-lg"></i>
-            </button>
+container.innerHTML = '';
             
-            <div class="flex items-center gap-2">
-                <div class="w-16 h-16 rounded-lg flex items-center justify-center text-3xl">🌮</div>
-                <div class="text-center">
-                    <p class="text-xs font-black text-amber-500">CUATRO R</p>
-                    <p class="text-[9px] text-amber-600">Grupo Gastronómico</p>
-                </div>
-            </div>
-            
-            <button type="button" onclick="openAdmin()" class="w-10 h-10 glass-card rounded-lg flex items-center justify-center text-amber-500">
-                <i class="ph ph-gear-six text-lg"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- HERO SECTION -->
-    <header class="pt-20 pb-4 text-center relative z-10">
-        <div class="flex justify-center mb-3 text-6xl">🌮</div>
-        <h1 class="text-3xl font-black uppercase text-amber-500 px-4">CUATRO R</h1>
-        <p class="text-sm text-gray-300 uppercase font-bold mt-1">Grupo Gastronómico</p>
-        <p class="text-xs text-gray-400 mt-1">Tradición y Calidad • Especialistas en Comida</p>
-    </header>
-
-    <!-- BÚSQUEDA Y FILTROS -->
-    <div class="max-w-md mx-auto px-4 mb-5 space-y-3">
-        <div class="glass-card rounded-xl p-3 flex items-center gap-2">
-            <i class="ph ph-magnifying-glass text-amber-500 text-lg"></i>
-            <input type="text" id="search-input" placeholder="Buscar especialidad..." class="flex-1 bg-transparent outline-none text-white placeholder-gray-500 text-sm" oninput="syncPlatform()">
-        </div>
-        
-        <div class="flex gap-2 overflow-x-auto pb-2">
-            <button type="button" onclick="filterCategory('todos')" class="category-pill active whitespace-nowrap" id="cat-todos">Todos</button>
-            <button type="button" onclick="filterCategory('tequeños')" class="category-pill whitespace-nowrap" id="cat-tequeños">🌮 Tequeños</button>
-            <button type="button" onclick="filterCategory('empanadas')" class="category-pill whitespace-nowrap" id="cat-empanadas">🥟 Empanadas</button>
-            <button type="button" onclick="filterCategory('bebidas')" class="category-pill whitespace-nowrap" id="cat-bebidas">🥤 Bebidas</button>
-            <button type="button" onclick="filterCategory('combos')" class="category-pill whitespace-nowrap" id="cat-combos">⭐ Combos</button>
-        </div>
-    </div>
-
-    <!-- CONTENEDOR PRINCIPAL -->
-    <main class="max-w-md mx-auto px-4 space-y-6 pb-32">
-        <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" enctype="multipart/form-data" class="space-y-6">
-            
-            <!-- PRODUCTOS -->
-            <div class="space-y-4">
-                <h2 class="text-sm font-black text-amber-500 uppercase">🌮 Nuestras Especialidades</h2>
-                <div id="products-container" class="grid grid-cols-1 gap-3"></div>
-                <div id="no-results" class="hidden text-center py-12 text-gray-400">
-                    <p class="text-sm font-bold">Sin resultados</p>
-                </div>
-            </div>
-
-            <!-- DATOS DE ENVÍO -->
-            <div class="space-y-3">
-                <h2 class="text-sm font-black text-amber-500 uppercase">📍 Datos de Entrega</h2>
-                <div class="glass-card rounded-2xl p-4 space-y-3">
-                    <input type="text" name="Nombre" placeholder="¿Quién recibe?" required class="w-full bg-black/40 border-2 border-gray-700 rounded-xl p-3 text-sm text-white">
-                    <input type="tel" name="Telefono" placeholder="Teléfono de contacto" required class="w-full bg-black/40 border-2 border-gray-700 rounded-xl p-3 text-sm text-white">
-                    
-                    <!-- GPS LOCATION -->
-                    <div class="space-y-2">
-                        <label class="text-xs text-gray-400 font-bold">📍 Mi Ubicación GPS</label>
-                        <button type="button" onclick="getGPSLocation()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2">
-                            <i class="ph ph-map-pin text-lg"></i>
-                            <span id="gps-btn-text">Obtener Ubicación</span>
-                        </button>
-                        <input type="hidden" name="Latitud" id="input-lat">
-                        <input type="hidden" name="Longitud" id="input-lng">
-                        <div id="gps-info" class="text-xs text-blue-400 hidden">
-                            <p>📍 Ubicación capturada: <span id="gps-coords"></span></p>
-                        </div>
-                    </div>
-                    
-                    <textarea name="Direccion" placeholder="Dirección exacta de entrega en Barquisimeto" required rows="2" class="w-full bg-black/40 border-2 border-gray-700 rounded-xl p-3 text-sm text-white"></textarea>
-                </div>
-            </div>
-
-            <!-- PAGO MÓVIL -->
-            <div class="space-y-3">
-                <h2 class="text-sm font-black text-amber-500 uppercase">💳 Datos de Pago Móvil</h2>
-                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-3">
-                    <div class="flex justify-between items-center cursor-pointer hover:bg-black/20 p-2 rounded-lg" onclick="copyToClipboard(document.getElementById('lbl-banco').textContent)">
-                        <div>
-                            <p class="text-xs text-gray-400">Banco</p>
-                            <p id="lbl-banco" class="font-bold text-white text-sm">Bancamiga (0172)</p>
-                        </div>
-                        <i class="ph ph-copy text-amber-500"></i>
-                    </div>
-                    <div class="h-px bg-gray-700"></div>
-                    <div class="flex justify-between items-center cursor-pointer hover:bg-black/20 p-2 rounded-lg" onclick="copyToClipboard(document.getElementById('lbl-rif').textContent)">
-                        <div>
-                            <p class="text-xs text-gray-400">RIF / Cédula</p>
-                            <p id="lbl-rif" class="font-bold text-white text-sm">V-23486156</p>
-                        </div>
-                        <i class="ph ph-copy text-amber-500"></i>
-                    </div>
-                    <div class="h-px bg-gray-700"></div>
-                    <div class="flex justify-between items-center cursor-pointer hover:bg-black/20 p-2 rounded-lg" onclick="copyToClipboard(document.getElementById('lbl-tel').textContent)">
-                        <div>
-                            <p class="text-xs text-gray-400">Teléfono</p>
-                            <p id="lbl-tel" class="font-bold text-white text-sm">0424571136</p>
-                        </div>
-                        <i class="ph ph-copy text-amber-500"></i>
-                    </div>
-                </div>
-                
-                <div class="space-y-3">
-                    <div class="relative">
-                        <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="hidden">
-                        <label for="file-input" class="flex items-center justify-center gap-3 w-full border-2 border-dashed border-gray-700 rounded-xl p-5 cursor-pointer bg-white/5 hover:bg-white/10">
-                            <i class="ph ph-upload-simple text-2xl text-amber-500"></i>
-                            <span id="file-name" class="text-xs text-gray-400">
-                                <p class="font-bold">Adjuntar comprobante</p>
-                                <p class="text-[10px] mt-1">JPG, PNG • Máx 5MB</p>
-                            </span>
-                        </label>
-                    </div>
-                    <input type="text" name="Referencia" placeholder="Últimos 6 números de referencia" maxlength="6" required class="w-full bg-black/40 border-2 border-gray-700 rounded-xl p-3 text-sm text-white">
-                </div>
-            </div>
-
-            <input type="hidden" name="Monto_Total" id="hidden-total">
-            <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
-        </form>
-    </main>
-
-    <!-- CARRITO FLOTANTE -->
-    <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/95 to-black/80 translate-y-full transition-transform duration-300 z-30">
-        <div class="max-w-md mx-auto glass-card rounded-2xl p-4 border-2 border-amber-500/40 space-y-3">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-[10px] text-gray-400 uppercase font-bold">💰 Total Pedido</p>
-                    <p class="text-2xl font-black text-amber-400" id="total-display">$0.00</p>
-                </div>
-                <button type="button" onclick="submitOrder()" class="accent-gradient px-5 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-widest shadow-lg hover:shadow-2xl">
-                    <i class="ph ph-paper-plane-right text-lg"></i> Enviar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PANEL ADMIN -->
-    <div id="admin-panel" class="hidden fixed inset-0 z-50 modal-backdrop overflow-y-auto p-6">
-        <div class="max-w-md mx-auto space-y-6">
-            <div class="flex justify-between items-center border-b-2 border-gray-700 pb-4">
-                <h2 class="text-lg font-black text-white">🔧 Control Center CUATRO R</h2>
-                <button type="button" onclick="closeAdmin()" class="w-8 h-8 rounded-lg bg-gray-800 text-white">×</button>
-            </div>
-
-            <div class="glass-card p-4 rounded-2xl space-y-3">
-                <p class="text-xs font-bold text-amber-500 uppercase">Datos Bancarios</p>
-                <input type="text" id="cfg-banco" placeholder="Banco" class="w-full bg-black/30 p-3 rounded-xl border-2 border-gray-700 text-sm text-white">
-                <input type="text" id="cfg-rif" placeholder="RIF / Cédula" class="w-full bg-black/30 p-3 rounded-xl border-2 border-gray-700 text-sm text-white">
-                <input type="text" id="cfg-tel" placeholder="Teléfono" class="w-full bg-black/30 p-3 rounded-xl border-2 border-gray-700 text-sm text-white">
-                <button type="button" onclick="saveConfig()" class="w-full accent-gradient text-white font-bold py-3 rounded-xl uppercase text-xs">Guardar Configuración</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TOAST CONTAINER -->
-    <div id="toast-container"></div>
-
-    <script>
-        const BACKUP_PRODUCTOS = [
-            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, stock: 25, image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400', category: 'tequeños', desc: 'Queso fresco derretido' },
-            { id: 'c2', name: 'Chilenas Criollas', price: 2.00, stock: 30, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400', category: 'empanadas', desc: 'Maíz y queso' },
-            { id: 'e3', name: 'Empanadas de Carne', price: 1.50, stock: 15, image: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400', category: 'empanadas', desc: 'Carne molida' },
-            { id: 'b1', name: 'Jugo Natural Naranja', price: 1.25, stock: 40, image: 'https://images.unsplash.com/photo-1600271886742-f049cd1f3033?w=400', category: 'bebidas', desc: 'Recién hecho' },
-            { id: 'b2', name: 'Café Premium', price: 2.50, stock: 35, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b8d2?w=400', category: 'bebidas', desc: 'Grano premium' },
-            { id: 'combo1', name: 'Combo 4R Premium', price: 12.99, stock: 20, image: 'https://images.unsplash.com/photo-1599599810694-b5ac4dd57f86?w=400', category: 'combos', desc: 'Tequeños + Empanadas + Bebida' }
-        ];
-
-        let currentSettings = JSON.parse(localStorage.getItem('4r_settings')) || { banco: 'Bancamiga (0172)', rif: 'V-23486156', tel: '0424571136' };
-        let currentProducts = JSON.parse(localStorage.getItem('4r_products')) || BACKUP_PRODUCTOS;
-        let currentCart = {};
-        let currentFilter = 'todos';
-        let isDarkMode = true;
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            const colors = { success: 'bg-emerald-600', error: 'bg-red-600', info: 'bg-blue-600', warning: 'bg-amber-600' };
-            toast.className = `toast ${colors[type]} text-white px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-3 shadow-xl`;
-            toast.textContent = message;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => showToast(`✓ Copiado: ${text}`, 'success')).catch(() => showToast('Error al copiar', 'error'));
-        }
-
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('light-mode');
-            document.getElementById('theme-icon').className = isDarkMode ? 'ph ph-moon-stars text-lg' : 'ph ph-sun text-lg';
-            localStorage.setItem('4r_theme', isDarkMode ? 'dark' : 'light');
-        }
-
-        function filterCategory(cat) {
-            currentFilter = cat;
-            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
-            document.getElementById(`cat-${cat}`).classList.add('active');
-            syncPlatform();
-        }
-
-        function updateVolume(productId, change) {
-            if (currentCart[productId] === undefined) currentCart[productId] = 0;
-            const product = currentProducts.find(p => p.id === productId);
-            const newQty = currentCart[productId] + change;
-            if (newQty >= 0 && newQty <= (product?.stock || 0)) {
-                currentCart[productId] = newQty;
-                syncPlatform();
-            }
-        }
-
-        function calcTotals() {
-            let total = 0, items = 0;
-            Object.entries(currentCart).forEach(([id, qty]) => {
-                const product = currentProducts.find(p => p.id === id);
-                if (product) {
-                    total += product.price * qty;
-                    items += qty;
-                }
-            });
-            document.getElementById('total-display').textContent = '$' + total.toFixed(2);
-            document.getElementById('hidden-total').value = total.toFixed(2);
-            const checkoutBar = document.getElementById('checkout-bar');
-            if (items > 0) {
-                checkoutBar.style.transform = 'translateY(0)';
-                document.getElementById('hidden-summary').value = Object.entries(currentCart)
-                    .map(([id, qty]) => {
-                        const p = currentProducts.find(x => x.id === id);
-                        return `${p.name} x${qty} = $${(p.price * qty).toFixed(2)}`;
-                    }).join(' | ');
-            } else {
-                checkoutBar.style.transform = 'translateY(100%)';
-            }
-        }
-
-        function syncPlatform() {
-            const container = document.getElementById('products-container');
-            const noResults = document.getElementById('no-results');
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            
-            container.innerHTML = '';
-            let filtered = currentProducts.filter(p => {
-                const matchSearch = p.name.toLowerCase().includes(searchTerm) || (p.desc && p.desc.toLowerCase().includes(searchTerm));
-                const matchCategory = currentFilter === 'todos' || (p.category === currentFilter);
-                return matchSearch && matchCategory;
+            // Filtrar productos según categoría seleccionada y término de búsqueda
+            const filteredProducts = currentProducts.filter(p => {
+                const matchesCategory = currentFilter === 'todos' || p.category === currentFilter;
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || (p.desc && p.desc.toLowerCase().includes(searchTerm));
+                return matchesCategory && matchesSearch;
             });
 
-            if (filtered.length === 0) {
+            if (filteredProducts.length === 0) {
                 noResults.classList.remove('hidden');
-                return;
+            } else {
+                noResults.classList.add('hidden');
             }
-            noResults.classList.add('hidden');
-            
-            filtered.forEach(p => {
+
+            filteredProducts.forEach(p => {
                 if (currentCart[p.id] === undefined) currentCart[p.id] = 0;
-                const productDiv = document.createElement('div');
-                productDiv.className = 'product-card glass-card p-4 rounded-xl';
-                productDiv.innerHTML = `
-                    <div class="flex gap-4">
-                        <div class="product-image-wrapper w-20 h-20 flex-shrink-0 relative rounded-lg overflow-hidden">
-                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
-                            <div class="stock-badge ${p.stock > 10 ? 'stock-in' : p.stock > 0 ? 'stock-low' : 'stock-out'}">
-                                <span>${p.stock > 10 ? '✓' : p.stock > 0 ? '⚠' : '✗'} ${p.stock}</span>
+                
+                // Determinar el estilo visual del stock disponible
+                let stockClass = 'stock-in';
+                let stockText = `${p.stock} disp.`;
+                if (p.stock === 0) {
+                    stockClass = 'stock-out';
+                    stockText = 'Agotado';
+                } else if (p.stock <= 5) {
+                    stockClass = 'stock-low';
+                    stockText = 'Últimas pzas';
+                }
+
+                container.innerHTML += `
+                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3 product-card">
+                        <div class="flex items-center gap-3 min-w-0 flex-1">
+                            <div class="relative product-image-wrapper flex-shrink-0">
+                                <img src="${p.image}" alt="${p.name}" class="w-20 h-20 rounded-xl object-cover bg-neutral-900 border border-gray-700/50">
+                                <div class="stock-badge ${stockClass}">
+                                    <span>${stockText}</span>
+                                </div>
+                            </div>
+                            <div class="min-w-0">
+                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
+                                <p class="text-gray-400 text-[11px] truncate mt-0.5">${p.desc || ''}</p>
+                                <p class="text-amber-500 font-extrabold text-sm mt-1">$${parseFloat(p.price).toFixed(2)}</p>
                             </div>
                         </div>
-                        <div class="flex-1 flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-white text-sm">${p.name}</h3>
-                                <p class="text-xs text-gray-400 mt-1">${p.desc}</p>
-                                <p class="text-emerald-400 font-black text-lg mt-2">$${p.price.toFixed(2)}</p>
-                            </div>
-                            <div class="qty-selector mt-2 w-24">
-                                <button type="button" class="text-red-500" onclick="updateVolume('${p.id}', -1)">−</button>
-                                <span class="text-white font-bold text-center flex-1">${currentCart[p.id]}</span>
-                                <button type="button" class="text-green-500" onclick="updateVolume('${p.id}', 1)" ${p.stock <= currentCart[p.id] ? 'disabled' : ''}>+</button>
-                            </div>
+                        <div class="qty-selector flex-shrink-0 ${p.stock === 0 ? 'opacity-40 pointer-events-none' : ''}">
+                            <button type="button" onclick="updateVolume('${p.id}', -1)" class="bg-gray-800 text-gray-300 hover:bg-gray-700 active:scale-90 transition-transform">-</button>
+                            <span class="text-white font-bold text-sm w-6 text-center">${currentCart[p.id]}</span>
+                            <button type="button" onclick="updateVolume('${p.id}', 1)" class="bg-amber-500 text-neutral-950 hover:bg-amber-400 active:scale-90 transition-transform">+</button>
                         </div>
                     </div>
                 `;
-                container.appendChild(productDiv);
             });
+
+            // Sincronizar inputs de la consola administrativa
+            document.getElementById('cfg-banco').value = currentSettings.banco;
+            document.getElementById('cfg-rif').value = currentSettings.rif;
+            document.getElementById('cfg-tel').value = currentSettings.tel;
+            
+            // Actualizar etiquetas en la interfaz de pago de cara al usuario
+            document.getElementById('lbl-banco').textContent = currentSettings.banco;
+            document.getElementById('lbl-rif').textContent = currentSettings.rif;
+            document.getElementById('lbl-tel').textContent = currentSettings.tel;
+
             calcTotals();
         }
 
-        // ========== GPS LOCATION FUNCTION ==========
+        // --- SISTEMA DE CAPTURA GPS REAL ---
         function getGPSLocation() {
-            const btn = document.getElementById('gps-btn-text');
-            btn.innerHTML = '<span class="loader"></span> Obteniendo...';
+            const btnText = document.getElementById('gps-btn-text');
+            const infoDiv = document.getElementById('gps-info');
+            const coordsSpan = document.getElementById('gps-coords');
             
             if (!navigator.geolocation) {
-                showToast('Geolocalización no soportada en tu navegador', 'error');
-                btn.textContent = 'Obtener Ubicación';
+                showToast("❌ Tu navegador no soporta geolocalización", "error");
                 return;
             }
 
+            btnText.innerHTML = `<span class="loader"></span> Localizando...`;
+            
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const lat = position.coords.latitude.toFixed(6);
-                    const lng = position.coords.longitude.toFixed(6);
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
                     
                     document.getElementById('input-lat').value = lat;
                     document.getElementById('input-lng').value = lng;
-                    document.getElementById('gps-coords').textContent = `${lat}, ${lng}`;
-                    document.getElementById('gps-info').classList.remove('hidden');
                     
-                    btn.textContent = '✓ Ubicación capturada';
-                    btn.classList.add('bg-green-600');
-                    showToast(`📍 Ubicación: ${lat}, ${lng}`, 'success');
+                    coordsSpan.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+                    infoDiv.classList.remove('hidden');
+                    btnText.textContent = "✓ Ubicación Obtenida";
+                    showToast("📍 Ubicación fijada con éxito", "success");
                 },
                 (error) => {
-                    showToast(`Error GPS: ${error.message}`, 'error');
-                    btn.textContent = 'Obtener Ubicación';
-                }
+                    btnText.textContent = "Obtener Ubicación";
+                    showToast("❌ Permiso denegado o señal GPS débil", "error");
+                    console.error(error);
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
             );
         }
 
+        // --- MANEJO DEL ARCHIVO ADJUNTO ---
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const indicator = document.getElementById('file-name');
+            if(e.target.files[0]) {
+                const sizeInMB = e.target.files[0].size / 1024 / 1024;
+                if (sizeInMB > 5) {
+                    showToast("❌ El archivo supera el límite de 5MB", "error");
+                    this.value = '';
+                    indicator.innerHTML = `<p class="font-bold text-rose-400">Comprobante demasiado pesado</p><p class="text-[10px] mt-1">Máx 5MB</p>`;
+                    return;
+                }
+                indicator.innerHTML = `<p class="font-bold text-emerald-400">✓ Comprobante Cargado</p><p class="text-[10px] text-gray-300 truncate mt-1">${e.target.files[0].name}</p>`;
+            }
+        });
+
+        // --- VALIDACIÓN Y ENVÍO SEGURO ---
         function submitOrder() {
-            if (Object.values(currentCart).some(qty => qty > 0)) {
-                document.getElementById('orderForm').submit();
+            const form = document.getElementById('orderForm');
+            if (form.checkValidity()) {
+                showToast("🚀 Procesando y enviando orden...", "info");
+                form.submit();
             } else {
-                showToast('Agrega productos a tu pedido', 'warning');
+                form.reportValidity();
+                showToast("⚠️ Por favor completa todos los campos requeridos", "warning");
             }
         }
 
+        // --- CONSOLA DE CONFIGURACIÓN ---
         function openAdmin() {
-            document.getElementById('admin-panel').classList.remove('hidden');
+            const pass = prompt("Introduzca clave maestra de acceso:");
+            if (pass === "4r123") { 
+                document.getElementById('admin-panel').classList.remove('hidden'); 
+            } else if (pass !== null) { 
+                showToast("❌ Clave administrativa incorrecta", "error"); 
+            }
         }
 
-        function closeAdmin() {
-            document.getElementById('admin-panel').classList.add('hidden');
+        function closeAdmin() { 
+            document.getElementById('admin-panel').classList.add('hidden'); 
         }
 
         function saveConfig() {
-            currentSettings = {
-                banco: document.getElementById('cfg-banco').value,
-                rif: document.getElementById('cfg-rif').value,
-                tel: document.getElementById('cfg-tel').value
-            };
-            localStorage.setItem('4r_settings', JSON.stringify(currentSettings));
-            showToast('✓ Configuración guardada', 'success');
-            syncPlatform();
+            const nuevoBanco = document.getElementById('cfg-banco').value.trim();
+            const nuevoRif = document.getElementById('cfg-rif').value.trim();
+            const nuevoTel = document.getElementById('cfg-tel').value.trim();
+
+            if (nuevoBanco && nuevoRif && nuevoTel) {
+                currentSettings = { banco: nuevoBanco, rif: nuevoRif, tel: nuevoTel };
+                localStorage.setItem('4r_settings', JSON.stringify(currentSettings));
+                showToast("✓ Datos de recaudación actualizados", "success");
+                syncPlatform();
+                closeAdmin();
+            } else {
+                showToast("❌ Todos los campos bancarios son obligatorios", "error");
+            }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+        // Inicialización de la plataforma al cargar
+        window.onload = function() {
+            // Cargar tema previo si existe
+            const savedTheme = localStorage.getItem('4r_theme');
+            if (savedTheme === 'light') {
+                toggleTheme();
+            }
             syncPlatform();
-            document.getElementById('search-input').addEventListener('input', syncPlatform);
-        });
+        };
     </script>
 </body>
-</html>
+                </html>
