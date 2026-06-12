@@ -1,170 +1,193 @@
-container.innerHTML = '';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4R Gastronómico - Orden Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;600;700;800&display=swap');
+        * { transition: background-color 0.3s ease, color 0.3s ease; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b111e; 
+            color: #f1f5f9;
+        }
+        body.light-mode {
+            background-color: #fafafa;
+            color: #1e293b;
+        }
+        .animated-bg { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+            background: linear-gradient(135deg, #0b111e 0%, #1a2332 50%, #0f1624 100%);
+        }
+        body.light-mode .animated-bg {
+            background: linear-gradient(135deg, #fff8f0 0%, #fef3e2 50%, #fafaf0 100%);
+        }
+        .glass-card { 
+            background: rgba(22, 31, 49, 0.8); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(218, 165, 32, 0.15); 
+        }
+        body.light-mode .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(218, 165, 32, 0.2);
+        }
+        .accent-gradient { 
+            background: linear-gradient(135deg, #d4801e 0%, #f4a225 100%); 
+        }
+        .product-card {
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(218, 165, 32, 0.5);
+        }
+        .product-image-wrapper img {
+            transition: transform 0.2s ease;
+        }
+        .product-image-wrapper:hover img {
+            transform: scale(1.08);
+        }
+        .toast {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            z-index: 100;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .category-pill {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid rgba(218, 165, 32, 0.3);
+            background: transparent;
+            color: #f1f5f9;
+        }
+        body.light-mode .category-pill {
+            color: #1e293b;
+        }
+        .category-pill.active {
+            background: linear-gradient(135deg, #d4801e 0%, #f4a225 100%);
+            border-color: #d4801e;
+            color: #0b111e !important;
+        }
+        .stock-badge {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            z-index: 20;
+        }
+        .stock-badge span {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+        .stock-in span { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
+        .stock-low span { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .stock-out span { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
+        .qty-selector {
+            background: rgba(22, 31, 49, 0.8);
+            border: 2px solid rgba(218, 165, 32, 0.3);
+            border-radius: 12px;
+            padding: 6px 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        body.light-mode .qty-selector {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .qty-selector button {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .theme-toggle { cursor: pointer; transition: transform 0.2s ease; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-blur: border(8px);
+        }
+        .loader { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2); border-top: 2px solid #ffffff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="pb-48 min-h-screen relative">
+    <div class="animated-bg"></div>
+
+    <div class="fixed top-0 left-0 right-0 z-40 bg-gradient-to-b from-black/80 to-black/0 backdrop-blur-sm">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+            <button type="button" onclick="toggleTheme()" class="theme-toggle w-10 h-10 rounded-lg glass-card flex items-center justify-center text-amber-500">
+                <i id="theme-icon" class="ph ph-moon-stars text-lg"></i>
+            </button>
             
-            // Filtrar productos según categoría seleccionada y término de búsqueda
-            const filteredProducts = currentProducts.filter(p => {
-                const matchesCategory = currentFilter === 'todos' || p.category === currentFilter;
-                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || (p.desc && p.desc.toLowerCase().includes(searchTerm));
-                return matchesCategory && matchesSearch;
-            });
-
-            if (filteredProducts.length === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
-            }
-
-            filteredProducts.forEach(p => {
-                if (currentCart[p.id] === undefined) currentCart[p.id] = 0;
-                
-                // Determinar el estilo visual del stock disponible
-                let stockClass = 'stock-in';
-                let stockText = `${p.stock} disp.`;
-                if (p.stock === 0) {
-                    stockClass = 'stock-out';
-                    stockText = 'Agotado';
-                } else if (p.stock <= 5) {
-                    stockClass = 'stock-low';
-                    stockText = 'Últimas pzas';
-                }
-
-                container.innerHTML += `
-                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3 product-card">
-                        <div class="flex items-center gap-3 min-w-0 flex-1">
-                            <div class="relative product-image-wrapper flex-shrink-0">
-                                <img src="${p.image}" alt="${p.name}" class="w-20 h-20 rounded-xl object-cover bg-neutral-900 border border-gray-700/50">
-                                <div class="stock-badge ${stockClass}">
-                                    <span>${stockText}</span>
-                                </div>
-                            </div>
-                            <div class="min-w-0">
-                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
-                                <p class="text-gray-400 text-[11px] truncate mt-0.5">${p.desc || ''}</p>
-                                <p class="text-amber-500 font-extrabold text-sm mt-1">$${parseFloat(p.price).toFixed(2)}</p>
-                            </div>
-                        </div>
-                        <div class="qty-selector flex-shrink-0 ${p.stock === 0 ? 'opacity-40 pointer-events-none' : ''}">
-                            <button type="button" onclick="updateVolume('${p.id}', -1)" class="bg-gray-800 text-gray-300 hover:bg-gray-700 active:scale-90 transition-transform">-</button>
-                            <span class="text-white font-bold text-sm w-6 text-center">${currentCart[p.id]}</span>
-                            <button type="button" onclick="updateVolume('${p.id}', 1)" class="bg-amber-500 text-neutral-950 hover:bg-amber-400 active:scale-90 transition-transform">+</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // Sincronizar inputs de la consola administrativa
-            document.getElementById('cfg-banco').value = currentSettings.banco;
-            document.getElementById('cfg-rif').value = currentSettings.rif;
-            document.getElementById('cfg-tel').value = currentSettings.tel;
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-700 rounded-lg flex items-center justify-center text-white font-bold">🍗</div>
+                <div class="text-center">
+                    <p class="text-xs font-black text-amber-500">4R Gastronómico</p>
+                    <p class="text-[9px] text-amber-600">Premium Food</p>
+                </div>
+            </div>
             
-            // Actualizar etiquetas en la interfaz de pago de cara al usuario
-            document.getElementById('lbl-banco').textContent = currentSettings.banco;
-            document.getElementById('lbl-rif').textContent = currentSettings.rif;
-            document.getElementById('lbl-tel').textContent = currentSettings.tel;
+            <button type="button" onclick="openAdmin()" class="w-10 h-10 glass-card rounded-lg flex items-center justify-center text-amber-500">
+                <i class="ph ph-gear-six text-lg"></i>
+            </button>
+        </div>
+    </div>
 
-            calcTotals();
-        }
+    <header class="pt-24 pb-6 text-center relative z-10">
+        <h1 class="text-3xl font-black uppercase text-amber-500 px-4 tracking-tight">4R Premium</h1>
+        <p class="text-xs uppercase font-bold tracking-widest text-gray-400 mt-1">Delicias Gastronómicas</p>
+    </header>
 
-        // --- SISTEMA DE CAPTURA GPS REAL ---
-        function getGPSLocation() {
-            const btnText = document.getElementById('gps-btn-text');
-            const infoDiv = document.getElementById('gps-info');
-            const coordsSpan = document.getElementById('gps-coords');
+    <div class="max-w-md mx-auto px-4 mb-5 space-y-3">
+        <div class="glass-card rounded-xl p-3 flex items-center gap-2">
+            <i class="ph ph-magnifying-glass text-amber-500 text-lg"></i>
+            <input type="text" id="search-input" placeholder="Buscar especialidades..." class="flex-1 bg-transparent outline-none placeholder-gray-500 text-sm" oninput="syncPlatform()">
+        </div>
+        
+        <div class="flex gap-2 overflow-x-auto pb-2">
+            <button type="button" onclick="filterCategory('todos')" class="category-pill active whitespace-nowrap" id="cat-todos">Todos</button>
+            <button type="button" onclick="filterCategory('tequeños')" class="category-pill whitespace-nowrap" id="cat-tequeños">Tequeños</button>
+            <button type="button" onclick="filterCategory('empanadas')" class="category-pill whitespace-nowrap" id="cat-empanadas">Empanadas</button>
+            <button type="button" onclick="filterCategory('bebidas')" class="category-pill whitespace-nowrap" id="cat-bebidas">Bebidas</button>
+            <button type="button" onclick="filterCategory('combos')" class="category-pill whitespace-nowrap" id="cat-combos">Combos</button>
+        </div>
+    </div>
+
+    <main class="max-w-md mx-auto px-4 space-y-6">
+        <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" enctype="multipart/form-data" class="space-y-6">
             
-            if (!navigator.geolocation) {
-                showToast("❌ Tu navegador no soporta geolocalización", "error");
-                return;
-            }
+            <div class="space-y-4">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-bowl-food text-base"></i> Nuestro Menú</h2>
+                <div id="products-container" class="grid grid-cols-1 gap-3"></div>
+                <div id="no-results" class="hidden text-center py-12 text-gray-400">
+                    <p class="text-sm font-bold">No se encontraron productos</p>
+                </div>
+            </div>
 
-            btnText.innerHTML = `<span class="loader"></span> Localizando...`;
-            
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    
-                    document.getElementById('input-lat').value = lat;
-                    document.getElementById('input-lng').value = lng;
-                    
-                    coordsSpan.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-                    infoDiv.classList.remove('hidden');
-                    btnText.textContent = "✓ Ubicación Obtenida";
-                    showToast("📍 Ubicación fijada con éxito", "success");
-                },
-                (error) => {
-                    btnText.textContent = "Obtener Ubicación";
-                    showToast("❌ Permiso denegado o señal GPS débil", "error");
-                    console.error(error);
-                },
-                { enableHighAccuracy: true, timeout: 10000 }
-            );
-        }
-
-        // --- MANEJO DEL ARCHIVO ADJUNTO ---
-        document.getElementById('file-input').addEventListener('change', function(e) {
-            const indicator = document.getElementById('file-name');
-            if(e.target.files[0]) {
-                const sizeInMB = e.target.files[0].size / 1024 / 1024;
-                if (sizeInMB > 5) {
-                    showToast("❌ El archivo supera el límite de 5MB", "error");
-                    this.value = '';
-                    indicator.innerHTML = `<p class="font-bold text-rose-400">Comprobante demasiado pesado</p><p class="text-[10px] mt-1">Máx 5MB</p>`;
-                    return;
-                }
-                indicator.innerHTML = `<p class="font-bold text-emerald-400">✓ Comprobante Cargado</p><p class="text-[10px] text-gray-300 truncate mt-1">${e.target.files[0].name}</p>`;
-            }
-        });
-
-        // --- VALIDACIÓN Y ENVÍO SEGURO ---
-        function submitOrder() {
-            const form = document.getElementById('orderForm');
-            if (form.checkValidity()) {
-                showToast("🚀 Procesando y enviando orden...", "info");
-                form.submit();
-            } else {
-                form.reportValidity();
-                showToast("⚠️ Por favor completa todos los campos requeridos", "warning");
-            }
-        }
-
-        // --- CONSOLA DE CONFIGURACIÓN ---
-        function openAdmin() {
-            const pass = prompt("Introduzca clave maestra de acceso:");
-            if (pass === "4r123") { 
-                document.getElementById('admin-panel').classList.remove('hidden'); 
-            } else if (pass !== null) { 
-                showToast("❌ Clave administrativa incorrecta", "error"); 
-            }
-        }
-
-        function closeAdmin() { 
-            document.getElementById('admin-panel').classList.add('hidden'); 
-        }
-
-        function saveConfig() {
-            const nuevoBanco = document.getElementById('cfg-banco').value.trim();
-            const nuevoRif = document.getElementById('cfg-rif').value.trim();
-            const nuevoTel = document.getElementById('cfg-tel').value.trim();
-
-            if (nuevoBanco && nuevoRif && nuevoTel) {
-                currentSettings = { banco: nuevoBanco, rif: nuevoRif, tel: nuevoTel };
-                localStorage.setItem('4r_settings', JSON.stringify(currentSettings));
-                showToast("✓ Datos de recaudación actualizados", "success");
-                syncPlatform();
-                closeAdmin();
-            } else {
-                showToast("❌ Todos los campos bancarios son obligatorios", "error");
-            }
-        }
-
-        // Inicialización de la plataforma al cargar
-        window.onload = function() {
-            // Cargar tema previo si existe
-            const savedTheme = localStorage.getItem('4r_theme');
-            if (savedTheme === 'light') {
-                toggleTheme();
-            }
-            syncPlatform();
-        };
-    </script>
-</body>
-</html>
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-
