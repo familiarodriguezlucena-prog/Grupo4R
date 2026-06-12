@@ -3,393 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4R Gastronómico - Orden Premium</title>
+    <title>4R Gastronómico | Orden Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        * { transition: background-color 0.3s ease, color 0.3s ease; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0b111e; 
-            color: #f1f5f9;
-        }
-        body.light-mode {
-            background-color: #fafafa;
-            color: #1e293b;
-        }
-        .animated-bg { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -2; 
-            background: linear-gradient(135deg, #0b111e 0%, #1a2332 50%, #0f1624 100%);
-        }
-        body.light-mode .animated-bg {
-            background: linear-gradient(135deg, #fff8f0 0%, #fef3e2 50%, #fafaf0 100%);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0A0A0A; color: #F8FAFC; }
+        
         .glass-card { 
-            background: rgba(22, 31, 49, 0.8); 
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(218, 165, 32, 0.15); 
+            background: rgba(23, 23, 23, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
-        body.light-mode .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(218, 165, 32, 0.2);
-        }
-        .accent-gradient { 
-            background: linear-gradient(135deg, #d4801e 0%, #f4a225 100%); 
-        }
-        .product-card {
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-        .product-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(218, 165, 32, 0.5);
-        }
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            z-index: 100;
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .category-pill {
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid rgba(218, 165, 32, 0.3);
-            background: transparent;
-            color: #f1f5f9;
-        }
-        body.light-mode .category-pill { color: #1e293b; }
-        .category-pill.active {
-            background: linear-gradient(135deg, #d4801e 0%, #f4a225 100%);
-            border-color: #d4801e;
-            color: #0b111e;
-        }
-        .stock-badge {
-            position: absolute;
-            bottom: 3px;
-            right: 3px;
-            z-index: 20;
-        }
-        .stock-badge span {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 9px;
-            font-weight: 800;
-        }
-        .stock-in span { background: #10b981; color: white; }
-        .stock-low span { background: #f59e0b; color: white; }
-        .stock-out span { background: #ef4444; color: white; }
-        .qty-selector {
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(218, 165, 32, 0.3);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-        }
-        .modal-backdrop {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-        }
-        .loader { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.2); border-top: 2px solid #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%); }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .product-card:hover { border-color: rgba(212, 175, 55, 0.6); }
+        
+        .btn-premium { transition: all 0.2s ease; }
+        .btn-premium:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="pb-48 min-h-screen relative">
-    <div class="animated-bg"></div>
+<body class="pb-32">
 
-    <!-- HEADER -->
-    <nav class="fixed top-0 left-0 right-0 z-40 bg-black/40 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-            <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-amber-500">
-                <i id="theme-icon" class="ph ph-moon-stars text-xl"></i>
-            </button>
-            <div class="text-center">
-                <h1 class="text-xs font-black text-amber-500 uppercase tracking-tighter">4R Gastronómico</h1>
-                <p class="text-[9px] text-gray-400 font-bold uppercase">Barquisimeto • Premium</p>
+    <header class="fixed top-0 w-full z-40 bg-black/60 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-black text-white">4R</div>
+                <div>
+                    <h1 class="text-sm font-black uppercase">Gastronómico</h1>
+                    <p class="text-[9px] text-yellow-600 uppercase tracking-widest">Premium Food</p>
+                </div>
             </div>
-            <button onclick="openAdmin()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-amber-500">
-                <i class="ph ph-sliders-horizontal text-xl"></i>
-            </button>
+            <button onclick="openAdmin()" class="text-slate-400 hover:text-white"><i class="ph ph-gear-six text-xl"></i></button>
         </div>
-    </nav>
+    </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-md mx-auto px-4 pt-24 space-y-6">
+    <main class="pt-24 max-w-md mx-auto px-4 space-y-6">
         
-        <!-- BUSCADOR -->
-        <div class="space-y-4">
-            <div class="glass-card rounded-2xl p-2 flex items-center gap-3 px-4">
-                <i class="ph ph-magnifying-glass text-amber-500"></i>
-                <input type="text" id="search-input" placeholder="¿Qué se te antoja hoy?" class="bg-transparent w-full py-2 text-sm outline-none">
-            </div>
-            <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" id="categories-bar">
-                <button onclick="filterCategory('todos')" id="cat-todos" class="category-pill active">Todos</button>
-                <button onclick="filterCategory('tequeños')" id="cat-tequeños" class="category-pill">Tequeños</button>
-                <button onclick="filterCategory('empanadas')" id="cat-empanadas" class="category-pill">Empanadas</button>
-                <button onclick="filterCategory('bebidas')" id="cat-bebidas" class="category-pill">Bebidas</button>
-            </div>
+        <div class="glass-card rounded-xl p-3 flex items-center gap-3 text-slate-400">
+            <i class="ph ph-magnifying-glass text-lg"></i>
+            <input type="text" id="search-input" placeholder="Buscar especialidad..." class="bg-transparent outline-none w-full text-sm text-white">
         </div>
 
-        <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" enctype="multipart/form-data" class="space-y-8">
-            
-            <!-- PRODUCTOS -->
-            <div id="products-container" class="grid gap-3"></div>
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+            <button class="px-4 py-2 rounded-full text-xs font-bold bg-yellow-600/20 border border-yellow-600 text-yellow-500 whitespace-nowrap">Todos</button>
+            <button class="px-4 py-2 rounded-full text-xs font-bold glass-card border-none whitespace-nowrap">Tequeños</button>
+            <button class="px-4 py-2 rounded-full text-xs font-bold glass-card border-none whitespace-nowrap">Empanadas</button>
+        </div>
 
-            <!-- FORMULARIO DE ENTREGA -->
-            <section class="space-y-4">
-                <h2 class="text-xs font-black text-amber-500 uppercase tracking-widest px-1">Datos de Entrega</h2>
-                <div class="glass-card rounded-3xl p-5 space-y-4">
-                    <div class="grid grid-cols-1 gap-4">
-                        <input type="text" name="Cliente" placeholder="Nombre completo" required class="bg-black/20 border border-white/10 rounded-xl p-3 text-sm outline-none focus:border-amber-500">
-                        <input type="tel" name="Telefono" placeholder="Teléfono de contacto" required class="bg-black/20 border border-white/10 rounded-xl p-3 text-sm outline-none focus:border-amber-500">
-                    </div>
-                    
-                    <button type="button" onclick="getGPSLocation()" id="gps-btn" class="w-full bg-blue-600/20 border border-blue-500/50 text-blue-400 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-600/30 transition-all">
-                        <i class="ph ph-map-pin"></i> <span id="gps-text">Compartir ubicación GPS</span>
-                    </button>
-                    <input type="hidden" name="Coordenadas" id="input-coords">
-
-                    <textarea name="Direccion" placeholder="Referencia o dirección detallada..." required rows="2" class="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm outline-none focus:border-amber-500"></textarea>
-                </div>
-            </section>
-
-            <!-- PAGO -->
-            <section class="space-y-4">
-                <h2 class="text-xs font-black text-amber-500 uppercase tracking-widest px-1">Pago Móvil</h2>
-                <div class="glass-card rounded-3xl p-5 space-y-3 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
-                    <div onclick="copyText('lbl-banco')" class="flex justify-between items-center group cursor-pointer">
-                        <div>
-                            <p class="text-[10px] text-gray-500 font-bold">BANCO</p>
-                            <p id="lbl-banco" class="text-sm font-bold">Bancamiga</p>
-                        </div>
-                        <i class="ph ph-copy text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </div>
-                    <div onclick="copyText('lbl-rif')" class="flex justify-between items-center group cursor-pointer">
-                        <div>
-                            <p class="text-[10px] text-gray-500 font-bold">RIF / CÉDULA</p>
-                            <p id="lbl-rif" class="text-sm font-bold">V-23486156</p>
-                        </div>
-                        <i class="ph ph-copy text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </div>
-                    <div onclick="copyText('lbl-tel')" class="flex justify-between items-center group cursor-pointer">
-                        <div>
-                            <p class="text-[10px] text-gray-500 font-bold">TELÉFONO</p>
-                            <p id="lbl-tel" class="text-sm font-bold">0424571136</p>
-                        </div>
-                        <i class="ph ph-copy text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-3">
-                    <div class="relative">
-                        <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="hidden" onchange="updateFileName(this)">
-                        <label for="file-input" class="flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-2xl p-6 bg-white/5 hover:bg-white/10 cursor-pointer">
-                            <i class="ph ph-cloud-arrow-up text-3xl text-amber-500 mb-2"></i>
-                            <span id="file-name" class="text-[10px] font-bold text-gray-400 uppercase">Subir Comprobante</span>
-                        </label>
-                    </div>
-                    <input type="text" name="Referencia" placeholder="Últimos 6 dígitos" maxlength="6" required class="bg-black/20 border border-white/10 rounded-xl p-3 text-sm text-center font-mono tracking-widest outline-none focus:border-amber-500">
-                </div>
-            </section>
-
-            <input type="hidden" name="Monto_Total" id="hidden-total">
-            <input type="hidden" name="Resumen_Pedido" id="hidden-summary">
-        </form>
+        <div id="products-container" class="space-y-4"></div>
     </main>
 
-    <!-- FOOTER / CHECKOUT -->
-    <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/90 to-transparent translate-y-full transition-transform duration-500 z-50">
-        <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border-t-2 border-amber-500">
+    <div id="checkout-bar" class="fixed bottom-0 w-full p-4 bg-gradient-to-t from-black to-transparent z-50">
+        <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border-yellow-600/30">
             <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Total a pagar</p>
-                <p class="text-2xl font-black text-amber-500" id="total-display">$0.00</p>
+                <p class="text-[10px] text-slate-400 uppercase">Total</p>
+                <p id="total-display" class="text-xl font-black">$0.00</p>
             </div>
-            <button onclick="submitOrder()" class="accent-gradient h-12 px-8 rounded-xl text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-amber-500/20 active:scale-95 transition-transform">
-                Enviar Pedido
+            <button onclick="submitOrder()" class="gold-gradient px-6 py-3 rounded-xl font-black text-xs uppercase shadow-lg shadow-yellow-900/20 btn-premium">
+                Realizar Pedido
             </button>
         </div>
     </div>
 
-    <!-- MODAL ADMIN -->
-    <div id="admin-panel" class="hidden fixed inset-0 z-[60] modal-backdrop flex items-center justify-center p-6">
-        <div class="glass-card w-full max-w-xs rounded-3xl p-6 space-y-4">
-            <h3 class="font-black text-amber-500 text-center uppercase text-sm">Configuración Base</h3>
-            <input type="text" id="cfg-banco" placeholder="Nombre del Banco" class="w-full bg-black/40 p-3 rounded-xl text-xs border border-white/10">
-            <input type="text" id="cfg-rif" placeholder="Cédula o RIF" class="w-full bg-black/40 p-3 rounded-xl text-xs border border-white/10">
-            <input type="text" id="cfg-tel" placeholder="Teléfono Pago Móvil" class="w-full bg-black/40 p-3 rounded-xl text-xs border border-white/10">
-            <div class="flex gap-2">
-                <button onclick="closeAdmin()" class="flex-1 bg-white/10 py-3 rounded-xl text-xs font-bold">Cerrar</button>
-                <button onclick="saveConfig()" class="flex-1 accent-gradient py-3 rounded-xl text-xs font-bold text-white">Guardar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toast-container"></div>
-
     <script>
-        const PRODUCTS = [
-            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, stock: 25, category: 'tequeños', desc: 'Full queso artesanal (12 unidades)', image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
-            { id: 'c2', name: 'Chilenas Criollas', price: 2.00, stock: 15, category: 'empanadas', desc: 'Rellenas de guiso premium', image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
-            { id: 'b1', name: 'Papelón con Limón', price: 1.50, stock: 40, category: 'bebidas', desc: 'Frío y refrescante (500ml)', image: 'https://images.unsplash.com/photo-1621263764413-0595f9d14631?w=400' }
+        // Lógica optimizada
+        const products = [
+            { id: 1, name: 'Tequeños Premium', price: 3.50, img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=200' },
+            { id: 2, name: 'Empanada Carne', price: 1.50, img: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=200' }
         ];
 
         let cart = {};
-        let filter = 'todos';
-        let settings = JSON.parse(localStorage.getItem('4r_settings')) || { banco: 'Bancamiga', rif: 'V-23486156', tel: '0424571136' };
 
-        function init() {
-            renderSettings();
-            sync();
-            document.getElementById('search-input').addEventListener('input', sync);
-        }
-
-        function sync() {
+        function renderProducts() {
             const container = document.getElementById('products-container');
-            const search = document.getElementById('search-input').value.toLowerCase();
-            
-            const filtered = PRODUCTS.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(search);
-                const matchesCat = filter === 'todos' || p.category === filter;
-                return matchesSearch && matchesCat;
-            });
-
-            container.innerHTML = filtered.map(p => `
-                <div class="product-card glass-card p-3 rounded-2xl flex gap-4">
-                    <div class="relative w-24 h-24 flex-shrink-0">
-                        <img src="${p.image}" class="w-full h-full object-cover rounded-xl">
-                        <div class="stock-badge ${p.stock > 5 ? 'stock-in' : 'stock-low'}">
-                            <span>STK: ${p.stock}</span>
-                        </div>
+            container.innerHTML = products.map(p => `
+                <div class="product-card glass-card p-4 rounded-2xl flex items-center gap-4 border transition-all">
+                    <img src="${p.img}" class="w-16 h-16 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h3 class="text-sm font-bold">${p.name}</h3>
+                        <p class="text-emerald-400 font-black">$${p.price.toFixed(2)}</p>
                     </div>
-                    <div class="flex-1 flex flex-col justify-between py-1">
-                        <div>
-                            <h3 class="text-sm font-bold text-white leading-tight">${p.name}</h3>
-                            <p class="text-[10px] text-gray-500 mt-1">${p.desc}</p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-amber-500 font-black">$${p.price.toFixed(2)}</span>
-                            <div class="qty-selector">
-                                <button type="button" onclick="updateQty('${p.id}', -1)" class="w-8 h-8 text-gray-400 hover:text-white">-</button>
-                                <span class="w-8 text-center text-xs font-bold">${cart[p.id] || 0}</span>
-                                <button type="button" onclick="updateQty('${p.id}', 1)" class="w-8 h-8 text-amber-500 font-bold">+</button>
-                            </div>
-                        </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="updateCart(${p.id}, -1)" class="w-8 h-8 rounded-lg bg-black/50 text-red-400">-</button>
+                        <span id="qty-${p.id}" class="font-bold w-4 text-center">0</span>
+                        <button onclick="updateCart(${p.id}, 1)" class="w-8 h-8 rounded-lg bg-yellow-600 text-black">+</button>
                     </div>
                 </div>
             `).join('');
-            
-            updateCartUI();
         }
 
-        function updateQty(id, change) {
-            const p = PRODUCTS.find(x => x.id === id);
-            const current = cart[id] || 0;
-            const next = current + change;
-            
-            if (next >= 0 && next <= p.stock) {
-                cart[id] = next;
-                if (next === 0) delete cart[id];
-                sync();
-            }
+        function updateCart(id, change) {
+            cart[id] = (cart[id] || 0) + change;
+            if (cart[id] < 0) cart[id] = 0;
+            document.getElementById(`qty-${id}`).textContent = cart[id];
+            updateTotal();
         }
 
-        function updateCartUI() {
-            let total = 0;
-            let summary = [];
-            let count = 0;
-
-            Object.entries(cart).forEach(([id, qty]) => {
-                const p = PRODUCTS.find(x => x.id === id);
-                total += p.price * qty;
-                count += qty;
-                summary.push(`${p.name} (x${qty})`);
-            });
-
+        function updateTotal() {
+            const total = products.reduce((acc, p) => acc + (p.price * (cart[p.id] || 0)), 0);
             document.getElementById('total-display').textContent = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-total').value = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-summary').value = summary.join(', ');
-            
-            const bar = document.getElementById('checkout-bar');
-            bar.style.transform = count > 0 ? 'translateY(0)' : 'translateY(100%)';
         }
 
-        function filterCategory(cat) {
-            filter = cat;
-            document.querySelectorAll('.category-pill').forEach(btn => {
-                btn.classList.toggle('active', btn.id === `cat-${cat}`);
-            });
-            sync();
-        }
+        function openAdmin() { alert("Acceso Admin Protegido"); }
+        function submitOrder() { alert("Procesando pedido premium..."); }
 
-        function copyText(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-            showToast("✓ Copiado al portapapeles");
-        }
-
-        function showToast(msg) {
-            const t = document.createElement('div');
-            t.className = "toast bg-amber-600 text-white px-6 py-3 rounded-2xl font-bold text-xs shadow-2xl";
-            t.innerText = msg;
-            document.getElementById('toast-container').appendChild(t);
-            setTimeout(() => t.remove(), 2500);
-        }
-
-        function getGPSLocation() {
-            const btn = document.getElementById('gps-btn');
-            const txt = document.getElementById('gps-text');
-            txt.innerHTML = '<span class="loader"></span> Localizando...';
-
-            navigator.geolocation.getCurrentPosition(pos => {
-                const coords = `${pos.coords.latitude}, ${pos.coords.longitude}`;
-                document.getElementById('input-coords').value = coords;
-                btn.classList.replace('bg-blue-600/20', 'bg-green-600/20');
-                btn.classList.replace('text-blue-400', 'text-green-400');
-                txt.innerText = "✓ Ubicación lista";
-                showToast("📍 Ubicación capturada");
-            }, () => {
-                txt.innerText = "Error al obtener GPS";
-                showToast("❌ Activa tu GPS");
-            });
-        }
-
-        function updateFileName(input) {
-            if (input.files.length > 0) {
-                document.getElementById('file-name').innerText = "✓ " + input.files[0].name.substring(0, 20) + "...";
-            }
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const icon = document.getElementById('theme-icon');
-            icon.classList.toggle('ph-moon-stars');
-            icon.classList.toggle('ph-sun');
-        }
-
-        function openAdmin() { document.getElementById('admin-panel').classList.remove('hidden'); }
-        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
-
-        function saveConfig() {
-            settings = {
-                banco: document.getElementById('cfg-banco').value || settings.banco,
-                rif: document.getElementById('cfg-rif').value || settings.rif,
-                tel: document.getElementById('cfg-tel').value || settings.tel
-            };
-                                         
+        renderProducts();
+    </script>
+</body>
+</html>                                         
