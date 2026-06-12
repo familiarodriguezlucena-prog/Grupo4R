@@ -129,6 +129,69 @@
             0%, 100% { text-shadow: 0 0 10px rgba(218, 165, 32, 0.2); }
             50% { text-shadow: 0 0 30px rgba(218, 165, 32, 0.5); }
         }
+
+        /* Estilos para el marcador de stock */
+        .stock-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            z-index: 10;
+        }
+
+        .stock-in {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+            animation: stock-pulse-green 2s ease-in-out infinite;
+        }
+
+        .stock-low {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            animation: stock-pulse-amber 2s ease-in-out infinite;
+        }
+
+        .stock-out {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+            animation: stock-pulse-red 2s ease-in-out infinite;
+        }
+
+        @keyframes stock-pulse-green {
+            0%, 100% { box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 2px 12px rgba(16, 185, 129, 0.8); }
+        }
+
+        @keyframes stock-pulse-amber {
+            0%, 100% { box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 2px 12px rgba(245, 158, 11, 0.8); }
+        }
+
+        @keyframes stock-pulse-red {
+            0%, 100% { box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 2px 12px rgba(239, 68, 68, 0.8); }
+        }
+
+        .product-image-wrapper {
+            position: relative;
+        }
     </style>
 </head>
 <body class="pb-36 min-h-screen relative">
@@ -291,6 +354,7 @@
                 <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Añadir Nuevo Ítem al Menú</p>
                 <input type="text" id="new-name" placeholder="Nombre del Producto" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <input type="number" step="0.01" id="new-price" placeholder="Precio en USD ($)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <input type="number" id="new-stock" placeholder="Stock Disponible" min="1" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <input type="text" id="new-img" placeholder="Enlace URL de Imagen (Opcional)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <button type="button" onclick="addItem()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Insertar Producto</button>
             </div>
@@ -308,9 +372,9 @@
         // DATOS MAESTROS HARDCODED (Tu red de seguridad total)
         const BACKUP_FINANZAS = { banco: 'Bancamiga (0172)', rif: 'V-23486156', tel: '0424571136' };
         const BACKUP_PRODUCTOS = [
-            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
-            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
-            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, image: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
+            { id: 't1', name: 'Tequeños Tradicionales', price: 3.50, stock: 25, image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
+            { id: 'c2', name: 'Chilenas Artesanales', price: 2.00, stock: 30, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
+            { id: 'e3', name: 'Empanadas Criollas', price: 1.50, stock: 15, image: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
         ];
 
         let currentSettings = JSON.parse(localStorage.getItem('4r_settings')) || BACKUP_FINANZAS;
@@ -338,6 +402,20 @@
             }
         }
 
+        // Función para obtener clase de stock
+        function getStockBadgeClass(stock) {
+            if (stock > 10) return 'stock-in';
+            if (stock > 0) return 'stock-low';
+            return 'stock-out';
+        }
+
+        // Función para obtener texto de stock
+        function getStockText(stock) {
+            if (stock > 10) return `✓ ${stock} Un.`;
+            if (stock > 0) return `⚠ ${stock} Un.`;
+            return '✗ Agotado';
+        }
+
         function syncPlatform() {
             // Actualizar datos de pago
             document.getElementById('lbl-banco').textContent = currentSettings.banco;
@@ -358,6 +436,10 @@
                 const leftDiv = document.createElement('div');
                 leftDiv.className = 'flex items-center gap-3 min-w-0 flex-1';
                 
+                // Wrapper de imagen con stock
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'product-image-wrapper';
+                
                 // Crear imagen de forma segura
                 const img = document.createElement('img');
                 img.src = isValidImageUrl(p.image) ? p.image : 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400';
@@ -368,6 +450,14 @@
                     e.stopPropagation();
                     openLightbox(this.src);
                 };
+
+                // Crear badge de stock
+                const stockBadge = document.createElement('div');
+                stockBadge.className = 'stock-badge ' + getStockBadgeClass(p.stock || 0);
+                stockBadge.textContent = getStockText(p.stock || 0);
+
+                imgWrapper.appendChild(img);
+                imgWrapper.appendChild(stockBadge);
                 
                 // Crear información del producto
                 const infoDiv = document.createElement('div');
@@ -383,7 +473,7 @@
                 
                 infoDiv.appendChild(nameP);
                 infoDiv.appendChild(priceP);
-                leftDiv.appendChild(img);
+                leftDiv.appendChild(imgWrapper);
                 leftDiv.appendChild(infoDiv);
                 
                 // Crear controles de cantidad
@@ -404,7 +494,12 @@
                 plusBtn.type = 'button';
                 plusBtn.className = 'w-8 h-8 text-rose-500 font-bold text-lg';
                 plusBtn.textContent = '+';
-                plusBtn.onclick = function() { updateVolume(p.id, 1); };
+                plusBtn.disabled = (p.stock || 0) <= currentCart[p.id];
+                plusBtn.style.opacity = plusBtn.disabled ? '0.5' : '1';
+                plusBtn.style.cursor = plusBtn.disabled ? 'not-allowed' : 'pointer';
+                plusBtn.onclick = function() { 
+                    if (!this.disabled) updateVolume(p.id, 1); 
+                };
                 
                 rightDiv.appendChild(minusBtn);
                 rightDiv.appendChild(quantitySpan);
@@ -429,7 +524,7 @@
                 
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'text-xs text-white truncate font-medium flex-1 mr-2';
-                nameSpan.textContent = p.name + ' ($' + parseFloat(p.price).toFixed(2) + ')';
+                nameSpan.textContent = p.name + ' ($' + parseFloat(p.price).toFixed(2) + ') | Stock: ' + (p.stock || 0);
                 
                 const delBtn = document.createElement('button');
                 delBtn.type = 'button';
@@ -445,9 +540,12 @@
         }
 
         function updateVolume(id, delta) {
+            const product = currentProducts.find(p => p.id === id);
+            const maxStock = product ? (product.stock || 0) : 0;
             const currentVal = currentCart[id] || 0;
             const newVal = currentVal + delta;
-            if (newVal >= 0) {
+            
+            if (newVal >= 0 && newVal <= maxStock) {
                 currentCart[id] = newVal;
                 syncPlatform();
             }
@@ -557,9 +655,11 @@
         function addItem() {
             const inputName = document.getElementById('new-name');
             const inputPrice = document.getElementById('new-price');
+            const inputStock = document.getElementById('new-stock');
             const inputImg = document.getElementById('new-img');
             const name = inputName.value.trim();
             const price = parseFloat(inputPrice.value);
+            const stock = parseInt(inputStock.value) || 0;
             let image = inputImg.value.trim() || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400";
 
             if (!name) {
@@ -572,15 +672,21 @@
                 return;
             }
 
+            if (stock <= 0) {
+                alert("Ingrese un stock válido mayor a 0.");
+                return;
+            }
+
             if (inputImg.value.trim() && !isValidImageUrl(image)) {
                 alert("Ingrese una URL de imagen válida (JPG, PNG, GIF, WebP)");
                 return;
             }
 
-            currentProducts.push({ id: 'it_' + Date.now(), name: name, price: price, image: image });
+            currentProducts.push({ id: 'it_' + Date.now(), name: name, price: price, stock: stock, image: image });
             localStorage.setItem('4r_products', JSON.stringify(currentProducts));
             inputName.value = '';
             inputPrice.value = '';
+            inputStock.value = '';
             inputImg.value = '';
             syncPlatform();
             alert("Producto agregado exitosamente.");
