@@ -11,21 +11,187 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b111e; color: #f1f5f9; }
         
-        /* FONDO ANIMADO CON LOGO INTEGRADO (Efecto Respiración Sutil) */
+        /* FONDO ANIMADO CON LOGO CUATRO R */
         .animated-bg { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%"><rect width="100%" height="100%" fill="%230b111e"/></svg>');
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-            animation: breathe 12s infinite ease-in-out;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+            background: linear-gradient(135deg, #0b111e 0%, #1a2332 50%, #0f1624 100%);
+            overflow: hidden;
         }
-        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.04); opacity: 0.45; } }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(180deg, rgba(11,17,30,0.85) 0%, rgba(7,11,20,0.95) 100%); }
-        .glass-card { background: rgba(22, 31, 49, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .accent-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
+
+        /* Logo flotante animado - Efecto de flotación suave */
+        .logo-float {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+            width: 600px;
+            height: 600px;
+            animation: float 8s ease-in-out infinite, pulse-glow 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 40px rgba(218, 165, 32, 0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px) scale(1); }
+            50% { transform: translate(-50%, -50%) translateY(-30px) scale(1.05); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.2)); }
+            50% { filter: drop-shadow(0 0 50px rgba(218, 165, 32, 0.4)); }
+        }
+
+        /* Logo rotativo en esquina */
+        .logo-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            opacity: 0.12;
+            animation: rotate 20s linear infinite, bob 3s ease-in-out infinite;
+            z-index: 1;
+            filter: drop-shadow(0 0 15px rgba(218, 165, 32, 0.2));
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            50% { transform: rotate(360deg) translateY(-10px); }
+        }
+
+        /* Partículas decorativas animadas */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.03;
+        }
+
+        .particle-1 { 
+            width: 200px; 
+            height: 200px; 
+            top: 10%; 
+            left: 5%; 
+            animation: drift 15s ease-in-out infinite;
+        }
+
+        .particle-2 { 
+            width: 300px; 
+            height: 300px; 
+            top: 60%; 
+            right: 5%; 
+            animation: drift 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(90deg); }
+            50% { transform: translate(0, -60px) rotate(180deg); }
+            75% { transform: translate(-30px, -30px) rotate(270deg); }
+        }
+
+        .bg-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            background: linear-gradient(180deg, rgba(11,17,30,0.92) 0%, rgba(7,11,20,0.97) 100%); 
+        }
+
+        .glass-card { 
+            background: rgba(22, 31, 49, 0.75); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+
+        .accent-gradient { 
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); 
+        }
+
+        /* Efecto de brillo animado en el header */
+        .header-glow {
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 0 0 10px rgba(218, 165, 32, 0.2); }
+            50% { text-shadow: 0 0 30px rgba(218, 165, 32, 0.5); }
+        }
     </style>
 </head>
 <body class="pb-36 min-h-screen relative">
-    <div class="animated-bg"></div>
+    <div class="animated-bg">
+        <!-- Logo SVG flotante central -->
+        <svg class="logo-float" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#DAA520;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            
+            <!-- Círculo exterior -->
+            <circle cx="100" cy="100" r="95" fill="none" stroke="url(#goldGradient)" stroke-width="3" opacity="0.6"/>
+            
+            <!-- R central grande -->
+            <text x="100" y="110" font-size="80" font-weight="bold" text-anchor="middle" fill="url(#goldGradient)" font-family="serif" opacity="0.7">R</text>
+            
+            <!-- Tenedores cruzados -->
+            <g opacity="0.6">
+                <path d="M 70 60 Q 65 85 70 110 M 70 60 L 65 50 M 70 60 L 75 50" stroke="url(#goldGradient)" stroke-width="2" fill="none"/>
+                <path d="M 130 60 Q 135 85 130 110 M 130 60 L 135 50 M 130 60 L 125 50" stroke="url(#goldGradient)" stroke-width="2" fill="none"/>
+            </g>
+            
+            <!-- Corona superior -->
+            <path d="M 80 45 Q 100 20 120 45" stroke="url(#goldGradient)" stroke-width="3" fill="none" opacity="0.7"/>
+            <circle cx="85" cy="42" r="3" fill="url(#goldGradient)" opacity="0.7"/>
+            <circle cx="100" cy="25" r="4" fill="url(#goldGradient)" opacity="0.7"/>
+            <circle cx="115" cy="42" r="3" fill="url(#goldGradient)" opacity="0.7"/>
+            
+            <!-- Rueda central -->
+            <circle cx="100" cy="130" r="20" fill="none" stroke="url(#goldGradient)" stroke-width="2" opacity="0.6"/>
+            <circle cx="100" cy="130" r="12" fill="url(#goldGradient)" opacity="0.4"/>
+            <circle cx="100" cy="130" r="3" fill="url(#goldGradient)" opacity="0.8"/>
+        </svg>
+
+        <!-- Logo en esquina rotativo -->
+        <svg class="logo-corner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="goldGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#DAA520;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="95" fill="none" stroke="url(#goldGradient2)" stroke-width="2" opacity="0.5"/>
+            <text x="100" y="115" font-size="60" font-weight="bold" text-anchor="middle" fill="url(#goldGradient2)" font-family="serif">R</text>
+            <path d="M 70 70 L 130 130 M 130 70 L 70 130" stroke="url(#goldGradient2)" stroke-width="1" opacity="0.4"/>
+        </svg>
+
+        <!-- Partículas decorativas -->
+        <svg class="particle particle-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#DAA520" stroke-width="2"/>
+            <path d="M 50 100 Q 100 50 150 100 Q 100 150 50 100" fill="none" stroke="#DAA520" stroke-width="1"/>
+        </svg>
+
+        <svg class="particle particle-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="100,20 180,180 20,180" fill="none" stroke="#DAA520" stroke-width="2"/>
+            <circle cx="100" cy="100" r="50" fill="none" stroke="#DAA520" stroke-width="1"/>
+        </svg>
+    </div>
+    
     <div class="bg-overlay"></div>
 
     <!-- BOTÓN CONFIGURACIÓN -->
@@ -34,15 +200,15 @@
     </button>
 
     <header class="pt-12 pb-6 text-center">
-        <div class="inline-block bg-amber-500 text-neutral-950 font-black text-[10px] px-3 py-1 rounded-full shadow-md mb-2 tracking-widest uppercase">4R Premium</div>
-        <h1 class="text-2xl font-black uppercase tracking-tight text-white px-4">Grupo Gastronómico Cuatro R</h1>
+        <div class="inline-block bg-amber-500 text-neutral-950 font-black text-[10px] px-3 py-1 rounded-full shadow-md mb-2 tracking-widest uppercase header-glow">4R Premium</div>
+        <h1 class="text-2xl font-black uppercase tracking-tight text-white px-4 header-glow">Grupo Gastronómico Cuatro R</h1>
         <p class="text-[10px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma Automatizada de Pedidos</p>
     </header>
 
     <main class="max-w-md mx-auto px-4 space-y-6">
         <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" enctype="multipart/form-data" class="space-y-6">
             
-            <!-- MENÚ DE PRODUCTOS (SOLDADO EN HTML) -->
+            <!-- MENÚ DE PRODUCTOS -->
             <div class="space-y-3">
                 <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-bowl-food text-base"></i> Catálogo de Ventas</h2>
                 <div id="products-container" class="space-y-3">
