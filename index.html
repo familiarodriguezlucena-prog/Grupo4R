@@ -9,7 +9,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0A0A0A; color: #F8FAFC; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0A0A0A; color: #F8FAFC; transition: background 0.3s; }
         
         .glass-card { 
             background: rgba(23, 23, 23, 0.7);
@@ -21,10 +21,8 @@
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        .product-card:hover { border-color: rgba(212, 175, 55, 0.6); }
-        
-        .btn-premium { transition: all 0.2s ease; }
-        .btn-premium:active { transform: scale(0.95); }
+        .product-card { transition: all 0.3s ease; border: 2px solid transparent; }
+        .product-card:hover { border-color: rgba(212, 175, 55, 0.4); }
     </style>
 </head>
 <body class="pb-32">
@@ -38,81 +36,86 @@
                     <p class="text-[9px] text-yellow-600 uppercase tracking-widest">Premium Food</p>
                 </div>
             </div>
-            <button onclick="openAdmin()" class="text-slate-400 hover:text-white"><i class="ph ph-gear-six text-xl"></i></button>
+            <button onclick="toggleAdmin()" class="text-slate-400 hover:text-white"><i class="ph ph-gear-six text-xl"></i></button>
         </div>
     </header>
 
     <main class="pt-24 max-w-md mx-auto px-4 space-y-6">
-        
-        <div class="glass-card rounded-xl p-3 flex items-center gap-3 text-slate-400">
-            <i class="ph ph-magnifying-glass text-lg"></i>
-            <input type="text" id="search-input" placeholder="Buscar especialidad..." class="bg-transparent outline-none w-full text-sm text-white">
-        </div>
-
-        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-            <button class="px-4 py-2 rounded-full text-xs font-bold bg-yellow-600/20 border border-yellow-600 text-yellow-500 whitespace-nowrap">Todos</button>
-            <button class="px-4 py-2 rounded-full text-xs font-bold glass-card border-none whitespace-nowrap">Tequeños</button>
-            <button class="px-4 py-2 rounded-full text-xs font-bold glass-card border-none whitespace-nowrap">Empanadas</button>
-        </div>
-
-        <div id="products-container" class="space-y-4"></div>
+        <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" class="space-y-6">
+            <div id="products-container" class="space-y-4"></div>
+            
+            <div class="glass-card rounded-2xl p-4 space-y-4">
+                <h2 class="text-xs font-black text-yellow-600 uppercase">Datos de Envío</h2>
+                <input type="text" name="Nombre" placeholder="Tu nombre" required class="w-full bg-black/40 border border-slate-700 rounded-xl p-3 text-sm outline-none">
+                <textarea name="Direccion" placeholder="Dirección exacta" required class="w-full bg-black/40 border border-slate-700 rounded-xl p-3 text-sm outline-none"></textarea>
+            </div>
+            
+            <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
+            <input type="hidden" name="Total" id="hidden-total">
+        </form>
     </main>
 
-    <div id="checkout-bar" class="fixed bottom-0 w-full p-4 bg-gradient-to-t from-black to-transparent z-50">
+    <div class="fixed bottom-0 w-full p-4 bg-gradient-to-t from-black via-black to-transparent z-50">
         <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border-yellow-600/30">
             <div>
-                <p class="text-[10px] text-slate-400 uppercase">Total</p>
-                <p id="total-display" class="text-xl font-black">$0.00</p>
+                <p class="text-[10px] text-slate-400 uppercase">Total Pedido</p>
+                <p id="total-display" class="text-xl font-black text-white">$0.00</p>
             </div>
-            <button onclick="submitOrder()" class="gold-gradient px-6 py-3 rounded-xl font-black text-xs uppercase shadow-lg shadow-yellow-900/20 btn-premium">
-                Realizar Pedido
+            <button onclick="document.getElementById('orderForm').submit()" class="gold-gradient px-6 py-3 rounded-xl font-black text-xs uppercase shadow-lg text-black">
+                Confirmar
             </button>
         </div>
     </div>
 
     <script>
-        // Lógica optimizada
         const products = [
-            { id: 1, name: 'Tequeños Premium', price: 3.50, img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=200' },
-            { id: 2, name: 'Empanada Carne', price: 1.50, img: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=200' }
+            { id: 1, name: 'Tequeños Tradicionales', price: 3.50, img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=200' },
+            { id: 2, name: 'Empanadas de Carne', price: 1.50, img: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=200' }
         ];
 
-        let cart = {};
+        let cart = JSON.parse(localStorage.getItem('4r_cart')) || {};
 
-        function renderProducts() {
+        function render() {
             const container = document.getElementById('products-container');
             container.innerHTML = products.map(p => `
-                <div class="product-card glass-card p-4 rounded-2xl flex items-center gap-4 border transition-all">
+                <div class="product-card glass-card p-4 rounded-2xl flex items-center gap-4">
                     <img src="${p.img}" class="w-16 h-16 rounded-lg object-cover">
                     <div class="flex-1">
                         <h3 class="text-sm font-bold">${p.name}</h3>
-                        <p class="text-emerald-400 font-black">$${p.price.toFixed(2)}</p>
+                        <p class="text-emerald-400 font-bold text-sm">$${p.price.toFixed(2)}</p>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button onclick="updateCart(${p.id}, -1)" class="w-8 h-8 rounded-lg bg-black/50 text-red-400">-</button>
-                        <span id="qty-${p.id}" class="font-bold w-4 text-center">0</span>
+                        <button onclick="updateCart(${p.id}, -1)" class="w-8 h-8 rounded-lg bg-black text-red-400">-</button>
+                        <span class="font-bold w-4 text-center">${cart[p.id] || 0}</span>
                         <button onclick="updateCart(${p.id}, 1)" class="w-8 h-8 rounded-lg bg-yellow-600 text-black">+</button>
                     </div>
                 </div>
             `).join('');
+            updateTotals();
         }
 
         function updateCart(id, change) {
-            cart[id] = (cart[id] || 0) + change;
-            if (cart[id] < 0) cart[id] = 0;
-            document.getElementById(`qty-${id}`).textContent = cart[id];
-            updateTotal();
+            cart[id] = Math.max(0, (cart[id] || 0) + change);
+            localStorage.setItem('4r_cart', JSON.stringify(cart));
+            render();
         }
 
-        function updateTotal() {
-            const total = products.reduce((acc, p) => acc + (p.price * (cart[p.id] || 0)), 0);
+        function updateTotals() {
+            let total = 0, summary = [];
+            products.forEach(p => {
+                if (cart[p.id] > 0) {
+                    total += p.price * cart[p.id];
+                    summary.push(`${p.name} x${cart[p.id]}`);
+                }
+            });
             document.getElementById('total-display').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('hidden-total').value = total.toFixed(2);
+            document.getElementById('hidden-summary').value = summary.join(', ');
         }
 
-        function openAdmin() { alert("Acceso Admin Protegido"); }
-        function submitOrder() { alert("Procesando pedido premium..."); }
+        function toggleAdmin() { alert("Sistema de control 4R - Acceso restringido"); }
 
-        renderProducts();
+        render();
     </script>
 </body>
-</html>                                         
+</html>
