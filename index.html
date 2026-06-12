@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -356,29 +355,4 @@
                     image: image
                 });
                 localStorage.setItem('4r_products', JSON.stringify(currentProducts));
-                
-                inputName.value = '';
-                inputPrice.value = '';
-                inputImg.value = '';
-                
-                syncPlatfom();
-            } else {
-                alert("Por favor rellene los campos obligatorios del producto.");
-            }
-        }
-
-        function removeItem(idx) {
-            const targetId = currentProducts[idx].id;
-            delete currentCart[targetId];
-            currentProducts.splice(idx, 1);
-            localStorage.setItem('4r_products', JSON.stringify(currentProducts));
-            syncPlatfom();
-        }
-
-        // Ejecución inmediata al cargar el DOM sin retrasos
-        window.onload = function() {
-            syncPlatfom();
-        };
-    </script>
-</body>
-</html>
+        
