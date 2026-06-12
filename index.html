@@ -14,7 +14,7 @@
         /* FONDO ANIMADO CON LOGO INTEGRADO (Efecto Respiración Sutil) */
         .animated-bg { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%"><rect width="100%" height="100%" fill="%230b111e"/><g transform="translate(0, 120)"><circle cx="250" cy="220" r="120" fill="none" stroke="%23d4af37" stroke-width="3"/><circle cx="250" cy="220" r="140" fill="none" stroke="%23ffffff" stroke-width="0.5" stroke-dasharray="6 6"/><path d="M195 270 L235 150 L265 150 L215 270 Z" fill="%23d4af37"/><path d="M250 210 L300 210 L300 230 L250 230 Z" fill="%23ffffff"/><path d="M280 210 L305 270 L275 270 L255 230 Z" fill="%23ffffff"/><text x="250" y="410" font-family="sans-serif" font-weight="900" font-size="28" fill="%23d4af37" text-anchor="middle" letter-spacing="4">CUATRO R</text><text x="250" y="440" font-family="sans-serif" font-weight="700" font-size="11" fill="%23ffffff" text-anchor="middle" letter-spacing="5">GRUPO GASTRONÓMICO</text></g></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%"><rect width="100%" height="100%" fill="%230b111e"/></svg>');
             background-size: cover; background-position: center; background-repeat: no-repeat;
             animation: breathe 12s infinite ease-in-out;
         }
@@ -40,7 +40,7 @@
     </header>
 
     <main class="max-w-md mx-auto px-4 space-y-6">
-        <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form id="orderForm" action="https://formspree.io/f/xyzqwvjk" method="POST" enctype="multipart/form-data" class="space-y-6">
             
             <!-- MENÚ DE PRODUCTOS (SOLDADO EN HTML) -->
             <div class="space-y-3">
@@ -77,7 +77,7 @@
                             <span id="file-name" class="text-xs text-gray-400">Adjuntar captura del pago</span>
                         </label>
                     </div>
-                    <input type="text" name="Referencia" placeholder="Últimos 4 números de referencia" maxlength="4" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" name="Referencia" placeholder="Últimos 6 números de referencia" maxlength="6" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
             </div>
 
@@ -100,7 +100,7 @@
     <!-- MODAL DE IMAGEN COMPLETA -->
     <div id="image-lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeLightbox()">
         <button class="absolute top-6 right-6 text-white text-3xl font-light w-11 h-11 flex items-center justify-center bg-white/10 rounded-full">&times;</button>
-        <img id="lightbox-img" src="" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl transition-transform duration-200 scale-95">
+        <img id="lightbox-img" src="" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl transition-transform duration-200 scale-95" alt="Producto ampliado">
     </div>
 
     <!-- PANEL ADMINISTRATIVO HÍBRIDO -->
@@ -114,18 +114,18 @@
             <!-- Cambiar Datos Finanzas -->
             <div class="glass-card p-4 rounded-2xl space-y-3">
                 <p class="text-xs font-bold text-amber-500 uppercase tracking-wider">Modificar Datos de Recaudación</p>
-                <input type="text" id="cfg-banco" placeholder="Banco" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
-                <input type="text" id="cfg-rif" placeholder="RIF / Cédula" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
-                <input type="text" id="cfg-tel" placeholder="Teléfono" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
+                <input type="text" id="cfg-banco" placeholder="Banco" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-amber-500">
+                <input type="text" id="cfg-rif" placeholder="RIF / Cédula" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-amber-500">
+                <input type="text" id="cfg-tel" placeholder="Teléfono" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-amber-500">
                 <button type="button" onclick="saveConfig()" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Actualizar Datos</button>
             </div>
 
             <!-- Añadir Producto -->
             <div class="glass-card p-4 rounded-2xl space-y-3">
                 <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Añadir Nuevo Ítem al Menú</p>
-                <input type="text" id="new-name" placeholder="Nombre del Producto" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
-                <input type="number" step="0.01" id="new-price" placeholder="Precio en USD ($)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
-                <input type="text" id="new-img" placeholder="Enlace URL de Imagen (Opcional)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white">
+                <input type="text" id="new-name" placeholder="Nombre del Producto" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <input type="number" step="0.01" id="new-price" placeholder="Precio en USD ($)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <input type="text" id="new-img" placeholder="Enlace URL de Imagen (Opcional)" class="w-full bg-black/30 p-3 rounded-xl border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500">
                 <button type="button" onclick="addItem()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl uppercase text-xs tracking-wider">Insertar Producto</button>
             </div>
 
@@ -155,48 +155,125 @@
         if (!currentSettings.banco || !currentSettings.rif || !currentSettings.tel) currentSettings = BACKUP_FINANZAS;
         if (!Array.isArray(currentProducts) || currentProducts.length === 0) currentProducts = BACKUP_PRODUCTOS;
 
-        function syncPlatform() {
-            document.getElementById('lbl-banco').innerText = currentSettings.banco;
-            document.getElementById('lbl-rif').innerText = currentSettings.rif;
-            document.getElementById('lbl-tel').innerText = currentSettings.tel;
+        // Función para escapar HTML y prevenir XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
+        // Función para validar URL de imagen
+        function isValidImageUrl(url) {
+            try {
+                new URL(url);
+                return url.match(/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i) || url.includes('unsplash.com') || url.includes('via.placeholder');
+            } catch {
+                return false;
+            }
+        }
+
+        function syncPlatform() {
+            // Actualizar datos de pago
+            document.getElementById('lbl-banco').textContent = currentSettings.banco;
+            document.getElementById('lbl-rif').textContent = currentSettings.rif;
+            document.getElementById('lbl-tel').textContent = currentSettings.tel;
+
+            // Renderizar productos de forma segura
             const container = document.getElementById('products-container');
             container.innerHTML = '';
             
             currentProducts.forEach(p => {
                 if (currentCart[p.id] === undefined) currentCart[p.id] = 0;
                 
-                container.innerHTML += `
-                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-3 min-w-0 flex-1">
-                            <img src="${p.image}" alt="${p.name}" onclick="openLightbox('${p.image}')" class="w-16 h-16 rounded-xl object-cover bg-neutral-900 border border-gray-700 flex-shrink-0 cursor-pointer">
-                            <div class="min-w-0">
-                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
-                                <p class="text-emerald-400 font-bold text-sm mt-0.5">$${parseFloat(p.price).toFixed(2)}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2.5 bg-black/40 p-1.5 rounded-xl border border-gray-700 flex-shrink-0">
-                            <button type="button" onclick="updateVolume('${p.id}', -1)" class="w-8 h-8 text-gray-400 font-bold text-lg">-</button>
-                            <span class="text-white font-bold text-sm w-4 text-center">${currentCart[p.id]}</span>
-                            <button type="button" onclick="updateVolume('${p.id}', 1)" class="w-8 h-8 text-rose-500 font-bold text-lg">+</button>
-                        </div>
-                    </div>
-                `;
+                const productDiv = document.createElement('div');
+                productDiv.className = 'glass-card p-3 rounded-2xl flex items-center justify-between gap-3';
+                
+                // Crear contenedor de imagen y texto
+                const leftDiv = document.createElement('div');
+                leftDiv.className = 'flex items-center gap-3 min-w-0 flex-1';
+                
+                // Crear imagen de forma segura
+                const img = document.createElement('img');
+                img.src = isValidImageUrl(p.image) ? p.image : 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400';
+                img.alt = escapeHtml(p.name);
+                img.className = 'w-16 h-16 rounded-xl object-cover bg-neutral-900 border border-gray-700 flex-shrink-0 cursor-pointer';
+                img.style.cursor = 'pointer';
+                img.onclick = function(e) {
+                    e.stopPropagation();
+                    openLightbox(this.src);
+                };
+                
+                // Crear información del producto
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'min-w-0';
+                
+                const nameP = document.createElement('h3');
+                nameP.className = 'font-bold text-white text-sm tracking-tight truncate';
+                nameP.textContent = p.name;
+                
+                const priceP = document.createElement('p');
+                priceP.className = 'text-emerald-400 font-bold text-sm mt-0.5';
+                priceP.textContent = '$' + parseFloat(p.price).toFixed(2);
+                
+                infoDiv.appendChild(nameP);
+                infoDiv.appendChild(priceP);
+                leftDiv.appendChild(img);
+                leftDiv.appendChild(infoDiv);
+                
+                // Crear controles de cantidad
+                const rightDiv = document.createElement('div');
+                rightDiv.className = 'flex items-center gap-2.5 bg-black/40 p-1.5 rounded-xl border border-gray-700 flex-shrink-0';
+                
+                const minusBtn = document.createElement('button');
+                minusBtn.type = 'button';
+                minusBtn.className = 'w-8 h-8 text-gray-400 font-bold text-lg';
+                minusBtn.textContent = '-';
+                minusBtn.onclick = function() { updateVolume(p.id, -1); };
+                
+                const quantitySpan = document.createElement('span');
+                quantitySpan.className = 'text-white font-bold text-sm w-4 text-center';
+                quantitySpan.textContent = currentCart[p.id];
+                
+                const plusBtn = document.createElement('button');
+                plusBtn.type = 'button';
+                plusBtn.className = 'w-8 h-8 text-rose-500 font-bold text-lg';
+                plusBtn.textContent = '+';
+                plusBtn.onclick = function() { updateVolume(p.id, 1); };
+                
+                rightDiv.appendChild(minusBtn);
+                rightDiv.appendChild(quantitySpan);
+                rightDiv.appendChild(plusBtn);
+                
+                productDiv.appendChild(leftDiv);
+                productDiv.appendChild(rightDiv);
+                container.appendChild(productDiv);
             });
 
+            // Actualizar inputs del admin
             document.getElementById('cfg-banco').value = currentSettings.banco;
             document.getElementById('cfg-rif').value = currentSettings.rif;
             document.getElementById('cfg-tel').value = currentSettings.tel;
 
+            // Renderizar lista de productos en admin
             const adminList = document.getElementById('admin-items-list');
             adminList.innerHTML = '';
             currentProducts.forEach((p, idx) => {
-                adminList.innerHTML += `
-                    <div class="flex justify-between items-center bg-white/5 p-2.5 rounded-xl border border-white/5">
-                        <span class="text-xs text-white truncate font-medium flex-1 mr-2">${p.name} ($${parseFloat(p.price).toFixed(2)})</span>
-                        <button type="button" onclick="removeItem(${idx})" class="text-rose-400 hover:text-rose-500 font-bold text-xs bg-rose-500/10 px-2 py-1 rounded-md">Eliminar</button>
-                    </div>
-                `;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center bg-white/5 p-2.5 rounded-xl border border-white/5';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'text-xs text-white truncate font-medium flex-1 mr-2';
+                nameSpan.textContent = p.name + ' ($' + parseFloat(p.price).toFixed(2) + ')';
+                
+                const delBtn = document.createElement('button');
+                delBtn.type = 'button';
+                delBtn.className = 'text-rose-400 hover:text-rose-500 font-bold text-xs bg-rose-500/10 px-2 py-1 rounded-md';
+                delBtn.textContent = 'Eliminar';
+                delBtn.onclick = function() { removeItem(idx); };
+                
+                itemDiv.appendChild(nameSpan);
+                itemDiv.appendChild(delBtn);
+                adminList.appendChild(itemDiv);
             });
             calcTotals();
         }
@@ -217,12 +294,12 @@
                 const amount = currentCart[p.id] || 0;
                 if (amount > 0) {
                     totalGeneral += amount * parseFloat(p.price);
-                    orderSummary.push(`${p.name} (x${amount})`);
+                    orderSummary.push(p.name + ' (x' + amount + ')');
                 }
             });
 
-            document.getElementById('total-display').innerText = `$${totalGeneral.toFixed(2)}`;
-            document.getElementById('hidden-total').value = `$${totalGeneral.toFixed(2)}`;
+            document.getElementById('total-display').textContent = '$' + totalGeneral.toFixed(2);
+            document.getElementById('hidden-total').value = '$' + totalGeneral.toFixed(2);
             document.getElementById('hidden-summary').value = orderSummary.join(' | ');
 
             const bar = document.getElementById('checkout-bar');
@@ -245,27 +322,59 @@
             setTimeout(() => lightbox.classList.add('hidden'), 150);
         }
 
+        // Validar archivo subido
         document.getElementById('file-input').addEventListener('change', function(e) {
             const indicator = document.getElementById('file-name');
             if(e.target.files[0]) {
-                indicator.innerText = e.target.files[0].name;
-                indicator.classList.replace('text-gray-400', 'text-amber-400');
+                const file = e.target.files[0];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                
+                if (!validTypes.includes(file.type)) {
+                    alert('Solo se permiten imágenes (JPEG, PNG, GIF, WebP)');
+                    e.target.value = '';
+                    indicator.textContent = 'Adjuntar captura del pago';
+                    indicator.classList.remove('text-amber-400');
+                    indicator.classList.add('text-gray-400');
+                    return;
+                }
+                
+                if (file.size > maxSize) {
+                    alert('La imagen no debe superar 5MB');
+                    e.target.value = '';
+                    indicator.textContent = 'Adjuntar captura del pago';
+                    indicator.classList.remove('text-amber-400');
+                    indicator.classList.add('text-gray-400');
+                    return;
+                }
+                
+                indicator.textContent = file.name;
+                indicator.classList.remove('text-gray-400');
+                indicator.classList.add('text-amber-400');
             }
         });
 
         function submitOrder() {
             const form = document.getElementById('orderForm');
-            if (form.checkValidity()) { form.submit(); } 
-            else { form.reportValidity(); }
+            if (form.checkValidity()) { 
+                form.submit(); 
+            } else { 
+                form.reportValidity(); 
+            }
         }
 
         function openAdmin() {
             const pass = prompt("Introduzca clave maestra:");
-            if (pass === ADMIN_PASS) { document.getElementById('admin-panel').classList.remove('hidden'); }
-            else if (pass !== null) { alert("Clave incorrecta."); }
+            if (pass === ADMIN_PASS) { 
+                document.getElementById('admin-panel').classList.remove('hidden'); 
+            } else if (pass !== null) { 
+                alert("Clave incorrecta."); 
+            }
         }
 
-        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
+        function closeAdmin() { 
+            document.getElementById('admin-panel').classList.add('hidden'); 
+        }
 
         function saveConfig() {
             currentSettings = {
@@ -287,23 +396,43 @@
             const price = parseFloat(inputPrice.value);
             let image = inputImg.value.trim() || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400";
 
-            if (name && !isNaN(price)) {
-                currentProducts.push({ id: 'it_' + Date.now(), name: name, price: price, image: image });
-                localStorage.setItem('4r_products', JSON.stringify(currentProducts));
-                inputName.value = ''; inputPrice.value = ''; inputImg.value = '';
-                syncPlatform();
-            } else { alert("Verifica los datos obligatorios."); }
+            if (!name) {
+                alert("El nombre del producto es obligatorio.");
+                return;
+            }
+
+            if (isNaN(price) || price <= 0) {
+                alert("Ingrese un precio válido mayor a 0.");
+                return;
+            }
+
+            if (inputImg.value.trim() && !isValidImageUrl(image)) {
+                alert("Ingrese una URL de imagen válida (JPG, PNG, GIF, WebP)");
+                return;
+            }
+
+            currentProducts.push({ id: 'it_' + Date.now(), name: name, price: price, image: image });
+            localStorage.setItem('4r_products', JSON.stringify(currentProducts));
+            inputName.value = '';
+            inputPrice.value = '';
+            inputImg.value = '';
+            syncPlatform();
+            alert("Producto agregado exitosamente.");
         }
 
         function removeItem(idx) {
-            const targetId = currentProducts[idx].id;
-            delete currentCart[targetId];
-            currentProducts.splice(idx, 1);
-            localStorage.setItem('4r_products', JSON.stringify(currentProducts));
-            syncPlatform();
+            if (confirm('¿Está seguro de eliminar este producto?')) {
+                const targetId = currentProducts[idx].id;
+                delete currentCart[targetId];
+                currentProducts.splice(idx, 1);
+                localStorage.setItem('4r_products', JSON.stringify(currentProducts));
+                syncPlatform();
+            }
         }
 
-        window.onload = function() { syncPlatform(); };
+        window.onload = function() { 
+            syncPlatform(); 
+        };
     </script>
 </body>
 </html>
