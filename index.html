@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Gastronómico Cuatro R</title>
-    <!-- Tailwind CSS para Estilos Estables -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
@@ -14,11 +14,48 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: #0b111e; 
             color: #f1f5f9; 
+            -webkit-tap-highlight-color: transparent;
         }
+        
+        /* FONDO ANIMADO PREMIUM (Efecto Respiración Continuo) */
+        .bg-personal { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+            /* Tu logo oficial vectorizado en alta definición */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%"><rect width="100%" height="100%" fill="%230b111e"/><g transform="translate(0, 100)"><circle cx="250" cy="220" r="115" fill="none" stroke="%23d4af37" stroke-width="4"/><circle cx="250" cy="220" r="135" fill="none" stroke="%23ffffff" stroke-width="1" stroke-dasharray="6 6"/><path d="M195 270 L235 150 L265 150 L215 270 Z" fill="%23d4af37"/><path d="M250 210 L300 210 L300 230 L250 230 Z" fill="%23ffffff"/><path d="M280 210 L305 270 L275 270 L255 230 Z" fill="%23ffffff"/><text x="250" y="400" font-family="sans-serif" font-weight="900" font-size="26" fill="%23d4af37" text-anchor="middle" letter-spacing="4">CUATRO R</text><text x="250" y="430" font-family="sans-serif" font-weight="700" font-size="11" fill="%23ffffff" text-anchor="middle" letter-spacing="5">GRUPO GASTRONÓMICO</text></g></svg>');
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: breathingEffect 12s infinite ease-in-out;
+        }
+        
+        @keyframes breathingEffect {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); } /* Zoom suave del 5% */
+        }
+        
+        /* Capa oscura superior para no perder contraste en los textos */
+        .bg-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            background: linear-gradient(180deg, rgba(11,17,30,0.88) 0%, rgba(7,11,20,0.96) 100%); 
+        }
+        
         .glass-card { 
-            background: rgba(22, 31, 49, 0.9); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
+            background: rgba(22, 31, 49, 0.85); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08); 
         }
+
         .accent-gradient {
             background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
         }
@@ -26,210 +63,91 @@
 </head>
 <body class="pb-36 min-h-screen relative">
 
-    <!-- ENCABEZADO -->
-    <header class="pt-12 pb-6 text-center">
-        <div class="inline-block bg-amber-500 text-black font-black text-xs px-3 py-1 rounded-full mb-2 tracking-widest uppercase">
-            4R PREMIUM
-        </div>
-        <h1 class="text-2xl font-black uppercase text-white px-4">Grupo Gastronómico Cuatro R</h1>
-        <p class="text-[10px] tracking-[0.2em] text-amber-500 uppercase font-bold mt-1">Plataforma de Pedidos Barquisimeto</p>
-    </header>
+    <div class="bg-personal"></div>
+    <div class="bg-overlay"></div>
 
-    <!-- FORMULARIO PRINCIPAL -->
-    <main class="max-w-md mx-auto px-4 space-y-6">
-        <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" onsubmit="return verificarEnvio(event)">
-            
-            <!-- SECCIÓN: MENÚ DE PRODUCTOS -->
-            <div class="space-y-3 mb-6">
-                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
-                    <span>🛒</span> Menú Disponible
-                </h2>
-                <div id="products-container" class="space-y-3">
-                    <!-- Los productos se generan mediante JavaScript estable abajo -->
-                </div>
+    <button type="button" onclick="openAdminPanel()" class="fixed top-4 right-4 z-40 w-11 h-11 glass-card rounded-xl flex items-center justify-center text-gray-400 hover:text-white active:scale-95 transition-all">
+        <i class="ph ph-gear-six text-xl"></i>
+    </button>
+
+    <div id="store-view" class="block">
+        <header class="pt-12 pb-6 text-center">
+            <div class="inline-block bg-gradient-to-r from-amber-500 to-yellow-600 text-neutral-950 font-black text-xs px-3 py-1 rounded-full shadow-md mb-2 tracking-wider uppercase">
+                4R Premium
             </div>
+            <h1 class="text-2xl font-black uppercase tracking-tight text-white px-4">Grupo Gastronómico Cuatro R</h1>
+            <p class="text-[10px] tracking-[0.25em] text-amber-500 uppercase font-bold mt-1">Plataforma Automatizada de Pedidos</p>
+        </header>
 
-            <!-- SECCIÓN: DATOS DE ENVÍO -->
-            <div class="space-y-3 mb-6">
-                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
-                    <span>📍</span> Datos de Envío (Delivery)
-                </h2>
-                <div class="glass-card rounded-2xl p-4 space-y-3">
-                    <input type="text" name="Nombre_Cliente" placeholder="¿Quién recibe?" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
-                    <input type="tel" name="Telefono_Cliente" placeholder="Teléfono de contacto" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
-                    <textarea name="Direccion_Entrega" placeholder="Dirección exacta de despacho en Barquisimeto" required rows="2" class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 resize-none"></textarea>
-                </div>
-            </div>
-
-            <!-- SECCIÓN: PAGO MÓVIL BLINDADO -->
-            <div class="space-y-3 mb-6">
-                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
-                    <span>💳</span> Pasarela de Pago Móvil
-                </h2>
-                <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-1">
-                    <p class="text-sm text-gray-300">Banco: <span class="font-bold text-white">Bancamiga (0172)</span></p>
-                    <p class="text-sm text-gray-300">RIF / CI: <span class="font-bold text-white">V-23486156</span></p>
-                    <p class="text-sm text-gray-300">Teléfono: <span class="font-bold text-white">0424571136</span></p>
-                </div>
+        <main class="max-w-md mx-auto px-4 space-y-6">
+            <form id="orderForm" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST" enctype="multipart/form-data" class="space-y-6">
                 
-                <!-- Adjuntar comprobante -->
-                <div class="mt-3">
-                    <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400 cursor-pointer bg-white/5 p-3 rounded-xl border border-gray-700">
+                <div class="space-y-3">
+                    <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
+                        <i class="ph ph-bowl-food text-base"></i> Menú Disponible
+                    </h2>
+                    <div id="products-container" class="space-y-3">
+                        </div>
                 </div>
-                <input type="text" name="Referencia" placeholder="Últimos 4 números de referencia" maxlength="4" required class="w-full bg-black/40 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 mt-2">
-            </div>
 
-            <!-- CAMPOS OCULTOS PARA FORMSPREE -->
-            <input type="hidden" name="Monto_Total" id="hidden-total">
-            <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
-        </form>
-    </main>
+                <div class="space-y-3">
+                    <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
+                        <i class="ph ph-map-pin-line text-base"></i> Datos de Envío (Delivery)
+                    </h2>
+                    <div class="glass-card rounded-2xl p-4 space-y-3">
+                        <input type="text" name="Nombre_Cliente" placeholder="¿Quién recibe?" required class="w-full bg-[#0b111e]/80 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                        <input type="tel" name="Telefono_Cliente" placeholder="Teléfono de contacto" required class="w-full bg-[#0b111e]/80 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                        <textarea name="Direccion_Entrega" placeholder="Dirección exacta de despacho en Barquisimeto" required rows="2" class="w-full bg-[#0b111e]/80 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+                    </div>
+                </div>
 
-    <!-- BARRA FLOTANTE DE TOTAL Y COMPRA -->
-    <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-black/90 backdrop-blur-md border-t border-white/10 hidden z-40">
-        <div class="max-w-md mx-auto flex items-center justify-between">
-            <div>
-                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total a Pagar</p>
-                <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
+                <div class="space-y-3">
+                    <h2 class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-2">
+                        <i class="ph ph-wallet text-base"></i> Pasarela de Pago Móvil
+                    </h2>
+                    <div class="glass-card rounded-2xl p-4 border-l-4 border-amber-500 space-y-2">
+                        <p class="text-sm text-gray-300">Banco: <span id="p-banco" class="font-bold text-white ml-1">---</span></p>
+                        <p class="text-sm text-gray-300">RIF / CI: <span id="p-rif" class="font-bold text-white ml-1">---</span></p>
+                        <p class="text-sm text-gray-300">Teléfono: <span id="p-tel" class="font-bold text-white ml-1">---</span></p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="file" name="Comprobante" id="file-input" required accept="image/*" class="hidden">
+                            <label for="file-input" class="flex items-center justify-center gap-3 w-full border border-dashed border-gray-700 rounded-xl p-5 cursor-pointer bg-[#161f31]/40 backdrop-blur-sm hover:bg-[#161f31]/60 transition-colors">
+                                <i class="ph ph-cloud-arrow-up text-xl text-amber-500"></i>
+                                <span id="file-name" class="text-xs text-gray-400 font-medium">Adjuntar captura del pago móvil</span>
+                            </label>
+                        </div>
+                        <input type="text" name="Referencia" placeholder="Últimos 4 números de referencia" maxlength="4" required class="w-full bg-[#0b111e]/80 border border-gray-700 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <input type="hidden" name="Monto_Total" id="hidden-total">
+                <input type="hidden" name="Detalle_Pedido" id="hidden-summary">
+            </form>
+        </main>
+
+        <div id="checkout-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0b111e] via-[#0b111e]/90 to-transparent translate-y-full transition-transform duration-300 z-30">
+            <div class="max-w-md mx-auto glass-card rounded-2xl p-4 flex items-center justify-between border border-amber-500/20 shadow-2xl">
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Total a Pagar</p>
+                    <p class="text-2xl font-black text-emerald-400" id="total-display">$0.00</p>
+                </div>
+                <button type="button" onclick="submitForm()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg active:scale-95 transition-all">
+                    Confirmar Pedido <i class="ph ph-paper-plane-tilt-bold"></i>
+                </button>
             </div>
-            <button type="button" onclick="enviarFormulario()" class="accent-gradient px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wide shadow-lg active:scale-95 transition-transform">
-                Enviar Pedido
-            </button>
         </div>
     </div>
 
-    <!-- MODAL INTEGRAL: VISOR DE IMÁGENES AMPLIADAS -->
-    <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm" onclick="cerrarImagen()">
-        <button class="absolute top-6 right-6 text-white text-3xl font-light w-10 h-10 flex items-center justify-center bg-white/10 rounded-full">&times;</button>
-        <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] rounded-xl object-contain shadow-2xl transition-transform duration-200">
+    <div id="image-lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-white text-3xl font-light w-11 h-11 flex items-center justify-center bg-white/10 rounded-full">&times;</button>
+        <img id="lightbox-img" src="" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl transition-transform duration-200 scale-95">
     </div>
 
-    <!-- SCRIPTS DE CONTROL TOTALMENTE AISLADOS -->
-    <script>
-        // LISTADO MAESTRO DE PRODUCTOS (Escribe aquí los que uses)
-        const PRODUCTOS_MENU = [
-            { id: 'p1', name: 'Tequeños Tradicionales', price: 3.50, img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400' },
-            { id: 'p2', name: 'Chilenas Artesanales', price: 2.00, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400' },
-            { id: 'p3', name: 'Empanadas Criollas', price: 1.50, img: 'https://images.unsplash.com/photo-1628102479435-08e1327be885?w=400' }
-        ];
-
-        // Carrito en memoria limpia
-        let carrito = {};
-
-        // Inicializar el menú de forma estricta y segura
-        function cargarMenu() {
-            const contenedor = document.getElementById('products-container');
-            if (!contenedor) return;
-
-            let html = '';
-            PRODUCTOS_MENU.forEach(p => {
-                const cantidad = carrito[p.id] || 0;
-                html += `
-                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-3 min-w-0 flex-1">
-                            <img src="${p.img}" alt="${p.name}" onclick="ampliarImagen('${p.img}')" class="w-16 h-16 rounded-xl object-cover bg-gray-900 border border-gray-700 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                            <div class="min-w-0">
-                                <h3 class="font-bold text-white text-sm tracking-tight truncate">${p.name}</h3>
-                                <p class="text-emerald-400 font-bold text-sm mt-0.5">$${p.price.toFixed(2)}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2.5 bg-black/40 p-1.5 rounded-xl border border-gray-700 flex-shrink-0">
-                            <button type="button" onclick="cambiarCantidad('${p.id}', -1)" class="w-8 h-8 text-gray-400 font-bold text-lg select-none">-</button>
-                            <span class="text-white font-bold text-sm w-4 text-center select-none">${cantidad}</span>
-                            <button type="button" onclick="cambiarCantidad('${p.id}', 1)" class="w-8 h-8 text-rose-500 font-bold text-lg select-none">+</button>
-                        </div>
-                    </div>
-                `;
-            });
-            contenedor.innerHTML = html;
-            actualizarBarraPago();
-        }
-
-        // Modificar cantidades de forma segura
-        function cambiarCantidad(id, cambio) {
-            const actual = carrito[id] || 0;
-            const nuevaCantidad = actual + cambio;
-            
-            if (nuevaCantidad >= 0) {
-                carrito[id] = nuevaCantidad;
-                cargarMenu();
-            }
-        }
-
-        // Calcular cuentas e interactuar con la interfaz del carrito flotante
-        function actualizarBarraPago() {
-            let total = 0;
-            let resumen = [];
-
-            PRODUCTOS_MENU.forEach(p => {
-                const cant = carrito[p.id] || 0;
-                if (cant > 0) {
-                    total += cant * p.price;
-                    resumen.push(`${p.name} (x${cant})`);
-                }
-            });
-
-            const barra = document.getElementById('checkout-bar');
-            const displayTotal = document.getElementById('total-display');
-            
-            if (displayTotal) displayTotal.innerText = `$${total.toFixed(2)}`;
-            
-            // Inyectar datos en inputs ocultos para Formspree
-            document.getElementById('hidden-total').value = `$${total.toFixed(2)}`;
-            document.getElementById('hidden-summary').value = resumen.join(' | ');
-
-            if (barra) {
-                if (total > 0) {
-                    barra.classList.remove('hidden');
-                } else {
-                    barra.classList.add('hidden');
-                }
-            }
-        }
-
-        // Funciones nativas para ampliar las imágenes de los productos
-        function ampliarImagen(url) {
-            const lightbox = document.getElementById('lightbox');
-            const img = document.getElementById('lightbox-img');
-            if (lightbox && img) {
-                img.src = url;
-                lightbox.classList.remove('hidden');
-            }
-        }
-
-        function cerrarImagen() {
-            const lightbox = document.getElementById('lightbox');
-            if (lightbox) lightbox.classList.add('hidden');
-        }
-
-        // Despachador seguro del formulario
-        function enviarFormulario() {
-            const formulario = document.getElementById('orderForm');
-            if (formulario) {
-                if (formulario.checkValidity()) {
-                    formulario.submit();
-                } else {
-                    formulario.reportValidity();
-                }
-            }
-        }
-
-        function verificarEnvio(e) {
-            // Previene envíos accidentales vacíos
-            let total = 0;
-            PRODUCTOS_MENU.forEach(p => { total += (carrito[p.id] || 0); });
-            if (total === 0) {
-                alert("Por favor, añade al menos un producto al menú antes de enviar.");
-                e.preventDefault();
-                return false;
-            }
-            return true;
-        }
-
-        // Arrancar la aplicación limpiamente
-        window.onload = function() {
-            cargarMenu();
-        };
-    </script>
-</body>
-</html>
+    <div id="admin-panel" class="hidden fixed inset-0 z-50 bg-[#0b111e] overflow-y-auto p-4">
+        <div class="max-w-md mx-auto space-y-6 pt-4">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <h2 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="ph ph-
